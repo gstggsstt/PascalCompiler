@@ -21,7 +21,7 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lex.yy.c
         COMMAND flex ${CMAKE_CURRENT_BINARY_DIR}/SPL.l)
 
 # Now build our tools
-add_executable(SPL main.cpp ASTNode.cpp ASTNode.h)
+add_executable(SPL main.cpp ASTNode.cpp ASTNode.h NodeTypes.h)
 add_executable(SPL-parser lex.yy.c)
 
 # Find the libraries that correspond to the LLVM components
