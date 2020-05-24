@@ -1,5 +1,0 @@
-/home/gster/CLionProjects/SPL/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/gster/CLionProjects/SPL/cmake-build-debug/CMakeFiles/intrinsics_gen.dir
-/home/gster/CLionProjects/SPL/cmake-build-debug/CMakeFiles/SPL.dir
-/home/gster/CLionProjects/SPL/cmake-build-debug/CMakeFiles/SPL-parser.dir
-/home/gster/CLionProjects/SPL/cmake-build-debug/CMakeFiles/edit_cache.dir
