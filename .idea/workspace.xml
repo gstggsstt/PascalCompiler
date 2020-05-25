@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated />
   </component>
@@ -43,7 +61,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1590411540891</updated>
-      <workItem from="1590411559538" duration="317000" />
+      <workItem from="1590411559538" duration="648000" />
     </task>
     <task id="LOCAL-00001" summary="Exp.codeGen">
       <created>1590411647652</created>
@@ -66,7 +84,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590411877170</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Env2">
+      <created>1590411898218</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1590411898218</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -88,5 +113,23 @@
     <MESSAGE value="Env" />
     <MESSAGE value="Env2" />
     <option name="LAST_COMMIT_MESSAGE" value="Env2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="312" y="99" key="MergeDialog" timestamp="1590412215522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="312" y="99" key="MergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590412215522" />
+    <state x="955" y="403" width="425" height="273" key="MultipleFileMergeDialog" timestamp="1590412215538">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="955" y="403" width="425" height="273" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590412215538" />
+    <state x="870" y="453" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590411901394">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="870" y="453" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1590411901394" />
+    <state x="766" y="327" key="git4idea.merge.GitPullDialog" timestamp="1590411681671">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="766" y="327" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590411681671" />
   </component>
 </project>
