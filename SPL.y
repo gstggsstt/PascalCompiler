@@ -108,10 +108,66 @@
 %token<token> RECORD REPEAT THEN TO TYPE UNTIL VAR WHILE READ
 %token<string> INTEGER REAL CHAR
 
-%type<token> sys_con
-%type<token> sys_func
-%type<token> sys_proc
-%type<token> sys_type
+%type<program> program
+%type<programhead> program_head
+%type<routine> routine
+%type<subroutine> sub_routine
+%type<routinehead> routine_head
+%type<labelpart> label_part
+%type<constpart> const_part
+%type<constexprlist> const_expr_list
+%type<constvalue> const_value
+%type<syscon> sys_con
+%type<typepart> type_part
+%type<typedecllist> type_decl_list
+%type<typedefinition> type_definition
+%type<typedecl> type_decl
+%type<simpletypedecl> simple_type_decl
+%type<systype> sys_type
+%type<arraytypedecl> array_type_decl
+%type<recordtypedecl> record_type_decl
+%type<fielddecllist> field_decl_list
+%type<fielddecl> field_decl
+%type<namelist> name_list
+%type<varpart> var_part
+%type<vardecllist> var_decl_list
+%type<vardecl> var_decl
+%type<routinepart> routine_part
+%type<functiondecl> function_decl
+%type<functionhead> function_head
+%type<proceduredecl> procedure_decl
+%type<procedurehead> procedure_head
+%type<parameters> parameters
+%type<paradecllist> para_decl_list
+%type<paratypelist> para_type_list
+%type<varparalist> var_para_list
+%type<valparalist> val_para_list
+%type<routinebody> routine_body
+%type<compoundstmt> compound_stmt
+%type<stmtlist> stmt_list
+%type<stmt> stmt
+%type<nonlabelstmt> non_label_stmt
+%type<assignstmt> assign_stmt
+%type<leftvalue> left_value
+%type<procstmt> proc_stmt
+%type<sysproc> sys_proc
+%type<ifstmt> if_stmt
+%type<elseclause> else_clause
+%type<repeatstmt> repeat_stmt
+%type<whilestmt> while_stmt
+%type<forstmt> for_stmt
+%type<direction> direction
+%type<casestmt> case_stmt
+%type<caseexprlist> case_expr_list
+%type<caseexpr> case_expr
+%type<gotostmt> goto_stmt
+%type<expressionlist> expression_list
+%type<expression> expression
+%type<expr> expr
+%type<term> term
+%type<factor> factor
+%type<sysfuncsys_func
+%type<argslist> args_list
 
 %start program
 
