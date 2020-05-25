@@ -4,6 +4,26 @@
 
 #include "ASTNode.h"
 
+
+Value* createCast(Value *value,Type *type){
+	Type *valType = value->getType();
+	if(valType == type){
+		return value;
+	}else if(type->isDoubleTy() && valType->isDoubleTy()){
+		return value;
+	}else if(type->isIntegerTy(64) && valType->isIntegerTy(64)){
+		return value;
+	}else if(type->isDoubleTy() && valType->isIntegerTy(64)){
+		return builder.CreateSIToFP(value,type);
+	}else if(type->isIntegerTy(64) && valType->isDoubleTy()){
+		return builder.CreateFPToSI(value,type);
+	}else{
+		errorMsg = "no viable conversion from '"+getTypeName(valType)
+					  +"' to '"+getTypeName(type)+"'";
+		return NULL;
+	}
+}//Used to Change Type when calculate exp;Change type of value to dest type;
+
 Program::Program(ProgramHead *ph, Routine *rt) : ph(ph), rt(rt) {}
 
 ProgramHead::ProgramHead(Name *nm) : nm(nm) {}
@@ -14,7 +34,7 @@ RoutineHead::RoutineHead(LabelPart *lp, ConstPart *cp, TypePart *tp, VarPart *vp
                                                                                                      tp(tp), vp(vp),
                                                                                                      rp(rp) {}
 
-ConstPart::ConstPart(ConstExprList *cel) : cel(cel) {}
+ConstPart::ConstPart(ConstList *cel) : cel(cel) {}
 
 ConstExprList::ConstExprList() {}
 
@@ -163,7 +183,9 @@ void ExpressionList::pushBack(Expression *expr) {
     vec.push_back(expr);
 }
 
-ExpressionList::ExpressionList() {}
+ExpressionList::ExpressionList() {vec.clear();}
+
+BinaryExpr::BinaryExpr(Expression *l, Expression *r, const std::string &op) : l(l), r(r), op(op) {}
 
 CalcExpr::CalcExpr(Expression *l, Expression *r, const std::string &op) : l(l), r(r), op(op) {}
 
@@ -210,3 +232,155 @@ const std::string &Name::getName() const {
 RoutineDecl::RoutineDecl(Routine *rt) : rt(rt) {}
 
 Procedure::Procedure(ProcedureHead *ph, Routine *rt) : RoutineDecl(rt), ph(ph) {}
+
+
+///////////////////////////////////////////////////////
+//Code Generate For ExpList and so on
+Value* ExpressionList::codeGen(AstContext &astContext) {
+	Value *last;
+	for (int i = vec.size()-1; i>=0; --i)
+	{
+		last = vec[i]->codeGen();
+	}
+	return last;
+}
+
+Value* Expression::codeGen(ASTContext &astContext) {
+
+}
+
+Value* BinaryExpr::codeGen(ASTContext &astContext) {
+	Value* lv = l->codeGen();
+	Value* rv = r->codeGen();
+	if( (lv->getType()->isDoubleTy() || lv->getType()->isIntegerTy(64) || lv->getType->isIntegerTy(8)) //only when both are int or double
+		&& (rv->getType()->isDoubleTy() || rv->getType()->isIntegerTy(64)) || rv->getType->isIntegerTy(8)){
+		if(op=="or") {
+			return builder.CreateOr(lv,rv);
+		} else {
+			return builder.CreateAnd(lv,rv);
+		}
+	}else {
+		cout<<"Wrong Type"<<endl;
+	}
+}
+
+Value* CalcExpr::codeGen(ASTContext &astContext) {
+	Value* lv = l->codeGen();
+	Value* rv = r->codeGen();
+	if( (lv->getType()->isDoubleTy() || lv->getType()->isIntegerTy(64)) //only when both are int or double
+		&& (rv->getType()->isDoubleTy() || rv->getType()->isIntegerTy(64)) ){
+		if(lv->getType()->isDoubleTy()){
+			rv = createCast(rv,lv->getType());
+		}else{
+			lv = createCast(lv,rv->getType());
+		}
+		if(lv->getType()->isDoubleTy()){
+			if(op==">=") {return builder.CreateFCmpOGE(lv,rv);}
+			else if(op==">") {return builder.CreateFcmpOGT(lv,rv);}
+			else if(op=="<=") {return builder.CreateFcmpOLE(lv,rv);}
+			else if(op=="<") {return builder.CreateFcmpOLT(lv,rv);}
+			else if(op=="=") {return builder.CreateFcmpOEQ(lv,rv);}
+			else if(op=="<>") {return builder.CreateFcmpONE(lv,rv);}
+			else if(op=="+") {return builder.CreateFAdd(lv,rv);}
+			else if(op=="-") {return builder.CreateFSub(lv,rv);}
+			else if(op=="*") {return builder.CreateFMul(lv,rv);}
+			else if(op=="/") {return builder.CreateFDiv(lv,rv);}
+			else if(op=="mod") {cout<<"Wrong Type"<<endl;}
+			 // FIXME
+		}else{
+			if(op==">=") {return builder.CreateFCmpUGE(lv,rv);}
+			else if(op==">") {return builder.CreateFcmpUGT(lv,rv);}
+			else if(op=="<=") {return builder.CreateFcmpULE(lv,rv);}
+			else if(op=="<") {return builder.CreateFcmpULT(lv,rv);}
+			else if(op=="=") {return builder.CreateFcmpUEQ(lv,rv);}
+			else if(op=="<>") {return builder.CreateFcmpUNE(lv,rv);}
+			else if(op=="+") {return builder.CreateAdd(lv,rv);}
+			else if(op=="-") {return builder.CreateSub(lv,rv);}
+			else if(op=="*") {return builder.CreateMul(lv,rv);}
+			else if(op=="/") {return builder.CreateDiv(lv,rv);}
+			else if(op=="mod") {return builder.CreateFRem(lv,rv);}
+		}
+	}else {
+		cout<<"Wrong Type"<<endl;
+	}
+}
+
+Value* NameFactor::codeGen(ASTContext &astContext) {
+	Value* var = astContext.getVar(nm->name);
+	if(var == NULL) cout<<"variable not declared"<<endl;
+	return builder.CreateLoad(var);
+}
+
+//////////////////////////////////////////////////////
+
+Type* ASTContext::getType(string name){
+	Type *type = typeTable[name];
+	if(type == NULL && parent != NULL){
+		type = parent->getType(name);
+	}
+	if(type == NULL){
+		if(name == "void"){
+			//errorMsg = "variable has incomplete type 'void'";
+			cout<<"variable has incomplete type 'void'";
+		}else{
+			//errorMsg = "undeclared type '"+name+"'";
+			cout<<"undeclared type '"<<name<<"'"
+		}
+	}
+	return type;
+}
+
+AstFunction* ASTContext::getFunction(string name) throw(string){
+	AstFunction *function = functionTable[name];
+	if(function == NULL && parent != NULL){
+		return parent->getFunction(name);
+	}
+	if(function == NULL){
+		//errorMsg = "undeclared function '"+name+"'";
+		cout<<"undeclared function '"<<name<<"'"<<endl;
+	}
+	return function;
+}
+
+Value* ASTContext::getVar(string name){
+	Value *var = varTable[name];
+	if(var == NULL && parent != NULL){
+		return parent->getVar(name);
+	}
+	if(var == NULL){
+		//errorMsg = "undeclared identifier '"+name+"'";
+		cout<<"undeclared identifier '"<<name<<"'"<<endl;
+	}
+	return var;
+}
+
+bool ASTContext::addFunction(string name, AstFunction *function){
+	if(functionTable[name] != NULL){
+		//errorMsg = "redefine function named '"+name+"'";
+		cout<<"redefine type named '"<<name<<"'"<<endl;
+		return false;
+	}
+	functionTable[name] = function;
+	return true;
+}
+
+bool ASTContext::addVar(string name, Value *value){
+	if(varTable[name] != NULL){
+		//errorMsg = "redefine variable named '"+name+"'";
+		cout<<"redefine type named '"<<name<<"'"<<endl;
+		return false;
+	}
+	varTable[name] = value;
+	return true;
+}
+
+bool AstContext::addType(string name, Type *type){
+	if(typeTable[name] != NULL){
+		//errorMsg =  "redefine type named '"+name+"'";
+		cout<<"redefine type named '"<<name<<"'"<<endl;
+		return false;
+	}
+	typeTable[name] = type;
+	return true;
+}
+

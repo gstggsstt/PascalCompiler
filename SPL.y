@@ -141,7 +141,7 @@ const_part : CONST const_expr_list { $$ = new ConstPart($1); }
 const_expr_list : const_expr_list NAME EQUAL const_value SEMI
 				{ $$ = $1; $$->pushBack(new ConstValue($2, $4)); }
 				| NAME EQUAL const_value SEMI
-				{ $$ = new constexprlist(); $$->pushback(new ConstValue($1, $3)); }
+				{ $$ = new ConstExprList(); $$->pushback(new ConstValue($1, $3)); }
 				;
 
 const_value : INTEGER { $$ = new ConstIntValue($1); }
@@ -426,7 +426,7 @@ expr : expr PLUS term
 	 | expr MINUS term
 	 { $$ = new CalcExpr($1, $2, "-"); }
 	 | expr OR term
-	 { $$ = new CalcExpr($1, $2, "or"); }
+	 { $$ = new BinaryExpr($1, $2, "or"); }
 	 | term
 	 { $$ = $1; }
 	 ;
@@ -438,7 +438,7 @@ term : term MUL factor
 	 | term MOD factor
 	 { $$ = new CalcExpr($1, $2, "mod"); }
 	 | term AND factor
-	 { $$ = new CalcExpr($1, $2, "and"); }
+	 { $$ = new BinaryExpr($1, $2, "and"); }
 	 | factor
 	 { $$ = $1; }
 	 ;

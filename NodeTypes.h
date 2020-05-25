@@ -9,6 +9,7 @@ class ASTNode;
 class ArgsList;
 class ArrayType;
 class AssignStmt;
+class BinaryExpr;
 class CalcExpr;
 class CallFactor;
 class CallProcStmt;
