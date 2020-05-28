@@ -11,6 +11,8 @@
 #include <vector>
 
 #include "NodeTypes.h"
+using namespace llvm;
+using namespace std;
 
 static llvm::LLVMContext Context;
 static llvm::IRBuilder<> Builder(Context);
@@ -19,35 +21,36 @@ static std::map<std::string, llvm::Value> NamedValues;
 
 struct ASTNode {
 
-extern LLVMContext &context;
-extern IRBuilder<> builder;
-extern Module module;
+LLVMContext &context;
+IRBuilder<> builder;
+llvm::Module module;
+string errorMsg;
 // extern Function *startFunc;
 // extern string errorMsg;
 // extern Program *program;
-extern Value* createCast(Value *value,Type *type);
+Value* createCast(Value *value,Type *type);};
 
-class ASTFunction {
+class AstFunction {
 public:
 	string name;
-	Function *llvmFunction;
+	llvm::Function *llvmFunction;
 	Type *returnType;
 	vector<Type*> argTypes;
-	Value returnVal;
-	AstFunction(string name,Function *llvmFunction,Type *returnType,vector<Type*> &argTypes)
+	//Value returnVal;
+	AstFunction(string name,llvm::Function *llvmFunction,Type *returnType,vector<Type*> &argTypes)
 		:name(name),llvmFunction(llvmFunction),returnType(returnType),argTypes(argTypes){
 		returnType = llvmFunction->getReturnType();
 	}
-}
+};
 
 class ASTContext {
 	ASTContext *parent;
-	map<tring,Type*> typeTable;
-	map<string,ASTFunction*> functionTable;
+	map<string,Type*> typeTable;
+	map<string,AstFunction*> functionTable;
 	map<string,Value*> varTable;
 
 public:
-	ASTFunction *currentFunction;
+	AstFunction *currentFunction;
 
 	ASTContext(ASTContext *parent = NULL):parent(parent) {
 		if(parent != NULL) {
@@ -63,7 +66,7 @@ public:
 	bool addFunction(string name,AstFunction *astFunction);
 	bool addVar(string name,Value *var);
 	bool addType(string name,Type *type); // Like typeOf("real"),change string to llvm::Type
-}//Used to create symbol table and access link,when create a new block by BEGIN END,create an AST context.
+};//Used to create symbol table and access link,when create a new block by BEGIN END,create an AST context.
 
 class ASTNode {
 protected:
@@ -86,11 +89,19 @@ struct ArgsList {
     virtual llvm::Value *codeGen();
 };
 
+struct ConstValueDecl{
+    const std::string name;
+    ConstValue& value;
+
+    ConstValueDecl(const std::string name, ConstValue& value);
+};
+
 struct ConstValue {
+    std::string typeName;
 
     virtual ConstValue *setNeg() = 0;
 
-    virtual llvm::Value *codeGen();
+    virtual llvm::Value *codeGen(ASTContext& astcontext);
 };
 
 struct ConstIntValue : public ConstValue {
@@ -101,7 +112,7 @@ struct ConstIntValue : public ConstValue {
 
     ConstIntValue(const std::string &val);
 
-    virtual llvm::Value *codeGen();
+    virtual llvm::Value *codeGen(ASTContext& astcontext);
 };
 
 struct ConstRealValue : public ConstValue {
@@ -112,7 +123,7 @@ struct ConstRealValue : public ConstValue {
 
     ConstRealValue(const std::string &val);
 
-    virtual llvm::Value *codeGen();
+    virtual llvm::Value *codeGen(ASTContext& astcontext);
 };
 
 struct ConstCharValue : public ConstValue {
@@ -123,18 +134,18 @@ struct ConstCharValue : public ConstValue {
 
     ConstCharValue(const std::string &val);
 
-    virtual llvm::Value *codeGen();
+    virtual llvm::Value *codeGen(ASTContext& astcontext);
 };
 
 struct ConstExprList {
 
-    std::vector<ConstValue *> vec;
+    std::vector<ConstValueDecl *> vec;
 
-    void pushBack(ConstValue *ce);
+    void pushBack(ConstValueDecl *ce);
 
     ConstExprList();
 
-    virtual llvm::Value *codeGen();
+    virtual void codeGen(ASTContext& astcontext);
 };
 
 struct ConstPart {
@@ -143,7 +154,7 @@ struct ConstPart {
 
     ConstPart(ConstExprList *cel);
 
-    virtual llvm::Value *codeGen();
+    virtual void codeGen(ASTContext& astcontext);
 };
 
 struct Direction {
@@ -157,7 +168,7 @@ struct Direction {
 
 struct Expression {
 
-    virtual llvm::Value *codeGen();
+    virtual llvm::Value *codeGen(ASTContext &astContext);
 };
 
 struct Expr : public Expression {
@@ -178,7 +189,7 @@ struct CalcExpr : public Term {
 
     CalcExpr(Expression *l, Expression *r, const std::string &op);
 
-    virtual llvm::Value *codeGen();
+    virtual llvm::Value *codeGen(ASTContext &astContext);
 };
 
 class BinaryExpr : public Term {
@@ -187,7 +198,7 @@ class BinaryExpr : public Term {
     std::string op;
 public:
 	BinaryExpr(Expression *l, Expression *r, const std::string &op);
-    virtual llvm::Value *codeGen();
+    virtual llvm::Value *codeGen(ASTContext &astContext);
 };
 
 struct ExpressionList {
@@ -197,7 +208,7 @@ struct ExpressionList {
 
     ExpressionList();
 
-    virtual llvm::Value *codeGen();
+    virtual llvm::Value *codeGen(ASTContext &astContext);
 };
 
 struct Name {
@@ -216,7 +227,7 @@ struct Program : public ASTNode {
 
     Program(ProgramHead *ph, Routine *rt);
 
-    virtual llvm::Value *codeGen();
+    virtual void codeGen(ASTContext &astcontext);
 };
 
 struct ProgramHead {
@@ -224,7 +235,7 @@ struct ProgramHead {
 
     ProgramHead(Name *nm);
 
-    virtual llvm::Value *codeGen();
+    virtual void codeGen(ASTContext &astcontext);
 };
 
 struct Stmt {
@@ -419,7 +430,7 @@ struct NameFactor : public Factor {
 
     NameFactor(Name *nm);
 
-    virtual llvm::Value *codeGen();
+    virtual llvm::Value *codeGen(ASTContext &astContext);
 };
 
 struct SysFunc {
@@ -515,11 +526,11 @@ struct Routine {
 
     Routine(RoutineHead *rh, RoutineBody *rb);
 
-    virtual llvm::Value *codeGen();
+    virtual void codeGen(ASTContext &astcontext);
 };
 
 struct RoutineBody {
-    virtual llvm::Value *codeGen();
+    virtual llvm::Value *codeGen(ASTContext &astcontext);
 };
 
 struct CompoundStmt : public RoutineBody, public Stmt {
@@ -537,7 +548,7 @@ struct StmtList : public CompoundStmt {
 };
 
 struct LabelPart {
-    virtual llvm::Value *codeGen();
+    virtual void codeGen();
 };
 
 struct TypePart {
@@ -578,7 +589,7 @@ struct RoutineHead {
 
     RoutineHead(LabelPart *lp, ConstPart *cp, TypePart *tp, VarPart *vp, RoutinePart *rp);
 
-    virtual llvm::Value *codeGen();
+    virtual void codeGen(ASTContext &astcontext);
 };
 
 struct RoutineDecl {
@@ -604,10 +615,10 @@ struct ParaDeclList : public Parameters {
     virtual llvm::Value *codeGen();
 };
 
-struct Function : public RoutineDecl {
+struct _Function : public RoutineDecl {
     FunctionHead *fh;
 
-    Function(FunctionHead *fh, Routine *rt);
+    _Function(FunctionHead *fh, Routine *rt);
 
     virtual llvm::Value *codeGen();
 };
@@ -674,11 +685,11 @@ struct SimpleType : public TypeDecl {
     virtual llvm::Value *codeGen();
 };
 
-struct ArrayType : public TypeDecl {
+struct _ArrayType : public TypeDecl {
     SimpleType *st;
     TypeDecl *td;
 
-    ArrayType(SimpleType *st, TypeDecl *td);
+    _ArrayType(SimpleType *st, TypeDecl *td);
 
     virtual llvm::Value *codeGen();
 };

@@ -3,7 +3,30 @@
 //
 
 #include "ASTNode.h"
+#include <iostream>
+using namespace std;
+extern IRBuilder<> builder;
+extern string errorMsg;
+extern llvm::Module module;
+extern LLVMContext &context;
+extern llvm::Function *startFunc = NULL;
 
+string getTypeName(Type *type){
+
+}
+
+Constant* getInitial(Type* type, ConstValue* value){
+	if(type->isDoubleTy()){
+		return ConstantFP::get(builder.getDoubleTy(), dynamic_cast<ConstRealValue*>(value)->val);
+	}else if(type->isIntegerTy(64)){
+		return builder.getInt64(dynamic_cast<ConstIntValue*>(value)->val);
+	}else if(type->isIntegerTy(8)){
+		return builder.getInt8(dynamic_cast<ConstCharValue*>(value)->val);
+	}else{
+		errorMsg = "no initializer for '"+getTypeName(type)+"'";
+		return NULL;
+	}
+}
 
 Value* createCast(Value *value,Type *type){
 	Type *valType = value->getType();
@@ -18,7 +41,7 @@ Value* createCast(Value *value,Type *type){
 	}else if(type->isIntegerTy(64) && valType->isDoubleTy()){
 		return builder.CreateFPToSI(value,type);
 	}else{
-		errorMsg = "no viable conversion from '"+getTypeName(valType)
+		string errorMsg = "no viable conversion from '"+getTypeName(valType)
 					  +"' to '"+getTypeName(type)+"'";
 		return NULL;
 	}
@@ -26,37 +49,102 @@ Value* createCast(Value *value,Type *type){
 
 Program::Program(ProgramHead *ph, Routine *rt) : ph(ph), rt(rt) {}
 
+void Program::codeGen(ASTContext &astcontext){
+	FunctionType* initFuncType = FunctionType::get(builder.getVoidTy(), false);
+	llvm::Function* initFunc = llvm::Function::Create(initFuncType, llvm::Function::ExternalLinkage, "main", &module);
+	builder.SetInsertPoint(BasicBlock::Create(context, "entry", initFunc));
+	ph->codeGen(astcontext);
+	rt->codeGen(astcontext);
+
+	AstFunction* mainFunc = astcontext.getFunction("main");
+	if(mainFunc == NULL){
+		cout << errorMsg << endl;
+	}else{
+		builder.CreateCall(mainFunc->llvmFunction);
+		builder.CreateRetVoid();
+	}
+
+	startFunc = initFunc;
+}
+
 ProgramHead::ProgramHead(Name *nm) : nm(nm) {}
 
+void ProgramHead::codeGen(ASTContext &astcontext){
+	
+}
+
 Routine::Routine(RoutineHead *rh, RoutineBody *rb) : rh(rh), rb(rb) {}
+
+void Routine::codeGen(ASTContext &astcontext){
+	rh->codeGen(astcontext);
+	rb->codeGen(astcontext);
+}
 
 RoutineHead::RoutineHead(LabelPart *lp, ConstPart *cp, TypePart *tp, VarPart *vp, RoutinePart *rp) : lp(lp), cp(cp),
                                                                                                      tp(tp), vp(vp),
                                                                                                      rp(rp) {}
 
-ConstPart::ConstPart(ConstList *cel) : cel(cel) {}
+
+void RoutineHead::codeGen(ASTContext &astcontext){
+	lp->codeGen();
+	cp->codeGen(astcontext);
+	tp->codeGen();
+	vp->codeGen();
+	rp->codeGen();
+}
+
+void LabelPart::codeGen(){
+
+}
+
+ConstPart::ConstPart(ConstExprList *cel) : cel(cel) {}
+
+void ConstPart::codeGen(ASTContext& astcontext){
+	cel->codeGen(astcontext);
+}
 
 ConstExprList::ConstExprList() {}
 
-void ConstExprList::pushBack(ConstValue *ce) {
+void ConstExprList::pushBack(ConstValueDecl *ce) {
     vec.push_back(ce);
 }
 
-ConstIntValue::ConstIntValue(const std::string &val) : val(stoi(val)) {}
+void ConstExprList::codeGen(ASTContext& astcontext){
+	for(auto i = 0; i < vec.size(); i++){
+		Type* type = astcontext.getType(vec[i]->value.typeName);
+		if(type == NULL){
+			return ;
+		}
+		Constant* initial = getInitial(type, &vec[i]->value);
+		Value* var = new GlobalVariable(module, type, false, GlobalValue::ExternalLinkage, initial);
+		astcontext.addVar(vec[i]->name, var);
+		/*var = astcontext.getVar(vec[i]->name);
+		Value* v = vec[i]->value.codeGen(astcontext);
+		v = createCast(v, type);
+		if(v == NULL){
+			return ;
+		}
+		builder.CreateStore(v, var);*/
+	}
+}
+
+ConstValueDecl::ConstValueDecl(const std::string name, ConstValue& value) : name(name), value(value) {};
+
+ConstIntValue::ConstIntValue(const std::string &val) : val(stoi(val)) {typeName = "int";};
 
 ConstValue *ConstIntValue::setNeg() {
     val = -val;
     return this;
 }
 
-ConstRealValue::ConstRealValue(const std::string &val) : val(stof(val)) {}
+ConstRealValue::ConstRealValue(const std::string &val) : val(stof(val)) {typeName = "real";}
 
 ConstValue *ConstRealValue::setNeg() {
     val = -val;
     return this;
 }
 
-ConstCharValue::ConstCharValue(const std::string &val) : val(val[0]) {}
+ConstCharValue::ConstCharValue(const std::string &val) : val(val[1]) {typeName = "char";}
 
 ConstValue *ConstCharValue::setNeg() {
     return this;
@@ -76,7 +164,7 @@ EnumType::EnumType(NameList *nl) : nl(nl) {}
 
 RangeType::RangeType(ConstValue *l, ConstValue *r) : l(l), r(r) {}
 
-ArrayType::ArrayType(SimpleType *st, TypeDecl *td) : st(st), td(td) {}
+_ArrayType::_ArrayType(SimpleType *st, TypeDecl *td) : st(st), td(td) {}
 
 RecordType::RecordType(FieldDeclList *fdl) : fdl(fdl) {}
 
@@ -104,7 +192,7 @@ void RoutinePart::pushBack(RoutineDecl *rd) {
     vec.push_back(rd);
 }
 
-Function::Function(FunctionHead *fh, Routine *rt) : fh(fh), RoutineDecl(rt) {}
+_Function::_Function(FunctionHead *fh, Routine *rt) : fh(fh), RoutineDecl(rt) {}
 
 FunctionHead::FunctionHead(Name *nm, Parameters *para) : nm(nm), para(para) {}
 
@@ -236,11 +324,11 @@ Procedure::Procedure(ProcedureHead *ph, Routine *rt) : RoutineDecl(rt), ph(ph) {
 
 ///////////////////////////////////////////////////////
 //Code Generate For ExpList and so on
-Value* ExpressionList::codeGen(AstContext &astContext) {
+Value* ExpressionList::codeGen(ASTContext &astContext) {
 	Value *last;
 	for (int i = vec.size()-1; i>=0; --i)
 	{
-		last = vec[i]->codeGen();
+		last = vec[i]->codeGen(astContext);
 	}
 	return last;
 }
@@ -250,8 +338,8 @@ Value* Expression::codeGen(ASTContext &astContext) {
 }
 
 Value* BinaryExpr::codeGen(ASTContext &astContext) {
-	Value* lv = l->codeGen();
-	Value* rv = r->codeGen();
+	Value* lv = l->codeGen(astContext);
+	Value* rv = r->codeGen(astContext);
 	if( (lv->getType()->isDoubleTy() || lv->getType()->isIntegerTy(64) || lv->getType->isIntegerTy(8)) //only when both are int or double
 		&& (rv->getType()->isDoubleTy() || rv->getType()->isIntegerTy(64)) || rv->getType->isIntegerTy(8)){
 		if(op=="or") {
@@ -265,8 +353,8 @@ Value* BinaryExpr::codeGen(ASTContext &astContext) {
 }
 
 Value* CalcExpr::codeGen(ASTContext &astContext) {
-	Value* lv = l->codeGen();
-	Value* rv = r->codeGen();
+	Value* lv = l->codeGen(astContext);
+	Value* rv = r->codeGen(astContext);
 	if( (lv->getType()->isDoubleTy() || lv->getType()->isIntegerTy(64)) //only when both are int or double
 		&& (rv->getType()->isDoubleTy() || rv->getType()->isIntegerTy(64)) ){
 		if(lv->getType()->isDoubleTy()){
@@ -276,11 +364,11 @@ Value* CalcExpr::codeGen(ASTContext &astContext) {
 		}
 		if(lv->getType()->isDoubleTy()){
 			if(op==">=") {return builder.CreateFCmpOGE(lv,rv);}
-			else if(op==">") {return builder.CreateFcmpOGT(lv,rv);}
-			else if(op=="<=") {return builder.CreateFcmpOLE(lv,rv);}
-			else if(op=="<") {return builder.CreateFcmpOLT(lv,rv);}
-			else if(op=="=") {return builder.CreateFcmpOEQ(lv,rv);}
-			else if(op=="<>") {return builder.CreateFcmpONE(lv,rv);}
+			else if(op==">") {return builder.CreateFCmpOGT(lv,rv);}
+			else if(op=="<=") {return builder.CreateFCmpOLE(lv,rv);}
+			else if(op=="<") {return builder.CreateFCmpOLT(lv,rv);}
+			else if(op=="=") {return builder.CreateFCmpOEQ(lv,rv);}
+			else if(op=="<>") {return builder.CreateFCmpONE(lv,rv);}
 			else if(op=="+") {return builder.CreateFAdd(lv,rv);}
 			else if(op=="-") {return builder.CreateFSub(lv,rv);}
 			else if(op=="*") {return builder.CreateFMul(lv,rv);}
@@ -289,15 +377,15 @@ Value* CalcExpr::codeGen(ASTContext &astContext) {
 			 // FIXME
 		}else{
 			if(op==">=") {return builder.CreateFCmpUGE(lv,rv);}
-			else if(op==">") {return builder.CreateFcmpUGT(lv,rv);}
-			else if(op=="<=") {return builder.CreateFcmpULE(lv,rv);}
-			else if(op=="<") {return builder.CreateFcmpULT(lv,rv);}
-			else if(op=="=") {return builder.CreateFcmpUEQ(lv,rv);}
-			else if(op=="<>") {return builder.CreateFcmpUNE(lv,rv);}
+			else if(op==">") {return builder.CreateFCmpUGT(lv,rv);}
+			else if(op=="<=") {return builder.CreateFCmpULE(lv,rv);}
+			else if(op=="<") {return builder.CreateFCmpULT(lv,rv);}
+			else if(op=="=") {return builder.CreateFCmpUEQ(lv,rv);}
+			else if(op=="<>") {return builder.CreateFCmpUNE(lv,rv);}
 			else if(op=="+") {return builder.CreateAdd(lv,rv);}
 			else if(op=="-") {return builder.CreateSub(lv,rv);}
 			else if(op=="*") {return builder.CreateMul(lv,rv);}
-			else if(op=="/") {return builder.CreateDiv(lv,rv);}
+			else if(op=="/") {return builder.CreateFDiv(lv,rv);}
 			else if(op=="mod") {return builder.CreateFRem(lv,rv);}
 		}
 	}else {
@@ -324,7 +412,7 @@ Type* ASTContext::getType(string name){
 			cout<<"variable has incomplete type 'void'";
 		}else{
 			//errorMsg = "undeclared type '"+name+"'";
-			cout<<"undeclared type '"<<name<<"'"
+			cout<<"undeclared type '"<<name<<"'";
 		}
 	}
 	return type;
@@ -368,13 +456,14 @@ bool ASTContext::addVar(string name, Value *value){
 	if(varTable[name] != NULL){
 		//errorMsg = "redefine variable named '"+name+"'";
 		cout<<"redefine type named '"<<name<<"'"<<endl;
+		
 		return false;
 	}
 	varTable[name] = value;
 	return true;
 }
 
-bool AstContext::addType(string name, Type *type){
+bool ASTContext::addType(string name, Type *type){
 	if(typeTable[name] != NULL){
 		//errorMsg =  "redefine type named '"+name+"'";
 		cout<<"redefine type named '"<<name<<"'"<<endl;
