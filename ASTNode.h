@@ -17,6 +17,7 @@ using namespace std;
 static llvm::LLVMContext context;
 static llvm::IRBuilder<> builder(context);
 static llvm::Module module("basic_module", context);
+<<<<<<< HEAD
 static std::string errorMsg;
 static llvm::Function *startFunc;
 
@@ -30,6 +31,12 @@ string errorMsg;
 // extern string errorMsg;
 // extern Program *program;
 Value* createCast(Value *value,Type *type);};
+=======
+
+// extern Function *startFunc;
+// extern string errorMsg;
+// extern Program *program;
+>>>>>>> 794118c55f4c7b5621f391f744dd0adef4b85446
 llvm::Value* createCast(llvm::Value *value,llvm::Type *type);
 
 struct ASTFunction {
@@ -86,6 +93,7 @@ struct ArgsList : public ASTNode {
     ArgsList();
 
     llvm::Value *codeGen(ASTContext &astContext) override;
+<<<<<<< HEAD
 };
 
 struct ConstValueDecl{
@@ -101,6 +109,15 @@ struct ConstValue {
     virtual ConstValue *setNeg() = 0;
 
     virtual llvm::Value *codeGen(ASTContext& astcontext);
+=======
+};
+
+struct ConstValue : public ASTNode {
+
+    virtual ConstValue *setNeg() = 0;
+
+    llvm::Value *codeGen(ASTContext &astContext) override;
+>>>>>>> 794118c55f4c7b5621f391f744dd0adef4b85446
 };
 
 struct ConstIntValue : public ConstValue {
