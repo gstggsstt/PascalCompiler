@@ -38,12 +38,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9ef3179-73bb-4ca5-84b9-ecdd9843b386" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/temp.y" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ASTNode.h" beforeDir="false" afterPath="$PROJECT_DIR$/ASTNode.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NodeTypes.h" beforeDir="false" afterPath="$PROJECT_DIR$/NodeTypes.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SPL.y" beforeDir="false" afterPath="$PROJECT_DIR$/SPL.y" afterDir="false" />
-    </list>
+    <list default="true" id="e9ef3179-73bb-4ca5-84b9-ecdd9843b386" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -121,7 +116,7 @@
       <workItem from="1590345785381" duration="2930000" />
       <workItem from="1590348742621" duration="1180000" />
       <workItem from="1590349942460" duration="7080000" />
-      <workItem from="1590387416733" duration="2292000" />
+      <workItem from="1590387416733" duration="3127000" />
     </task>
     <task id="LOCAL-00001" summary="AST classes added">
       <created>1590355970280</created>
@@ -130,7 +125,21 @@
       <option name="project" value="LOCAL" />
       <updated>1590355970280</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="all members in AST are public now">
+      <created>1590406496340</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1590406496340</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add /.idea/ config files">
+      <created>1590406589050</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1590406589050</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,7 +176,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="AST classes added" />
-    <option name="LAST_COMMIT_MESSAGE" value="AST classes added" />
+    <MESSAGE value="all members in AST are public now" />
+    <MESSAGE value="add /.idea/ config files" />
+    <option name="LAST_COMMIT_MESSAGE" value="add /.idea/ config files" />
   </component>
   <component name="WindowStateProjectService">
     <state x="978" y="445" width="666" height="584" key="#Lexer" timestamp="1590300156112">
@@ -222,10 +233,14 @@
       <screen x="72" y="27" width="2488" height="1413" />
     </state>
     <state x="805" y="368" width="1022" height="737" key="SettingsEditor/72.27.2488.1413@72.27.2488.1413" timestamp="1590337200238" />
-    <state x="911" y="469" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1590356043346">
+    <state x="911" y="469" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1590406606484">
       <screen x="72" y="27" width="2488" height="1413" />
     </state>
-    <state x="911" y="469" width="800" height="535" key="Vcs.Push.Dialog.v2/72.27.2488.1413@72.27.2488.1413" timestamp="1590356043346" />
+    <state x="911" y="469" width="800" height="535" key="Vcs.Push.Dialog.v2/72.27.2488.1413@72.27.2488.1413" timestamp="1590406606484" />
+    <state x="975" y="522" width="672" height="430" key="git4idea.merge.GitPullDialog" timestamp="1590642954310">
+      <screen x="72" y="27" width="2488" height="1413" />
+    </state>
+    <state x="975" y="522" width="672" height="430" key="git4idea.merge.GitPullDialog/72.27.2488.1413@72.27.2488.1413" timestamp="1590642954310" />
     <state x="1148" y="519" width="325" height="436" key="refactoring.ChangeSignatureDialog" timestamp="1590405353973">
       <screen x="72" y="27" width="2488" height="1413" />
     </state>
