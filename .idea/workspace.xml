@@ -16,7 +16,14 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/master" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated />
@@ -27,7 +34,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2656cc21-a511-4e74-9e83-759926e98f6b" name="Default Changelist" comment="" />
+    <list default="true" id="2656cc21-a511-4e74-9e83-759926e98f6b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ASTNode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ASTNode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ASTNode.h" beforeDir="false" afterPath="$PROJECT_DIR$/ASTNode.h" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,6 +73,7 @@
       <option name="presentableId" value="Default" />
       <updated>1590411540891</updated>
       <workItem from="1590411559538" duration="675000" />
+      <workItem from="1590645700445" duration="1006000" />
     </task>
     <task id="LOCAL-00001" summary="Exp.codeGen">
       <created>1590411647652</created>
@@ -114,6 +126,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Exp.codeGen" />
@@ -122,6 +135,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="Env2" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="172" y="127" width="2288" height="1213" key="DiffContextDialog" timestamp="1590643191622">
+      <screen x="72" y="27" width="2488" height="1413" />
+    </state>
+    <state x="172" y="127" width="2288" height="1213" key="DiffContextDialog/72.27.2488.1413@72.27.2488.1413" timestamp="1590643191622" />
     <state x="312" y="99" key="MergeDialog" timestamp="1590412215522">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -138,5 +155,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="766" y="327" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590411681671" />
+    <state x="1203" y="508" width="432" height="436" key="refactoring.ChangeSignatureDialog" timestamp="1590646706035">
+      <screen x="72" y="27" width="2488" height="1413" />
+    </state>
+    <state x="1203" y="508" width="432" height="436" key="refactoring.ChangeSignatureDialog/72.27.2488.1413@72.27.2488.1413" timestamp="1590646706035" />
   </component>
 </project>
