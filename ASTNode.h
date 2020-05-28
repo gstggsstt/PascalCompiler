@@ -19,6 +19,55 @@ static std::map<std::string, llvm::Value> NamedValues;
 
 struct ASTNode {
 
+extern LLVMContext &context;
+extern IRBuilder<> builder;
+extern Module module;
+// extern Function *startFunc;
+// extern string errorMsg;
+// extern Program *program;
+extern Value* createCast(Value *value,Type *type);
+
+class ASTFunction {
+public:
+	string name;
+	Function *llvmFunction;
+	Type *returnType;
+	vector<Type*> argTypes;
+	Value returnVal;
+	AstFunction(string name,Function *llvmFunction,Type *returnType,vector<Type*> &argTypes)
+		:name(name),llvmFunction(llvmFunction),returnType(returnType),argTypes(argTypes){
+		returnType = llvmFunction->getReturnType();
+	}
+}
+
+class ASTContext {
+	ASTContext *parent;
+	map<tring,Type*> typeTable;
+	map<string,ASTFunction*> functionTable;
+	map<string,Value*> varTable;
+
+public:
+	ASTFunction *currentFunction;
+
+	ASTContext(ASTContext *parent = NULL):parent(parent) {
+		if(parent != NULL) {
+			currentFunction = parent->currentFunction;
+		} else {
+			currentFunction = NULL;
+		}
+	}
+
+	Type* getType(string name);
+	AstFunction* getFunction(string name);
+	Value* getVar(string name);
+	bool addFunction(string name,AstFunction *astFunction);
+	bool addVar(string name,Value *var);
+	bool addType(string name,Type *type); // Like typeOf("real"),change string to llvm::Type
+}//Used to create symbol table and access link,when create a new block by BEGIN END,create an AST context.
+
+class ASTNode {
+protected:
+public:
     std::string type;
 
     ASTNode() {};
@@ -129,6 +178,15 @@ struct CalcExpr : public Term {
 
     CalcExpr(Expression *l, Expression *r, const std::string &op);
 
+    virtual llvm::Value *codeGen();
+};
+
+class BinaryExpr : public Term {
+	Expression *l;
+    Expression *r;
+    std::string op;
+public:
+	BinaryExpr(Expression *l, Expression *r, const std::string &op);
     virtual llvm::Value *codeGen();
 };
 

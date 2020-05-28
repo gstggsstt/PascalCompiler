@@ -9,6 +9,7 @@ struct ASTNode;
 struct ArgsList;
 struct ArrayType;
 struct AssignStmt;
+struct BinaryExpr
 struct CalcExpr;
 struct CallFactor;
 struct CallProcStmt;
