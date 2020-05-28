@@ -2,13 +2,14 @@
 // Created by gster on 5/23/20.
 //
 
+#include <iostream>
 #include "ASTNode.h"
 #include <iostream>
 using namespace std;
 extern IRBuilder<> builder;
 extern string errorMsg;
 extern llvm::Module module;
-extern LLVMContext &context;
+extern llvm::LLVMContext context;
 extern llvm::Function *startFunc = NULL;
 
 string getTypeName(Type *type){
@@ -28,8 +29,21 @@ Constant* getInitial(Type* type, ConstValue* value){
 	}
 }
 
-Value* createCast(Value *value,Type *type){
-	Type *valType = value->getType();
+Constant* getInitial(Type* type){
+	if(type->isDoubleTy()){
+		return ConstantFP::get(builder.getDoubleTy(), 0);
+	}else if(type->isIntegerTy(64)){
+		return builder.getInt64(0);
+	}else if(type->isIntegerTy(8)){
+		return builder.getInt8(0);
+	}else{
+		errorMsg = "no initializer for '"+getTypeName(type)+"'";
+		return NULL;
+	}
+}
+
+llvm::Value* createCast(llvm::Value *value,llvm::Type *type){
+	llvm::Type *valType = value->getType();
 	if(valType == type){
 		return value;
 	}else if(type->isDoubleTy() && valType->isDoubleTy()){
@@ -43,20 +57,20 @@ Value* createCast(Value *value,Type *type){
 	}else{
 		string errorMsg = "no viable conversion from '"+getTypeName(valType)
 					  +"' to '"+getTypeName(type)+"'";
-		return NULL;
+		return nullptr;
 	}
-}//Used to Change Type when calculate exp;Change type of value to dest type;
+}//Used to Change llvm::Type when calculate exp;Change type of value to dest type;
 
 Program::Program(ProgramHead *ph, Routine *rt) : ph(ph), rt(rt) {}
 
-void Program::codeGen(ASTContext &astcontext){
+llvm::Value *Program::codeGen(ASTContext &astcontext){
 	FunctionType* initFuncType = FunctionType::get(builder.getVoidTy(), false);
 	llvm::Function* initFunc = llvm::Function::Create(initFuncType, llvm::Function::ExternalLinkage, "main", &module);
 	builder.SetInsertPoint(BasicBlock::Create(context, "entry", initFunc));
 	ph->codeGen(astcontext);
 	rt->codeGen(astcontext);
 
-	AstFunction* mainFunc = astcontext.getFunction("main");
+	ASTFunction* mainFunc = astcontext.getFunction("main");
 	if(mainFunc == NULL){
 		cout << errorMsg << endl;
 	}else{
@@ -69,13 +83,13 @@ void Program::codeGen(ASTContext &astcontext){
 
 ProgramHead::ProgramHead(Name *nm) : nm(nm) {}
 
-void ProgramHead::codeGen(ASTContext &astcontext){
+llvm::Value *ProgramHead::codeGen(ASTContext &astcontext){
 	
 }
 
 Routine::Routine(RoutineHead *rh, RoutineBody *rb) : rh(rh), rb(rb) {}
 
-void Routine::codeGen(ASTContext &astcontext){
+llvm::Value *Routine::codeGen(ASTContext &astcontext){
 	rh->codeGen(astcontext);
 	rb->codeGen(astcontext);
 }
@@ -85,21 +99,21 @@ RoutineHead::RoutineHead(LabelPart *lp, ConstPart *cp, TypePart *tp, VarPart *vp
                                                                                                      rp(rp) {}
 
 
-void RoutineHead::codeGen(ASTContext &astcontext){
-	lp->codeGen();
+llvm::Value *RoutineHead::codeGen(ASTContext &astcontext){
+	lp->codeGen(astcontext);
 	cp->codeGen(astcontext);
-	tp->codeGen();
-	vp->codeGen();
-	rp->codeGen();
+	tp->codeGen(astcontext);
+	vp->codeGen(astcontext);
+	rp->codeGen(astcontext);
 }
 
-void LabelPart::codeGen(){
+llvm::Value *LabelPart::codeGen(ASTContext &astContext){
 
 }
 
 ConstPart::ConstPart(ConstExprList *cel) : cel(cel) {}
 
-void ConstPart::codeGen(ASTContext& astcontext){
+llvm::Value *ConstPart::codeGen(ASTContext& astcontext){
 	cel->codeGen(astcontext);
 }
 
@@ -109,7 +123,7 @@ void ConstExprList::pushBack(ConstValueDecl *ce) {
     vec.push_back(ce);
 }
 
-void ConstExprList::codeGen(ASTContext& astcontext){
+llvm::Value *ConstExprList::codeGen(ASTContext& astcontext){
 	for(auto i = 0; i < vec.size(); i++){
 		Type* type = astcontext.getType(vec[i]->value.typeName);
 		if(type == NULL){
@@ -154,6 +168,12 @@ TypeDeclList::TypeDeclList() {}
 
 void TypeDeclList::pushBack(TypeDefinition *td) {
     vec.push_back(td);
+}
+
+llvm::Value* TypeDeclList::codeGen(ASTContext& astcontext){
+	for(auto i = 0; i < vec.size(); i++){
+		
+	}
 }
 
 SysType::SysType(const std::string &tp) : tp(tp) {}
@@ -235,7 +255,7 @@ ReadProcStmt::ReadProcStmt(Factor *f) : f(f) {}
 
 AssignStmt::AssignStmt(LeftValue *lv, Expression *expr) : lv(lv), expr(expr) {}
 
-SysProc::SysProc(const std::string &proc) : proc(proc) {}
+SysProc::SysProc(std::string proc) : proc(std::move(proc)) {}
 
 ElseClause::ElseClause() : st(nullptr) {}
 
@@ -249,7 +269,7 @@ WhileStmt::WhileStmt(Expression *expr, Stmt *st) : expr(expr), st(st) {}
 
 ForStmt::ForStmt(Name *nm, Expression *expr, Direction *dir, Stmt *st) : nm(nm), expr(expr), dir(dir), st(st) {}
 
-Direction::Direction(const std::string &dir) : dir(dir) {}
+Direction::Direction(std::string dir) : dir(std::move(dir)) {}
 
 CaseStmt::CaseStmt(Expression *expr, CaseExprList *cel) : expr(expr), cel(cel) {}
 
@@ -257,7 +277,7 @@ void CaseExprList::pushBack(CaseExpr *ce) {
     vec.push_back(ce);
 }
 
-CaseExprList::CaseExprList() {}
+CaseExprList::CaseExprList() = default;
 
 CaseExpr::CaseExpr(Stmt *st) : st(st) {}
 
@@ -265,7 +285,7 @@ ConstValueCaseExpr::ConstValueCaseExpr(ConstValue *cv, Stmt *st) : CaseExpr(st),
 
 NameCaseExpr::NameCaseExpr(Name *nm, Stmt *st) : CaseExpr(st), nm(nm) {}
 
-GotoStmt::GotoStmt(std::string str) : label(stoi(str)) {}
+GotoStmt::GotoStmt(const std::string& str) : label(stoi(str)) {}
 
 void ExpressionList::pushBack(Expression *expr) {
     vec.push_back(expr);
@@ -273,9 +293,9 @@ void ExpressionList::pushBack(Expression *expr) {
 
 ExpressionList::ExpressionList() {vec.clear();}
 
-BinaryExpr::BinaryExpr(Expression *l, Expression *r, const std::string &op) : l(l), r(r), op(op) {}
+BinaryExpr::BinaryExpr(Expression *l, Expression *r, std::string op) : l(l), r(r), op(std::move(op)) {}
 
-CalcExpr::CalcExpr(Expression *l, Expression *r, const std::string &op) : l(l), r(r), op(op) {}
+CalcExpr::CalcExpr(Expression *l, Expression *r, std::string op) : l(l), r(r), op(std::move(op)) {}
 
 NameFactor::NameFactor(Name *nm) : nm(nm) {}
 
@@ -303,15 +323,15 @@ Factor *Factor::setNeg() {
     return this;
 }
 
-SysFunc::SysFunc(const std::string &str) : str(str) {}
+SysFunc::SysFunc(std::string str) : str(std::move(str)) {}
 
 void ArgsList::pushBack(Expression *expr) {
     vec.push_back(expr);
 }
 
-ArgsList::ArgsList() {}
+ArgsList::ArgsList() = default;
 
-Name::Name(const std::string &name) : name(name) {}
+Name::Name(std::string name) : name(std::move(name)) {}
 
 const std::string &Name::getName() const {
     return name;
@@ -324,37 +344,37 @@ Procedure::Procedure(ProcedureHead *ph, Routine *rt) : RoutineDecl(rt), ph(ph) {
 
 ///////////////////////////////////////////////////////
 //Code Generate For ExpList and so on
-Value* ExpressionList::codeGen(ASTContext &astContext) {
-	Value *last;
-	for (int i = vec.size()-1; i>=0; --i)
+llvm::Value* ExpressionList::codeGen(ASTContext &astContext) {
+	llvm::Value *last;
+	for (auto i = vec.size()-1; i>=0; --i)
 	{
 		last = vec[i]->codeGen(astContext);
 	}
 	return last;
 }
 
-Value* Expression::codeGen(ASTContext &astContext) {
+llvm::Value* Expression::codeGen(ASTContext &astContext) {
 
 }
 
-Value* BinaryExpr::codeGen(ASTContext &astContext) {
-	Value* lv = l->codeGen(astContext);
-	Value* rv = r->codeGen(astContext);
-	if( (lv->getType()->isDoubleTy() || lv->getType()->isIntegerTy(64) || lv->getType->isIntegerTy(8)) //only when both are int or double
-		&& (rv->getType()->isDoubleTy() || rv->getType()->isIntegerTy(64)) || rv->getType->isIntegerTy(8)){
+llvm::Value* BinaryExpr::codeGen(ASTContext &astContext) {
+	llvm::Value* lv = l->codeGen(astContext);
+	llvm::Value* rv = r->codeGen(astContext);
+	if( (lv->getType()->isDoubleTy() || lv->getType()->isIntegerTy(64) || lv->getType()->isIntegerTy(8)) //only when both are int or double
+		&& (rv->getType()->isDoubleTy() || rv->getType()->isIntegerTy(64)) || rv->getType()->isIntegerTy(8)){
 		if(op=="or") {
 			return builder.CreateOr(lv,rv);
 		} else {
 			return builder.CreateAnd(lv,rv);
 		}
 	}else {
-		cout<<"Wrong Type"<<endl;
+		std::cerr<<"Wrong llvm::Type"<<std::endl;
 	}
 }
 
-Value* CalcExpr::codeGen(ASTContext &astContext) {
-	Value* lv = l->codeGen(astContext);
-	Value* rv = r->codeGen(astContext);
+llvm::Value* CalcExpr::codeGen(ASTContext &astContext) {
+	llvm::Value* lv = l->codeGen(astContext);
+	llvm::Value* rv = r->codeGen(astContext);
 	if( (lv->getType()->isDoubleTy() || lv->getType()->isIntegerTy(64)) //only when both are int or double
 		&& (rv->getType()->isDoubleTy() || rv->getType()->isIntegerTy(64)) ){
 		if(lv->getType()->isDoubleTy()){
@@ -362,7 +382,7 @@ Value* CalcExpr::codeGen(ASTContext &astContext) {
 		}else{
 			lv = createCast(lv,rv->getType());
 		}
-		if(lv->getType()->isDoubleTy()){
+		if(lv->getType()->isDoubleTy()){ // as double
 			if(op==">=") {return builder.CreateFCmpOGE(lv,rv);}
 			else if(op==">") {return builder.CreateFCmpOGT(lv,rv);}
 			else if(op=="<=") {return builder.CreateFCmpOLE(lv,rv);}
@@ -373,9 +393,9 @@ Value* CalcExpr::codeGen(ASTContext &astContext) {
 			else if(op=="-") {return builder.CreateFSub(lv,rv);}
 			else if(op=="*") {return builder.CreateFMul(lv,rv);}
 			else if(op=="/") {return builder.CreateFDiv(lv,rv);}
-			else if(op=="mod") {cout<<"Wrong Type"<<endl;}
+			else if(op=="mod") {std::cerr<<"Wrong llvm::Type"<<std::endl;}
 			 // FIXME
-		}else{
+		}else{ // as int
 			if(op==">=") {return builder.CreateFCmpUGE(lv,rv);}
 			else if(op==">") {return builder.CreateFCmpUGT(lv,rv);}
 			else if(op=="<=") {return builder.CreateFCmpULE(lv,rv);}
@@ -385,91 +405,95 @@ Value* CalcExpr::codeGen(ASTContext &astContext) {
 			else if(op=="+") {return builder.CreateAdd(lv,rv);}
 			else if(op=="-") {return builder.CreateSub(lv,rv);}
 			else if(op=="*") {return builder.CreateMul(lv,rv);}
-			else if(op=="/") {return builder.CreateFDiv(lv,rv);}
+			else if(op=="/") {return builder.CreateSDiv(lv,rv);}
 			else if(op=="mod") {return builder.CreateFRem(lv,rv);}
 		}
 	}else {
-		cout<<"Wrong Type"<<endl;
+		std::cerr<<"Wrong llvm::Type"<<std::endl;
 	}
 }
 
-Value* NameFactor::codeGen(ASTContext &astContext) {
-	Value* var = astContext.getVar(nm->name);
-	if(var == NULL) cout<<"variable not declared"<<endl;
+llvm::Value* NameFactor::codeGen(ASTContext &astContext) {
+	llvm::Value* var = astContext.getVar(nm->name);
+	if(var == nullptr) std::cerr<<"variable not declared"<<std::endl;
 	return builder.CreateLoad(var);
 }
 
 //////////////////////////////////////////////////////
 
-Type* ASTContext::getType(string name){
-	Type *type = typeTable[name];
-	if(type == NULL && parent != NULL){
+llvm::Type* ASTContext::getType(const std::string &name){
+	llvm::Type *type = typeTable[name];
+	if(type == nullptr && parent != nullptr){
 		type = parent->getType(name);
 	}
-	if(type == NULL){
+	if(type == nullptr){
 		if(name == "void"){
 			//errorMsg = "variable has incomplete type 'void'";
-			cout<<"variable has incomplete type 'void'";
+			std::cerr<<"variable has incomplete type 'void'" << std::endl;
 		}else{
 			//errorMsg = "undeclared type '"+name+"'";
-			cout<<"undeclared type '"<<name<<"'";
+			std::cerr<<"undeclared type '"<<name<<"'" << std::endl;
 		}
 	}
 	return type;
 }
 
-AstFunction* ASTContext::getFunction(string name) throw(string){
-	AstFunction *function = functionTable[name];
-	if(function == NULL && parent != NULL){
+ASTFunction* ASTContext::getFunction(const std::string &name) {
+	ASTFunction *function = functionTable[name];
+	if(function == nullptr && parent != nullptr){
 		return parent->getFunction(name);
 	}
-	if(function == NULL){
+	if(function == nullptr){
 		//errorMsg = "undeclared function '"+name+"'";
-		cout<<"undeclared function '"<<name<<"'"<<endl;
+		std::cerr<<"undeclared function '"<<name<<"'"<<std::endl;
 	}
 	return function;
 }
 
-Value* ASTContext::getVar(string name){
-	Value *var = varTable[name];
-	if(var == NULL && parent != NULL){
+llvm::Value* ASTContext::getVar(const std::string &name){
+	llvm::Value *var = varTable[name];
+	if(var == nullptr && parent != nullptr){
 		return parent->getVar(name);
 	}
-	if(var == NULL){
+	if(var == nullptr){
 		//errorMsg = "undeclared identifier '"+name+"'";
-		cout<<"undeclared identifier '"<<name<<"'"<<endl;
+		std::cerr<<"undeclared identifier '"<<name<<"'"<<std::endl;
 	}
 	return var;
 }
 
-bool ASTContext::addFunction(string name, AstFunction *function){
-	if(functionTable[name] != NULL){
+bool ASTContext::addFunction(const std::string &name, ASTFunction *function){
+	if(functionTable[name]){
 		//errorMsg = "redefine function named '"+name+"'";
-		cout<<"redefine type named '"<<name<<"'"<<endl;
+		std::cerr<<"redefine type named '"<<name<<"'"<<std::endl;
 		return false;
 	}
 	functionTable[name] = function;
 	return true;
 }
 
-bool ASTContext::addVar(string name, Value *value){
-	if(varTable[name] != NULL){
+bool ASTContext::addVar(const std::string &name, llvm::Value *value){
+	if(varTable[name]){
 		//errorMsg = "redefine variable named '"+name+"'";
-		cout<<"redefine type named '"<<name<<"'"<<endl;
-		
+		std::cerr<<"redefine type named '"<<name<<"'"<<std::endl;
 		return false;
 	}
 	varTable[name] = value;
 	return true;
 }
 
-bool ASTContext::addType(string name, Type *type){
-	if(typeTable[name] != NULL){
+bool ASTContext::addType(const std::string &name, llvm::Type *type){
+	if(typeTable[name]){
 		//errorMsg =  "redefine type named '"+name+"'";
-		cout<<"redefine type named '"<<name<<"'"<<endl;
+		std::cerr<<"redefine type named '"<<name<<"'"<<std::endl;
 		return false;
 	}
 	typeTable[name] = type;
 	return true;
 }
 
+ASTFunction::ASTFunction(const std::string &name, llvm::Function *llvmFunction, llvm::Type *returnType,
+                         std::vector<llvm::Type *> &argTypes)
+        :name(name),llvmFunction(llvmFunction),returnType(returnType),argTypes(argTypes),returnVal(nullptr){
+    returnType = llvmFunction->getReturnType();
+}
