@@ -15,6 +15,8 @@
 extern llvm::LLVMContext context;
 extern llvm::IRBuilder<> builder;
 extern llvm::Module module;
+static std::string errorMsg;
+static llvm::Function *startFunc;
 
 // extern Function *startFunc;
 // extern string errorMsg;
@@ -77,6 +79,21 @@ struct ArgsList : public ASTNode {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
+struct ConstValueDecl{
+    const std::string name;
+    ConstValue& value;
+
+    ConstValueDecl(const std::string name, ConstValue& value);
+};
+
+struct ConstValue {
+    std::string typeName;
+
+    virtual ConstValue *setNeg() = 0;
+
+    virtual llvm::Value *codeGen(ASTContext& astcontext);
+};
+
 struct ConstValue : public ASTNode {
 
     virtual ConstValue *setNeg() = 0;
@@ -119,9 +136,9 @@ struct ConstCharValue : public ConstValue {
 
 struct ConstExprList : public ASTNode {
 
-    std::vector<ConstValue *> vec;
+    std::vector<ConstValueDecl *> vec;
 
-    void pushBack(ConstValue *ce);
+    void pushBack(ConstValueDecl *ce);
 
     ConstExprList();
 

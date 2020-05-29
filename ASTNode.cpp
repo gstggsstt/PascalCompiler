@@ -4,7 +4,43 @@
 
 #include <iostream>
 #include "ASTNode.h"
+#include <iostream>
+using namespace std;
+extern IRBuilder<> builder;
+extern string errorMsg;
+extern llvm::Module module;
+extern llvm::LLVMContext context;
+extern llvm::Function *startFunc = NULL;
 
+string getTypeName(Type *type){
+
+}
+
+Constant* getInitial(Type* type, ConstValue* value){
+	if(type->isDoubleTy()){
+		return ConstantFP::get(builder.getDoubleTy(), dynamic_cast<ConstRealValue*>(value)->val);
+	}else if(type->isIntegerTy(64)){
+		return builder.getInt64(dynamic_cast<ConstIntValue*>(value)->val);
+	}else if(type->isIntegerTy(8)){
+		return builder.getInt8(dynamic_cast<ConstCharValue*>(value)->val);
+	}else{
+		errorMsg = "no initializer for '"+getTypeName(type)+"'";
+		return NULL;
+	}
+}
+
+Constant* getInitial(Type* type){
+	if(type->isDoubleTy()){
+		return ConstantFP::get(builder.getDoubleTy(), 0);
+	}else if(type->isIntegerTy(64)){
+		return builder.getInt64(0);
+	}else if(type->isIntegerTy(8)){
+		return builder.getInt8(0);
+	}else{
+		errorMsg = "no initializer for '"+getTypeName(type)+"'";
+		return NULL;
+	}
+}
 
 llvm::Value* createCast(llvm::Value *value,llvm::Type *type){
 	llvm::Type *valType = value->getType();
@@ -19,7 +55,7 @@ llvm::Value* createCast(llvm::Value *value,llvm::Type *type){
 	}else if(type->isIntegerTy(64) && valType->isDoubleTy()){
 		return builder.CreateFPToSI(value,type);
 	}else{
-		errorMsg = "no viable conversion from '"+getTypeName(valType)
+		string errorMsg = "no viable conversion from '"+getTypeName(valType)
 					  +"' to '"+getTypeName(type)+"'";
 		return nullptr;
 	}
@@ -27,37 +63,102 @@ llvm::Value* createCast(llvm::Value *value,llvm::Type *type){
 
 Program::Program(ProgramHead *ph, Routine *rt) : ph(ph), rt(rt) {}
 
+llvm::Value *Program::codeGen(ASTContext &astcontext){
+	FunctionType* initFuncType = FunctionType::get(builder.getVoidTy(), false);
+	llvm::Function* initFunc = llvm::Function::Create(initFuncType, llvm::Function::ExternalLinkage, "main", &module);
+	builder.SetInsertPoint(BasicBlock::Create(context, "entry", initFunc));
+	ph->codeGen(astcontext);
+	rt->codeGen(astcontext);
+
+	ASTFunction* mainFunc = astcontext.getFunction("main");
+	if(mainFunc == NULL){
+		cout << errorMsg << endl;
+	}else{
+		builder.CreateCall(mainFunc->llvmFunction);
+		builder.CreateRetVoid();
+	}
+
+	startFunc = initFunc;
+}
+
 ProgramHead::ProgramHead(Name *nm) : nm(nm) {}
 
+llvm::Value *ProgramHead::codeGen(ASTContext &astcontext){
+	
+}
+
 Routine::Routine(RoutineHead *rh, RoutineBody *rb) : rh(rh), rb(rb) {}
+
+llvm::Value *Routine::codeGen(ASTContext &astcontext){
+	rh->codeGen(astcontext);
+	rb->codeGen(astcontext);
+}
 
 RoutineHead::RoutineHead(LabelPart *lp, ConstPart *cp, TypePart *tp, VarPart *vp, RoutinePart *rp) : lp(lp), cp(cp),
                                                                                                      tp(tp), vp(vp),
                                                                                                      rp(rp) {}
 
+
+llvm::Value *RoutineHead::codeGen(ASTContext &astcontext){
+	lp->codeGen(astcontext);
+	cp->codeGen(astcontext);
+	tp->codeGen(astcontext);
+	vp->codeGen(astcontext);
+	rp->codeGen(astcontext);
+}
+
+llvm::Value *LabelPart::codeGen(ASTContext &astContext){
+
+}
+
 ConstPart::ConstPart(ConstExprList *cel) : cel(cel) {}
+
+llvm::Value *ConstPart::codeGen(ASTContext& astcontext){
+	cel->codeGen(astcontext);
+}
 
 ConstExprList::ConstExprList() {}
 
-void ConstExprList::pushBack(ConstValue *ce) {
+void ConstExprList::pushBack(ConstValueDecl *ce) {
     vec.push_back(ce);
 }
 
-ConstIntValue::ConstIntValue(const std::string &val) : val(stoi(val)) {}
+llvm::Value *ConstExprList::codeGen(ASTContext& astcontext){
+	for(auto i = 0; i < vec.size(); i++){
+		Type* type = astcontext.getType(vec[i]->value.typeName);
+		if(type == NULL){
+			return ;
+		}
+		Constant* initial = getInitial(type, &vec[i]->value);
+		Value* var = new GlobalVariable(module, type, false, GlobalValue::ExternalLinkage, initial);
+		astcontext.addVar(vec[i]->name, var);
+		/*var = astcontext.getVar(vec[i]->name);
+		Value* v = vec[i]->value.codeGen(astcontext);
+		v = createCast(v, type);
+		if(v == NULL){
+			return ;
+		}
+		builder.CreateStore(v, var);*/
+	}
+}
+
+ConstValueDecl::ConstValueDecl(const std::string name, ConstValue& value) : name(name), value(value) {};
+
+ConstIntValue::ConstIntValue(const std::string &val) : val(stoi(val)) {typeName = "int";};
 
 ConstValue *ConstIntValue::setNeg() {
     val = -val;
     return this;
 }
 
-ConstRealValue::ConstRealValue(const std::string &val) : val(stof(val)) {}
+ConstRealValue::ConstRealValue(const std::string &val) : val(stof(val)) {typeName = "real";}
 
 ConstValue *ConstRealValue::setNeg() {
     val = -val;
     return this;
 }
 
-ConstCharValue::ConstCharValue(const std::string &val) : val(val[0]) {}
+ConstCharValue::ConstCharValue(const std::string &val) : val(val[1]) {typeName = "char";}
 
 ConstValue *ConstCharValue::setNeg() {
     return this;
@@ -69,6 +170,12 @@ void TypeDeclList::pushBack(TypeDefinition *td) {
     vec.push_back(td);
 }
 
+llvm::Value* TypeDeclList::codeGen(ASTContext& astcontext){
+	for(auto i = 0; i < vec.size(); i++){
+		
+	}
+}
+
 SysType::SysType(const std::string &tp) : tp(tp) {}
 
 CustomType::CustomType(Name *nm) : nm(nm) {}
@@ -77,7 +184,7 @@ EnumType::EnumType(NameList *nl) : nl(nl) {}
 
 RangeType::RangeType(ConstValue *l, ConstValue *r) : l(l), r(r) {}
 
-ArrayType::ArrayType(SimpleType *st, TypeDecl *td) : st(st), td(td) {}
+_ArrayType::_ArrayType(SimpleType *st, TypeDecl *td) : st(st), td(td) {}
 
 RecordType::RecordType(FieldDeclList *fdl) : fdl(fdl) {}
 
@@ -105,7 +212,7 @@ void RoutinePart::pushBack(RoutineDecl *rd) {
     vec.push_back(rd);
 }
 
-Function::Function(FunctionHead *fh, Routine *rt) : fh(fh), RoutineDecl(rt) {}
+_Function::_Function(FunctionHead *fh, Routine *rt) : fh(fh), RoutineDecl(rt) {}
 
 FunctionHead::FunctionHead(Name *nm, Parameters *para) : nm(nm), para(para) {}
 

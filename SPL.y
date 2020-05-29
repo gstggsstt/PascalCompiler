@@ -195,9 +195,9 @@ const_part : CONST const_expr_list { $$ = new ConstPart($1); }
 		   ;
 
 const_expr_list : const_expr_list NAME EQUAL const_value SEMI
-				{ $$ = $1; $$->pushBack(new ConstValue($2, $4)); }
+				{ $$ = $1; $$->pushBack(new ConstValueDecl($2, $4)); }
 				| NAME EQUAL const_value SEMI
-				{ $$ = new ConstExprList(); $$->pushback(new ConstValue($1, $3)); }
+				{ $$ = new ConstExprList(); $$->pushback(new ConstValueDecl($1, $3)); }
 				;
 
 const_value : INTEGER { $$ = new ConstIntValue($1); }
