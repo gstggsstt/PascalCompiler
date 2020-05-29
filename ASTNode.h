@@ -24,11 +24,9 @@
 extern llvm::LLVMContext context;
 extern llvm::IRBuilder<> builder;
 extern llvm::Module module;
-static std::string errorMsg;
-static llvm::Function *startFunc;
 
-// extern Function *startFunc;
-// extern string errorMsg;
+extern llvm::Function *startFunc;
+extern std::string errorMsg;
 // extern Program *program;
 llvm::Value* createCast(llvm::Value *value,llvm::Type *type);
 
@@ -89,10 +87,10 @@ struct ArgsList : public ASTNode {
 };
 
 struct ConstValueDecl{
-    const std::string name;
+    std::string name;
     ConstValue* value;
 
-    ConstValueDecl(const std::string name, ConstValue *value);
+    ConstValueDecl(const std::string &name, ConstValue *value);
 };
 
 struct ConstValue : public ASTNode {
@@ -277,7 +275,7 @@ struct CaseExprList : public ASTNode {
 struct ElseClause : public ASTNode {
     Stmt *st;
 
-    ElseClause(Stmt *st);
+    explicit ElseClause(Stmt *st);
 
     ElseClause();
 

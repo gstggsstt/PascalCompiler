@@ -18,7 +18,7 @@ llvm::Constant* getInitial(llvm::Type* type, ConstValue* value){
 	}else if(type->isIntegerTy(8)){
 		return builder.getInt8(dynamic_cast<ConstCharValue*>(value)->val);
 	}else{
-		errorMsg = "no initializer for '"+getTypeName(type)+"'";
+		std::cerr<< "no initializer for '"+getTypeName(type)+"'"<<std::endl;
 		return nullptr;
 	}
 }
@@ -31,7 +31,7 @@ llvm::Constant* getInitial(llvm::Type* type){
 	}else if(type->isIntegerTy(8)){
 		return builder.getInt8(0);
 	}else{
-		errorMsg = "no initializer for '"+getTypeName(type)+"'";
+		std::cerr<< "no initializer for '"+getTypeName(type)+"'"<<std::endl;
 		return nullptr;
 	}
 }
@@ -49,7 +49,7 @@ llvm::Value* createCast(llvm::Value *value,llvm::Type *type){
 	}else if(type->isIntegerTy(64) && valType->isDoubleTy()){
 		return builder.CreateFPToSI(value,type);
 	}else{
-		std::string errorMsg = "no viable conversion from '"+getTypeName(valType)
+		errorMsg = "no viable conversion from '"+getTypeName(valType)
 					  +"' to '"+getTypeName(type)+"'";
 		return nullptr;
 	}
@@ -135,7 +135,7 @@ llvm::Value *ConstExprList::codeGen(ASTContext& astcontext){
 	}
 }
 
-ConstValueDecl::ConstValueDecl(const std::string name, ConstValue *value) : name(name), value(value) {};
+ConstValueDecl::ConstValueDecl(const std::string &name, ConstValue *value) : name(name), value(value) {};
 
 ConstIntValue::ConstIntValue(const std::string &val) : val(stoi(val)) {typeName = "int";};
 
@@ -328,10 +328,6 @@ llvm::Value* FunctionHead::codeGen(ASTContext &astContext) {
 
 }
 
-llvm::Value* Routine::codeGen(ASTContext &astcontext) {
-
-}
-
 //Assign
 llvm::Value* AssignStmt::codeGen(ASTContext &astContext) {
     llvm::Value* var = lv->codeGen(astContext);
@@ -444,7 +440,7 @@ llvm::Value* NameFactor::codeGen(ASTContext &astContext) {
 }
 
 llvm::Value* CallFactor::codeGen(ASTContext &astContext) {
-    ASTFunction* myfunc = astContext.getFunction(nm->getName());
+    ASTFunction* myfunc = astContext.getFunction(nm);
     if(myfunc==NULL) {
         std::cerr<<"No Function"<<std::endl;
     } else {
@@ -483,7 +479,7 @@ llvm::Value* CallFactor::codeGen(ASTContext &astContext) {
     }
 }
 
-llvm::Type* SysFuncCallFactor::codeGen(ASTContext &astContext) {
+llvm::Value* SysFuncCallFactor::codeGen(ASTContext &astContext) {
 
 }
 
