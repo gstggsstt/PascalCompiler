@@ -6,9 +6,9 @@
 #define SPL_ASTNODE_H
 
 #include <string>
+#include <vector>
 #include <llvm/IR/Value.h>
 #include <llvm/IR/IRBuilder.h>
-#include <vector>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/GenericValue.h>
 #include <llvm/Support/TargetSelect.h>
@@ -20,32 +20,16 @@
 #include <llvm/Analysis/Passes.h>
 #include <llvm/Transforms/Scalar.h>
 #include "NodeTypes.h"
-using namespace llvm;
-using namespace std;
 
-static llvm::LLVMContext context;
-static llvm::IRBuilder<> builder(context);
-static llvm::Module module("basic_module", context);
-<<<<<<< HEAD
+extern llvm::LLVMContext context;
+extern llvm::IRBuilder<> builder;
+extern llvm::Module module;
 static std::string errorMsg;
 static llvm::Function *startFunc;
 
-struct ASTNode {
-
-LLVMContext &context;
-IRBuilder<> builder;
-llvm::Module module;
-string errorMsg;
 // extern Function *startFunc;
 // extern string errorMsg;
 // extern Program *program;
-Value* createCast(Value *value,Type *type);};
-=======
-
-// extern Function *startFunc;
-// extern string errorMsg;
-// extern Program *program;
->>>>>>> 794118c55f4c7b5621f391f744dd0adef4b85446
 llvm::Value* createCast(llvm::Value *value,llvm::Type *type);
 
 struct ASTFunction {
@@ -102,31 +86,21 @@ struct ArgsList : public ASTNode {
     ArgsList();
 
     llvm::Value *codeGen(ASTContext &astContext) override;
-<<<<<<< HEAD
 };
 
 struct ConstValueDecl{
     const std::string name;
-    ConstValue& value;
+    ConstValue* value;
 
-    ConstValueDecl(const std::string name, ConstValue& value);
+    ConstValueDecl(const std::string name, ConstValue *value);
 };
 
-struct ConstValue {
+struct ConstValue : public ASTNode {
     std::string typeName;
 
     virtual ConstValue *setNeg() = 0;
 
-    virtual llvm::Value *codeGen(ASTContext& astcontext);
-=======
-};
-
-struct ConstValue : public ASTNode {
-
-    virtual ConstValue *setNeg() = 0;
-
     llvm::Value *codeGen(ASTContext &astContext) override;
->>>>>>> 794118c55f4c7b5621f391f744dd0adef4b85446
 };
 
 struct ConstIntValue : public ConstValue {
@@ -236,16 +210,6 @@ struct ExpressionList : public ASTNode {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
-struct Name : public ASTNode {
-    std::string name;
-
-    const std::string &getName() const;
-
-    explicit Name(std::string name);
-
-    llvm::Value *codeGen(ASTContext &astContext) override;
-};
-
 struct Program : public ASTNode {
     ProgramHead *ph;
     Routine *rt;
@@ -256,9 +220,9 @@ struct Program : public ASTNode {
 };
 
 struct ProgramHead : public ASTNode {
-    Name *nm;
+    std::string nm;
 
-    explicit ProgramHead(Name *nm);
+    explicit ProgramHead(std::string nm);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -272,10 +236,11 @@ struct Stmt : public ASTNode {
     explicit Stmt(const std::string &str);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
+
+    virtual void addLabel(std::string label);
 };
 
 struct CaseExpr : public ASTNode {
-protected:
     Stmt *st;
 
     explicit CaseExpr(Stmt *st);
@@ -292,9 +257,9 @@ struct ConstValueCaseExpr : public CaseExpr {
 };
 
 struct NameCaseExpr : public CaseExpr {
-    Name *nm;
+    std::string nm;
 
-    NameCaseExpr(Name *nm, Stmt *st);
+    NameCaseExpr(std::string nm, Stmt *st);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -319,7 +284,7 @@ struct ElseClause : public ASTNode {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
-struct IfStmt : public ASTNode {
+struct IfStmt : public Stmt {
     Expression *expr;
     Stmt *st;
     ElseClause *ec;
@@ -334,36 +299,36 @@ struct LeftValue : public ASTNode {
 };
 
 struct NameLeftValue : public LeftValue {
-    Name *nm;
+    std::string nm;
 
-    explicit NameLeftValue(Name *nm);
+    explicit NameLeftValue(std::string nm);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
 struct IndexLeftValue : public LeftValue {
-    Name *nm;
+    std::string nm;
     Expression *expr;
 
-    IndexLeftValue(Name *nm, Expression *expr);
+    IndexLeftValue(std::string nm, Expression *expr);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
 struct MemberLeftValue : public LeftValue {
-    Name *nm1;
-    Name *nm2;
+    std::string nm1;
+    std::string nm2;
 
-    MemberLeftValue(Name *nm1, Name *nm2);
+    MemberLeftValue(std::string nm1, std::string nm2);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
 struct RepeatStmt : public Stmt {
     StmtList *sl;
-    Stmt *st;
+    Expression *expr;
 
-    RepeatStmt(StmtList *sl, Stmt *st);
+    RepeatStmt(StmtList *sl, Expression *expr);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -373,18 +338,18 @@ struct ProcStmt : public Stmt {
 };
 
 struct NameProcStmt : public ProcStmt {
-    Name *nm;
+    std::string nm;
 
-    explicit NameProcStmt(Name *nm);
+    explicit NameProcStmt(std::string nm);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
 struct CallProcStmt : public ProcStmt {
-    Name *nm;
+    std::string nm;
     ArgsList *al;
 
-    CallProcStmt(Name *nm, ArgsList *al);
+    CallProcStmt(std::string nm, ArgsList *al);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -416,10 +381,10 @@ struct Factor : public Term {
 };
 
 struct CallFactor : public Factor {
-    Name *nm;
+    std::string nm;
     ArgsList *al;
 
-    CallFactor(Name *nm, ArgsList *al);
+    CallFactor(std::string nm, ArgsList *al);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -433,27 +398,27 @@ struct ConstFactor : public Factor {
 };
 
 struct IndexFactor : public Factor {
-    Name *nm;
+    std::string nm;
     Expression *expr;
 
-    IndexFactor(Name *nm, Expression *expr);
+    IndexFactor(std::string nm, Expression *expr);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
 struct MemberFactor : public Factor {
-    Name *nm1;
-    Name *nm2;
+    std::string nm1;
+    std::string nm2;
 
-    MemberFactor(Name *nm1, Name *nm2);
+    MemberFactor(std::string nm1, std::string nm2);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
 struct NameFactor : public Factor {
-    Name *nm;
+    std::string nm;
 
-    explicit NameFactor(Name *nm);
+    explicit NameFactor(std::string nm);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -508,12 +473,13 @@ struct GotoStmt : public Stmt {
 };
 
 struct ForStmt : public Stmt {
-    Name *nm;
+    std::string nm;
     Expression *expr;
     Direction *dir;
+    Expression *toExpr;
     Stmt *st;
 
-    ForStmt(Name *nm, Expression *expr, Direction *dir, Stmt *st);
+    ForStmt(const std::string &nm, Expression *expr, Direction *dir, Expression *toExpr, Stmt *st);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -618,7 +584,6 @@ struct RoutineHead : public ASTNode {
 };
 
 struct RoutineDecl : public ASTNode {
-protected:
     Routine *rt;
 
     explicit RoutineDecl(Routine *rt);
@@ -640,34 +605,36 @@ struct ParaDeclList : public Parameters {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
-struct _Function : public RoutineDecl {
+struct Function : public RoutineDecl {
     FunctionHead *fh;
 
-    _Function(FunctionHead *fh, Routine *rt);
+    Function(FunctionHead *fh, Routine *rt);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
 struct FunctionHead : public ASTNode {
-    Name *nm;
+    std::string nm;
     Parameters *para;
+    SimpleType *st;
 
-    FunctionHead(Name *nm, Parameters *para);
+    FunctionHead(const std::string &nm, Parameters *para, SimpleType *st);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
 struct Procedure : public RoutineDecl {
-
-    Procedure(ProcedureHead *ph, Routine *rt);
-
-private:
     ProcedureHead *ph;
-
+    Procedure(ProcedureHead *ph, Routine *rt);
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
 struct ProcedureHead : public ASTNode {
+    std::string nm;
+    Parameters *para;
+
+    ProcedureHead(const std::string &nm, Parameters *para);
+
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
@@ -700,8 +667,10 @@ struct TypeDeclList : public TypePart {
 };
 
 struct TypeDefinition : public ASTNode {
-    Name *nm;
+    std::string nm;
     TypeDecl *td;
+
+    TypeDefinition(std::string nm, TypeDecl *td);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -710,11 +679,11 @@ struct SimpleType : public TypeDecl {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
-struct _ArrayType : public TypeDecl {
+struct ArrayType : public TypeDecl {
     SimpleType *st;
     TypeDecl *td;
 
-    _ArrayType(SimpleType *st, TypeDecl *td);
+    ArrayType(SimpleType *st, TypeDecl *td);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -727,7 +696,7 @@ struct SysType : public SimpleType {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
-struct RecordType : public ASTNode {
+struct RecordType : public TypeDecl {
     FieldDeclList *fdl;
 
     explicit RecordType(FieldDeclList *fdl);
@@ -755,9 +724,9 @@ struct FieldDeclList : public ASTNode {
 };
 
 struct CustomType : public SimpleType {
-    Name *nm;
+    std::string nm;
 
-    explicit CustomType(Name *nm);
+    explicit CustomType(std::string nm);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -779,6 +748,15 @@ struct RangeType : public SimpleType {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
+struct NamedRangeType : public SimpleType {
+    std::string cv1;
+    std::string cv2;
+
+    NamedRangeType(std::string cv1, std::string cv2);
+
+    llvm::Value *codeGen(ASTContext &astContext) override;
+};
+
 struct VarParaList : public ASTNode {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -792,10 +770,12 @@ struct ParaTypeList : public ASTNode {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
-struct NameList : public ParaTypeList {
-    std::vector<Name *> vec;
+struct NameList : public VarParaList {
+    std::vector<std::string > vec;
 
-    void pushBack(Name *nm);
+    void pushBack(std::string nm);
+
+    NameList();
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };

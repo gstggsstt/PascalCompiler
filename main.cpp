@@ -1,15 +1,17 @@
 #include <iostream>
+#include "ASTNode.h"
+#include "parser.cpp"
+
+llvm::LLVMContext context;
+llvm::IRBuilder<> builder(context);
+llvm::Module module("basic_module", context);
 #include <llvm/IR/Value.h>
 #include "ASTNode.h"
 
-llvm::LLVMContext &context = getGlobalContext();
-llvm::Module module("test",context);
-IRBuilder<> builder(context);
 llvm::Function *startFunc = NULL;
-std::string errorMsg;
 Program *program = NULL;
 int main() {
-    llvm::Value* xx;
+    yyparse();
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }
