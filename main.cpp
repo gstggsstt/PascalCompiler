@@ -1,5 +1,9 @@
 #include <iostream>
-#include <llvm/IR/Value.h>
+#include "ASTNode.h"
+
+llvm::LLVMContext context;
+llvm::IRBuilder<> builder(context);
+llvm::Module module("basic_module", context);
 
 int main() {
     llvm::Value* xx;

@@ -312,8 +312,6 @@ llvm::Value* NameFactor::codeGen(ASTContext &astContext) {
 	return builder.CreateLoad(var);
 }
 
-//////////////////////////////////////////////////////
-
 llvm::Type* ASTContext::getType(const std::string &name){
 	llvm::Type *type = typeTable[name];
 	if(type == nullptr && parent != nullptr){

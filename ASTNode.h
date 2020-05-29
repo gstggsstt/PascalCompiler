@@ -6,15 +6,15 @@
 #define SPL_ASTNODE_H
 
 #include <string>
+#include <vector>
 #include <llvm/IR/Value.h>
 #include <llvm/IR/IRBuilder.h>
-#include <vector>
 
 #include "NodeTypes.h"
 
-static llvm::LLVMContext context;
-static llvm::IRBuilder<> builder(context);
-static llvm::Module module("basic_module", context);
+extern llvm::LLVMContext context;
+extern llvm::IRBuilder<> builder;
+extern llvm::Module module;
 
 // extern Function *startFunc;
 // extern string errorMsg;
