@@ -5,40 +5,34 @@
 #include <iostream>
 #include "ASTNode.h"
 #include <iostream>
-using namespace std;
-extern IRBuilder<> builder;
-extern string errorMsg;
-extern llvm::Module module;
-extern llvm::LLVMContext context;
-extern llvm::Function *startFunc = NULL;
 
-string getTypeName(Type *type){
-
+std::string getTypeName(llvm::Type *type){
+    return "";
 }
 
-Constant* getInitial(Type* type, ConstValue* value){
+llvm::Constant* getInitial(llvm::Type* type, ConstValue* value){
 	if(type->isDoubleTy()){
-		return ConstantFP::get(builder.getDoubleTy(), dynamic_cast<ConstRealValue*>(value)->val);
+		return llvm::ConstantFP::get(builder.getDoubleTy(), dynamic_cast<ConstRealValue*>(value)->val);
 	}else if(type->isIntegerTy(64)){
 		return builder.getInt64(dynamic_cast<ConstIntValue*>(value)->val);
 	}else if(type->isIntegerTy(8)){
 		return builder.getInt8(dynamic_cast<ConstCharValue*>(value)->val);
 	}else{
 		errorMsg = "no initializer for '"+getTypeName(type)+"'";
-		return NULL;
+		return nullptr;
 	}
 }
 
-Constant* getInitial(Type* type){
+llvm::Constant* getInitial(llvm::Type* type){
 	if(type->isDoubleTy()){
-		return ConstantFP::get(builder.getDoubleTy(), 0);
+		return llvm::ConstantFP::get(builder.getDoubleTy(), 0);
 	}else if(type->isIntegerTy(64)){
 		return builder.getInt64(0);
 	}else if(type->isIntegerTy(8)){
 		return builder.getInt8(0);
 	}else{
 		errorMsg = "no initializer for '"+getTypeName(type)+"'";
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -55,7 +49,7 @@ llvm::Value* createCast(llvm::Value *value,llvm::Type *type){
 	}else if(type->isIntegerTy(64) && valType->isDoubleTy()){
 		return builder.CreateFPToSI(value,type);
 	}else{
-		string errorMsg = "no viable conversion from '"+getTypeName(valType)
+		std::string errorMsg = "no viable conversion from '"+getTypeName(valType)
 					  +"' to '"+getTypeName(type)+"'";
 		return nullptr;
 	}
@@ -64,27 +58,28 @@ llvm::Value* createCast(llvm::Value *value,llvm::Type *type){
 Program::Program(ProgramHead *ph, Routine *rt) : ph(ph), rt(rt) {}
 
 llvm::Value *Program::codeGen(ASTContext &astcontext){
-	FunctionType* initFuncType = FunctionType::get(builder.getVoidTy(), false);
+	llvm::FunctionType* initFuncType = llvm::FunctionType::get(builder.getVoidTy(), false);
 	llvm::Function* initFunc = llvm::Function::Create(initFuncType, llvm::Function::ExternalLinkage, "main", &module);
-	builder.SetInsertPoint(BasicBlock::Create(context, "entry", initFunc));
+	builder.SetInsertPoint(llvm::BasicBlock::Create(context, "entry", initFunc));
 	ph->codeGen(astcontext);
 	rt->codeGen(astcontext);
 
 	ASTFunction* mainFunc = astcontext.getFunction("main");
-	if(mainFunc == NULL){
-		cout << errorMsg << endl;
+	if(mainFunc == nullptr){
+		std::cout << errorMsg << std::endl;
 	}else{
 		builder.CreateCall(mainFunc->llvmFunction);
 		builder.CreateRetVoid();
 	}
 
 	startFunc = initFunc;
+	return nullptr;
 }
 
-ProgramHead::ProgramHead(Name *nm) : nm(nm) {}
+ProgramHead::ProgramHead(std::string nm) : nm(nm) {}
 
 llvm::Value *ProgramHead::codeGen(ASTContext &astcontext){
-	
+	return nullptr;
 }
 
 Routine::Routine(RoutineHead *rh, RoutineBody *rb) : rh(rh), rb(rb) {}
@@ -92,6 +87,7 @@ Routine::Routine(RoutineHead *rh, RoutineBody *rb) : rh(rh), rb(rb) {}
 llvm::Value *Routine::codeGen(ASTContext &astcontext){
 	rh->codeGen(astcontext);
 	rb->codeGen(astcontext);
+	return nullptr;
 }
 
 RoutineHead::RoutineHead(LabelPart *lp, ConstPart *cp, TypePart *tp, VarPart *vp, RoutinePart *rp) : lp(lp), cp(cp),
@@ -105,16 +101,13 @@ llvm::Value *RoutineHead::codeGen(ASTContext &astcontext){
 	tp->codeGen(astcontext);
 	vp->codeGen(astcontext);
 	rp->codeGen(astcontext);
-}
-
-llvm::Value *LabelPart::codeGen(ASTContext &astContext){
-
+	return nullptr;
 }
 
 ConstPart::ConstPart(ConstExprList *cel) : cel(cel) {}
 
 llvm::Value *ConstPart::codeGen(ASTContext& astcontext){
-	cel->codeGen(astcontext);
+	return cel->codeGen(astcontext);
 }
 
 ConstExprList::ConstExprList() {}
@@ -125,24 +118,24 @@ void ConstExprList::pushBack(ConstValueDecl *ce) {
 
 llvm::Value *ConstExprList::codeGen(ASTContext& astcontext){
 	for(auto i = 0; i < vec.size(); i++){
-		Type* type = astcontext.getType(vec[i]->value.typeName);
-		if(type == NULL){
-			return ;
+		llvm::Type* type = astcontext.getType(vec[i]->value->typeName);
+		if(type == nullptr){
+			return nullptr;
 		}
-		Constant* initial = getInitial(type, &vec[i]->value);
-		Value* var = new GlobalVariable(module, type, false, GlobalValue::ExternalLinkage, initial);
+		llvm::Constant* initial = getInitial(type, vec[i]->value);
+		llvm::Value* var = new llvm::GlobalVariable(module, type, false, llvm::GlobalValue::ExternalLinkage, initial);
 		astcontext.addVar(vec[i]->name, var);
 		/*var = astcontext.getVar(vec[i]->name);
 		Value* v = vec[i]->value.codeGen(astcontext);
 		v = createCast(v, type);
-		if(v == NULL){
+		if(v == nullptr){
 			return ;
 		}
 		builder.CreateStore(v, var);*/
 	}
 }
 
-ConstValueDecl::ConstValueDecl(const std::string name, ConstValue& value) : name(name), value(value) {};
+ConstValueDecl::ConstValueDecl(const std::string name, ConstValue *value) : name(name), value(value) {};
 
 ConstIntValue::ConstIntValue(const std::string &val) : val(stoi(val)) {typeName = "int";};
 
@@ -170,21 +163,15 @@ void TypeDeclList::pushBack(TypeDefinition *td) {
     vec.push_back(td);
 }
 
-llvm::Value* TypeDeclList::codeGen(ASTContext& astcontext){
-	for(auto i = 0; i < vec.size(); i++){
-		
-	}
-}
-
 SysType::SysType(const std::string &tp) : tp(tp) {}
 
-CustomType::CustomType(Name *nm) : nm(nm) {}
+CustomType::CustomType(std::string nm) : nm(nm) {}
 
 EnumType::EnumType(NameList *nl) : nl(nl) {}
 
 RangeType::RangeType(ConstValue *l, ConstValue *r) : l(l), r(r) {}
 
-_ArrayType::_ArrayType(SimpleType *st, TypeDecl *td) : st(st), td(td) {}
+ArrayType::ArrayType(SimpleType *st, TypeDecl *td) : st(st), td(td) {}
 
 RecordType::RecordType(FieldDeclList *fdl) : fdl(fdl) {}
 
@@ -196,9 +183,11 @@ void FieldDeclList::pushBack(FieldDecl *fd) {
 
 FieldDecl::FieldDecl(NameList *nl, TypeDecl *td) : nl(nl), td(td) {}
 
-void NameList::pushBack(Name *nm) {
+void NameList::pushBack(std::string nm) {
     vec.push_back(nm);
 }
+
+NameList::NameList() {}
 
 void VarDeclList::pushBack(VarDecl *vd) {
     vec.push_back(vd);
@@ -212,9 +201,7 @@ void RoutinePart::pushBack(RoutineDecl *rd) {
     vec.push_back(rd);
 }
 
-_Function::_Function(FunctionHead *fh, Routine *rt) : fh(fh), RoutineDecl(rt) {}
-
-FunctionHead::FunctionHead(Name *nm, Parameters *para) : nm(nm), para(para) {}
+Function::Function(FunctionHead *fh, Routine *rt) : fh(fh), RoutineDecl(rt) {}
 
 ParaDeclList::ParaDeclList() {}
 
@@ -237,15 +224,15 @@ Stmt::Stmt(const std::string &str) {
     label=stoi(str);
 }
 
-NameLeftValue::NameLeftValue(Name *nm) : nm(nm) {}
+NameLeftValue::NameLeftValue(std::string nm) : nm(nm) {}
 
-IndexLeftValue::IndexLeftValue(Name *nm, Expression *expr) : nm(nm), expr(expr) {}
+IndexLeftValue::IndexLeftValue(std::string nm, Expression *expr) : nm(nm), expr(expr) {}
 
-MemberLeftValue::MemberLeftValue(Name *nm1, Name *nm2) : nm1(nm1), nm2(nm2) {}
+MemberLeftValue::MemberLeftValue(std::string nm1, std::string nm2) : nm1(nm1), nm2(nm2) {}
 
-NameProcStmt::NameProcStmt(Name *nm) : nm(nm) {}
+NameProcStmt::NameProcStmt(std::string nm) : nm(nm) {}
 
-CallProcStmt::CallProcStmt(Name *nm, ArgsList *al) : nm(nm), al(al) {}
+CallProcStmt::CallProcStmt(std::string nm, ArgsList *al) : nm(nm), al(al) {}
 
 SysProcStmt::SysProcStmt(SysProc *sp) : sp(sp) {}
 
@@ -263,11 +250,7 @@ ElseClause::ElseClause(Stmt *st) : st(st) {}
 
 IfStmt::IfStmt(Expression *expr, Stmt *st, ElseClause *ec) : expr(expr), st(st), ec(ec) {}
 
-RepeatStmt::RepeatStmt(StmtList *sl, Stmt *st) : sl(sl), st(st) {}
-
 WhileStmt::WhileStmt(Expression *expr, Stmt *st) : expr(expr), st(st) {}
-
-ForStmt::ForStmt(Name *nm, Expression *expr, Direction *dir, Stmt *st) : nm(nm), expr(expr), dir(dir), st(st) {}
 
 Direction::Direction(std::string dir) : dir(std::move(dir)) {}
 
@@ -283,7 +266,7 @@ CaseExpr::CaseExpr(Stmt *st) : st(st) {}
 
 ConstValueCaseExpr::ConstValueCaseExpr(ConstValue *cv, Stmt *st) : CaseExpr(st), cv(cv) {}
 
-NameCaseExpr::NameCaseExpr(Name *nm, Stmt *st) : CaseExpr(st), nm(nm) {}
+NameCaseExpr::NameCaseExpr(std::string nm, Stmt *st) : CaseExpr(st), nm(nm) {}
 
 GotoStmt::GotoStmt(const std::string& str) : label(stoi(str)) {}
 
@@ -297,9 +280,9 @@ BinaryExpr::BinaryExpr(Expression *l, Expression *r, std::string op) : l(l), r(r
 
 CalcExpr::CalcExpr(Expression *l, Expression *r, std::string op) : l(l), r(r), op(std::move(op)) {}
 
-NameFactor::NameFactor(Name *nm) : nm(nm) {}
+NameFactor::NameFactor(std::string nm) : nm(nm) {}
 
-CallFactor::CallFactor(Name *nm, ArgsList *al) : nm(nm), al(al) {}
+CallFactor::CallFactor(std::string nm, ArgsList *al) : nm(nm), al(al) {}
 
 SysFuncFactor::SysFuncFactor(SysFunc *sf) : sf(sf) {}
 
@@ -309,9 +292,9 @@ ConstFactor::ConstFactor(ConstValue *cv) : cv(cv) {}
 
 ParenthesesFactor::ParenthesesFactor(Expression *expr) : expr(expr) {}
 
-IndexFactor::IndexFactor(Name *nm, Expression *expr) : nm(nm), expr(expr) {}
+IndexFactor::IndexFactor(std::string nm, Expression *expr) : nm(nm), expr(expr) {}
 
-MemberFactor::MemberFactor(Name *nm1, Name *nm2) : nm1(nm1), nm2(nm2) {}
+MemberFactor::MemberFactor(std::string nm1, std::string nm2) : nm1(nm1), nm2(nm2) {}
 
 Factor *Factor::setNot() {
     // TODO
@@ -330,12 +313,6 @@ void ArgsList::pushBack(Expression *expr) {
 }
 
 ArgsList::ArgsList() = default;
-
-Name::Name(std::string name) : name(std::move(name)) {}
-
-const std::string &Name::getName() const {
-    return name;
-}
 
 RoutineDecl::RoutineDecl(Routine *rt) : rt(rt) {}
 
@@ -414,7 +391,7 @@ llvm::Value* CalcExpr::codeGen(ASTContext &astContext) {
 }
 
 llvm::Value* NameFactor::codeGen(ASTContext &astContext) {
-	llvm::Value* var = astContext.getVar(nm->name);
+	llvm::Value* var = astContext.getVar(nm);
 	if(var == nullptr) std::cerr<<"variable not declared"<<std::endl;
 	return builder.CreateLoad(var);
 }
@@ -495,3 +472,19 @@ ASTFunction::ASTFunction(const std::string &name, llvm::Function *llvmFunction, 
         :name(name),llvmFunction(llvmFunction),returnType(returnType),argTypes(argTypes),returnVal(nullptr){
     returnType = llvmFunction->getReturnType();
 }
+
+TypeDefinition::TypeDefinition(std::string nm, TypeDecl *td) : nm(nm), td(td) {}
+
+NamedRangeType::NamedRangeType(std::string cv1, std::string cv2) : cv1(cv1), cv2(cv2) {}
+
+FunctionHead::FunctionHead(const std::string &nm, Parameters *para, SimpleType *st) : nm(nm), para(para), st(st) {}
+
+ProcedureHead::ProcedureHead(const std::string &nm, Parameters *para) : nm(nm), para(para) {}
+
+RepeatStmt::RepeatStmt(StmtList *sl, Expression *expr) : sl(sl), expr(expr) {}
+
+ForStmt::ForStmt(const std::string &nm, Expression *expr, Direction *dir, Expression *toExpr, Stmt *st) : nm(nm),
+                                                                                                          expr(expr),
+                                                                                                          dir(dir),
+                                                                                                          toExpr(toExpr),
+                                                                                                          st(st) {}

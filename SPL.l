@@ -1,6 +1,8 @@
 %{
-#include <stdio.h>
-#include <cstring>
+#include <cstdio>
+#include <string>
+#include "ASTNode.h"
+#include "parser.cpp"
 int line;
 #define TOKEN(t) (yylval.token = t)
 %}
@@ -47,16 +49,15 @@ TYINTEGER "integer"
 TYREAL "real"
 AND "and"
 ARRAY "array"
-BEGIN "begin"
+_BEGIN "begin"
 CASE "case"
 CONST "const"
-DIV "div"
 DO "do"
 DOWNTO "downto"
 ELSE "else"
 END "end"
 FOR "for"
-FUCNTION "function"
+FUNCTION "function"
 GOTO "goto"
 IF "if"
 OF "of"
@@ -207,17 +208,14 @@ NL \n
 {ARRAY} {
 	return TOKEN(ARRAY);
 }
-{BEGIN} {
-	return TOKEN(BEGIN);
+{_BEGIN} {
+	return TOKEN(_BEGIN);
 }
 {CASE} {
 	return TOKEN(CASE);
 }
 {CONST} {
 	return TOKEN(CONST);
-}
-{DIV} {
-	return TOKEN(DIV);
 }
 {DO} {
 	return TOKEN(DO);
@@ -234,8 +232,8 @@ NL \n
 {FOR} {
 	return TOKEN(FOR);
 }
-{FUCNTION} {
-	return TOKEN(FUCNTION);
+{FUNCTION} {
+	return TOKEN(FUNCTION);
 }
 {GOTO} {
 	return TOKEN(GOTO);
@@ -295,20 +293,16 @@ NL \n
 	BEGIN(INITIAL);
 }
 {INTEGER} {
-	yylval.string = new std:string (yytext,yyleng);
+	yylval.string = new std::string (yytext);
 	return INTEGER;
 }
 {REAL} {
-	yylval.string = new std:string (yytext,yyleng);
+	yylval.string = new std::string (yytext);
 	return REAL;
 }
 {CHAR} {
-	yylval.string = new std:string (yytext,yyleng);
+	yylval.string = new std::string (yytext);
 	return CHAR;
-}
-{ID} {
-	yylval.string = new std:string (yytext,yyleng);
-	return ID;
 }
 {WS} { }
 {NL} {
@@ -319,15 +313,3 @@ int yywrap()
 {
 	return 1;
 }
-int main()
-{
-	yylex();
-	return 0;
-}
-
-/*
-SYS_CON "false"|"maxint"|"true"
-SYS_FUNC "abs"|"chr"|"odd"|"ord"|"pred"|"sqr"|"sqrt"|"succ"
-SYS_PROC "write"|"writeln"
-SYS_TYPE "boolean"|"char"|"integer"|"real"
-*/

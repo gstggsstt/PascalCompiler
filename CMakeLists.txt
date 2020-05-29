@@ -3,11 +3,13 @@ project(SPL)
 
 set(CMAKE_CXX_STANDARD 17)
 find_package(LLVM REQUIRED CONFIG)
+find_package(BISON)
+find_package(FLEX)
 
-execute_process(COMMAND sh flex.sh)
+BISON_TARGET(parser SPL.y ${CMAKE_CURRENT_SOURCE_DIR}/parser.cpp)
+FLEX_TARGET(lexer SPL.l ${CMAKE_CURRENT_SOURCE_DIR}/lexer.cpp)
 
-message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
-message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
+ADD_FLEX_BISON_DEPENDENCY(lexer parser)
 
 # Set your project compile flags.
 # E.g. if using the C++ header files
@@ -15,18 +17,17 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 # for your compiler.
 
 include_directories(${LLVM_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_definitions(${LLVM_DEFINITIONS})
 
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lex.yy.c
-        COMMAND flex ${CMAKE_CURRENT_BINARY_DIR}/SPL.l)
-
 # Now build our tools
-add_executable(SPL main.cpp ASTNode.cpp ASTNode.h NodeTypes.h)
-add_executable(SPL-parser lex.yy.c)
+add_executable(SPL main.cpp ASTNode.cpp ASTNode.h NodeTypes.h ${BISON_parser_OUTPUTS} ${FLEX_lexer_OUTPUTS})
 
 # Find the libraries that correspond to the LLVM components
 # that we wish to use
 llvm_map_components_to_libnames(llvm_libs support core irreader)
 
+
 # Link against LLVM libraries
-target_link_libraries(SPL ${llvm_libs})
+find_library(LEX_LIB l)
+target_link_libraries(SPL ${llvm_libs} ${LEX_LIB})

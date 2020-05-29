@@ -9,7 +9,7 @@ struct ASTNode;
 struct ArgsList;
 struct ArrayType;
 struct AssignStmt;
-struct BinaryExpr
+struct BinaryExpr;
 struct CalcExpr;
 struct CallFactor;
 struct CallProcStmt;
@@ -46,7 +46,6 @@ struct LabelPart;
 struct LeftValue;
 struct MemberFactor;
 struct MemberLeftValue;
-struct Name;
 struct NameCaseExpr;
 struct NameFactor;
 struct NameLeftValue;
