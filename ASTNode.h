@@ -9,7 +9,16 @@
 #include <llvm/IR/Value.h>
 #include <llvm/IR/IRBuilder.h>
 #include <vector>
-
+#include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include <llvm/ExecutionEngine/GenericValue.h>
+#include <llvm/Support/TargetSelect.h>
+#include <llvm/Support/ToolOutputFile.h>
+#include <llvm/Support/FormattedStream.h>
+#include <llvm/Support/Host.h>
+#include <llvm/Support/TargetRegistry.h>
+#include <llvm/Target/TargetMachine.h>
+#include <llvm/Analysis/Passes.h>
+#include <llvm/Transforms/Scalar.h>
 #include "NodeTypes.h"
 using namespace llvm;
 using namespace std;

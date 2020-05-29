@@ -342,7 +342,54 @@ RoutineDecl::RoutineDecl(Routine *rt) : rt(rt) {}
 Procedure::Procedure(ProcedureHead *ph, Routine *rt) : RoutineDecl(rt), ph(ph) {}
 
 
-///////////////////////////////////////////////////////
+//Fucntion Declaration
+llvm::Value* _Function::codeGen(ASTContext &astContext) {
+
+}
+
+llvm::Value* FunctionHead::codeGen(ASTContext &astContext) {
+
+}
+
+llvm::Value* Routine::codeGen(ASTContext &astcontext) {
+
+}
+
+//Assign
+llvm::Value* AssignStmt::codeGen(ASTContext &astContext) {
+    Value* var = lv->codeGen(astContext);
+    if(var==NULL)
+        cerr<<"No such Value"<<endl;
+    else {
+        Value* value = expr->codeGen(astContext);
+        PointerType *pt = static_cast<PointerType*>(var->getType());
+        value = createCast(value,pt->getElementType());
+        if(value == NULL){
+            cerr<<"Wrong Type Assignment"<<endl;
+        }
+        builder.CreateStore(value,var);
+    }
+    return NULL;
+}
+
+llvm::Value* LeftValue::codeGen(ASTContext &astContext) {
+
+}
+
+llvm::Value* NameLeftValue::codeGen(ASTContext &astContext) {
+    llvm::Value* var = astContext.getVar(nm->name);
+    if(var == nullptr) std::cerr<<"variable not declared"<<std::endl;
+    return var;
+}
+
+llvm::Value* IndexLeftValue::codeGen(ASTContext &astContext) {
+
+}
+
+llvm::Value* MemberLeftValue::codeGen(ASTContext &astContext) {
+
+}
+
 //Code Generate For ExpList and so on
 llvm::Value* ExpressionList::codeGen(ASTContext &astContext) {
 	llvm::Value *last;
@@ -419,7 +466,49 @@ llvm::Value* NameFactor::codeGen(ASTContext &astContext) {
 	return builder.CreateLoad(var);
 }
 
-//////////////////////////////////////////////////////
+llvm::Value* CallFactor::codeGen(ASTContext &astContext) {
+    ASTFunction* myfunc = astContext.getFunction(nm->getName());
+    if(myfunc==NULL) {
+        cerr<<"No Function"<<endl;
+    } else {
+        vector<llvm::Type*> &argTypes = myfunc->argTypes;
+        vector<llvm::Value*> exprListValues;
+        vector<Expression*> &exprList = al->vec;
+        for (int i = 0; i < exprList.size(); ++i) {
+            Expression *expr = exprList[i];
+            exprListValues.push_back(expr->codeGen(astContext));
+        }
+        if(exprListValues.size()<argTypes.size())
+            cerr<<"Too Few Arguments"<<endl;
+        else if(exprListValues.size()>argTypes.size())
+            cerr<<"Too Many Arguments"<<endl;
+
+        Value *callResult = NULL;
+        if(argTypes.size() == 0){
+            callResult = builder.CreateCall(myfunc->llvmFunction);
+        }else{
+            vector<Value*> argValues;
+            for(unsigned i=0; i < argTypes.size(); i++){
+                Value *v = createCast(exprListValues[i],argTypes[i]);
+                if(v == NULL){
+                  cerr<<"Wrong Type"<<endl;
+                }
+                argValues.push_back(v);
+            }
+            ArrayRef<Value*> args(argValues);
+            callResult = builder.CreateCall(myfunc->llvmFunction,args);
+        }
+
+        llvm::Value* resultValue;
+            Value *alloc = builder.CreateAlloca(myfunc->returnType);
+            builder.CreateStore(callResult,alloc);
+        return resultValue;
+    }
+}
+
+llvm::Type* SysFuncCallFactor::codeGen(ASTContext &astContext) {
+
+}
 
 llvm::Type* ASTContext::getType(const std::string &name){
 	llvm::Type *type = typeTable[name];
