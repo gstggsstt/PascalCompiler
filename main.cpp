@@ -1,6 +1,8 @@
 #include <iostream>
 #include <llvm/IR/LegacyPassManager.h>
 #include <llvm/IR/IRPrintingPasses.h>
+#include <llvm/Transforms/InstCombine/InstCombine.h>
+#include <llvm/Transforms/Scalar/GVN.h>
 
 #include "ASTNode.h"
 #include "parser.hpp"
@@ -22,6 +24,6 @@ int main() {
     astContext.addType("real",builder.getDoubleTy());
     astContext.addType("bool",builder.getInt1Ty());
     program->codeGen(astContext);
-    pm.run(module);
+    //pm.run(module);
     return 0;
 }

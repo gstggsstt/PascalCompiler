@@ -134,7 +134,7 @@
 %type<parameters> parameters
 %type<paradecllist> para_decl_list
 %type<paratypelist> para_type_list
-%type<varparalist> var_para_list
+%type<varparalist> var_para_list val_para_list
 %type<routinebody> routine_body
 %type<compoundstmt> compound_stmt
 %type<stmtlist> stmt_list
@@ -223,12 +223,12 @@ type_decl : simple_type_decl { $$ = $1; }
 		  ;
 
 simple_type_decl : sys_type { $$ = $1; }
-				 | NAME  { $$ = new CustomType(*$1); }
-				 | LP name_list RP { $$ = new EnumType($2); }
-				 | const_value DOTDOT const_value { $$ = new RangeType($1, $3); }
-				 | MINUS const_value DOTDOT const_value { $$ = new RangeType($2->setNeg(), $4); }
-				 | MINUS const_value DOTDOT MINUS const_value { $$ = new RangeType($2->setNeg(), $5->setNeg()); }
-				 | NAME DOTDOT NAME { $$ = new NamedRangeType(*$1, *$3); }
+				 | NAME  { $$ = new CustomType(*$1, std::string("Custom")); }
+				 | LP name_list RP { $$ = new EnumType($2, "Enum"); }
+				 | const_value DOTDOT const_value { $$ = new RangeType($1, $3, "Range"); }
+				 | MINUS const_value DOTDOT const_value { $$ = new RangeType($2->setNeg(), $4, "Range"); }
+				 | MINUS const_value DOTDOT MINUS const_value { $$ = new RangeType($2->setNeg(), $5->setNeg(), "Range"); }
+				 | NAME DOTDOT NAME { $$ = new NamedRangeType(*$1, *$3, "NamedRange"); }
 				 ;
 
 sys_type : TYBOOLEAN { $$ = new SysType("bool"); }
@@ -319,13 +319,17 @@ para_decl_list : para_decl_list SEMI para_type_list
 
 para_type_list : var_para_list COLON simple_type_decl
 			   { $$ = new ParaTypeList($1, $3); }
+			   | val_para_list COLON simple_type_decl
+			   { $$ = new ParaTypeList($1, $3); }
  			   ;
 
 var_para_list : VAR name_list
-			  { $$ = $2; }
-			  | name_list
-			  { $$ = $1; $$->ref = true;}
+			  { $$ = $2; $$->ref = true; }
 			  ;
+
+val_para_list : name_list
+		{ $$ = $1; $$->ref = false; }
+		;
 
 routine_body : compound_stmt
 			 { $$ = $1; }

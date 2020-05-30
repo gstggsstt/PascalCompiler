@@ -57,14 +57,18 @@ llvm::Value* createCast(llvm::Value *value,llvm::Type *type){
 
 Program::Program(ProgramHead *ph, Routine *rt) : ph(ph), rt(rt) {}
 
-llvm::Value *Program::codeGen(ASTContext &astcontext){
-	llvm::FunctionType* initFuncType = llvm::FunctionType::get(builder.getVoidTy(), false);
-	llvm::Function* initFunc = llvm::Function::Create(initFuncType, llvm::Function::ExternalLinkage, "main", &module);
-	builder.SetInsertPoint(llvm::BasicBlock::Create(context, "entry", initFunc));
-	ph->codeGen(astcontext);
-	rt->codeGen(astcontext);
+llvm::Value *Program::codeGen(ASTContext &astContext){
+	llvm::FunctionType* funcType = llvm::FunctionType::get(builder.getVoidTy(), false);
+	llvm::Function* llvmFunc = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, "main", &module);
+	builder.SetInsertPoint(llvm::BasicBlock::Create(context, "entry", llvmFunc));
+	std::vector<llvm::Type*> argTypes;
+    ASTFunction *mainFunc = new ASTFunction("main", llvmFunc, builder.getVoidTy(), argTypes);
+    astContext.addFunction("main", mainFunc);
+	astContext.currentFunction = mainFunc;
 
-	ASTFunction* mainFunc = astcontext.getFunction("main");
+    ph->codeGen(astContext);
+    rt->codeGen(astContext);
+
 	if(mainFunc == nullptr){
 		std::cout << errorMsg << std::endl;
 	}else{
@@ -72,21 +76,22 @@ llvm::Value *Program::codeGen(ASTContext &astcontext){
 		builder.CreateRetVoid();
 	}
 
-	startFunc = initFunc;
+	startFunc = llvmFunc;
+    astContext.currentFunction->printIR();
 	return nullptr;
 }
 
 ProgramHead::ProgramHead(std::string nm) : nm(nm) {}
 
-llvm::Value *ProgramHead::codeGen(ASTContext &astcontext){
+llvm::Value *ProgramHead::codeGen(ASTContext &astContext){
 	return nullptr;
 }
 
 Routine::Routine(RoutineHead *rh, RoutineBody *rb) : rh(rh), rb(rb) {}
 
-llvm::Value *Routine::codeGen(ASTContext &astcontext){
-	rh->codeGen(astcontext);
-	rb->codeGen(astcontext);
+llvm::Value *Routine::codeGen(ASTContext &astContext){
+	rh->codeGen(astContext);
+	rb->codeGen(astContext);
 	return nullptr;
 }
 
@@ -95,19 +100,19 @@ RoutineHead::RoutineHead(LabelPart *lp, ConstPart *cp, TypePart *tp, VarPart *vp
                                                                                                      rp(rp) {}
 
 
-llvm::Value *RoutineHead::codeGen(ASTContext &astcontext){
-	lp->codeGen(astcontext);
-	cp->codeGen(astcontext);
-	tp->codeGen(astcontext);
-	vp->codeGen(astcontext);
-	rp->codeGen(astcontext);
+llvm::Value *RoutineHead::codeGen(ASTContext &astContext){
+	lp->codeGen(astContext);
+	cp->codeGen(astContext);
+	tp->codeGen(astContext);
+	vp->codeGen(astContext);
+	rp->codeGen(astContext);
 	return nullptr;
 }
 
 ConstPart::ConstPart(ConstExprList *cel) : cel(cel) {}
 
-llvm::Value *ConstPart::codeGen(ASTContext& astcontext){
-	return cel->codeGen(astcontext);
+llvm::Value *ConstPart::codeGen(ASTContext& astContext){
+	return cel->codeGen(astContext);
 }
 
 ConstExprList::ConstExprList() {}
@@ -116,17 +121,17 @@ void ConstExprList::pushBack(ConstValueDecl *ce) {
     vec.push_back(ce);
 }
 
-llvm::Value *ConstExprList::codeGen(ASTContext& astcontext){
+llvm::Value *ConstExprList::codeGen(ASTContext& astContext){
 	for(auto i = 0; i < vec.size(); i++){
-		llvm::Type* type = astcontext.getType(vec[i]->value->typeName);
+		llvm::Type* type = astContext.getType(vec[i]->value->typeName);
 		if(type == nullptr){
 			return nullptr;
 		}
 		llvm::Constant* initial = getInitial(type, vec[i]->value);
 		llvm::Value* var = new llvm::GlobalVariable(module, type, false, llvm::GlobalValue::ExternalLinkage, initial);
-		astcontext.addVar(vec[i]->name, var);
-		/*var = astcontext.getVar(vec[i]->name);
-		Value* v = vec[i]->value.codeGen(astcontext);
+		astContext.addVar(vec[i]->name, var);
+		/*var = astContext.getVar(vec[i]->name);
+		Value* v = vec[i]->value.codeGen(astContext);
 		v = createCast(v, type);
 		if(v == nullptr){
 			return ;
@@ -180,25 +185,26 @@ llvm::Value *TypeDeclList::codeGen(ASTContext &astContext) {
     return TypePart::codeGen(astContext);
 }
 
-SysType::SysType(const std::string &tp) : tp(tp) {}
 
 llvm::Value *SysType::codeGen(ASTContext &astContext) {
     return SimpleType::codeGen(astContext);
 }
 
-CustomType::CustomType(std::string nm) : nm(nm) {}
+SysType::SysType(const std::string &decltp) : SimpleType(decltp) {}
+
+CustomType::CustomType(std::string nm, const std::string &decltp) : SimpleType(decltp), nm(nm) {}
 
 llvm::Value *CustomType::codeGen(ASTContext &astContext) {
     return SimpleType::codeGen(astContext);
 }
 
-EnumType::EnumType(NameList *nl) : nl(nl) {}
+EnumType::EnumType(NameList *nl, const std::string &decltp) : SimpleType(decltp), nl(nl) {}
 
 llvm::Value *EnumType::codeGen(ASTContext &astContext) {
     return SimpleType::codeGen(astContext);
 }
 
-RangeType::RangeType(ConstValue *l, ConstValue *r) : l(l), r(r) {}
+RangeType::RangeType(ConstValue *l, ConstValue *r, const std::string &decltp) : SimpleType(decltp), l(l), r(r) {}
 
 llvm::Value *RangeType::codeGen(ASTContext &astContext) {
     return SimpleType::codeGen(astContext);
@@ -263,7 +269,9 @@ void RoutinePart::pushBack(RoutineDecl *rd) {
 }
 
 llvm::Value *RoutinePart::codeGen(ASTContext &astContext) {
-    return ASTNode::codeGen(astContext);
+    for(auto r : vec)
+        r->codeGen(astContext);
+    return nullptr;
 }
 
 Function::Function(FunctionHead *fh, Routine *rt) : fh(fh), RoutineDecl(rt) {}
@@ -291,7 +299,9 @@ void StmtList::pushBack(Stmt *st) {
 StmtList::StmtList() {}
 
 llvm::Value *StmtList::codeGen(ASTContext &astContext) {
-    return CompoundStmt::codeGen(astContext);
+    for(auto stmt : vec)
+        stmt->codeGen(astContext);
+    return nullptr;
 }
 
 Stmt::Stmt(): label(0),hasLabel(false) {}
@@ -510,28 +520,52 @@ llvm::Value *Procedure::codeGen(ASTContext &astContext) {
 
 //Fucntion Declaration
 llvm::Value* Function::codeGen(ASTContext &astContext) {
+    ASTContext newContext(astContext);
+    fh->codeGen(newContext);
+    llvm::Function *llvmFunc = newContext.currentFunction->llvmFunction;
+    llvm::BasicBlock *bb = llvm::BasicBlock::Create(context,"entry", llvmFunc);
+    builder.SetInsertPoint(bb);
+    rt->codeGen(newContext);
+    builder.CreateRet(builder.CreateLoad(newContext.getVar(fh->nm)));
+    llvm::verifyFunction(*llvmFunc);
+    newContext.currentFunction->printIR();
     return nullptr;
 }
 
 llvm::Value* FunctionHead::codeGen(ASTContext &astContext) {
+    std::vector<llvm::Type*> argType;
+    for(auto i : dynamic_cast<ParaDeclList*>(para)->vec) {
+        int numVar = dynamic_cast<NameList*>(i->vpl)->vec.size();
+        for(unsigned j=0;j<numVar;++j) {
+            argType.push_back(astContext.getType(i->st->declTp));
+        }
+    }
+    llvm::ArrayRef<llvm::Type*> argTypeArrayRef;
+    llvm::FunctionType *funcType = llvm::FunctionType::get(astContext.getType(st->declTp), argTypeArrayRef, false);
+    llvm::Function *llvmFunc=llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, nm+"_sp", module);
+    ASTFunction *func = new ASTFunction(nm, llvmFunc, astContext.getType(st->declTp), argType);
+    astContext.addFunction(nm, func);
+    llvm::Value *var = builder.CreateAlloca(astContext.getType((st->declTp)));
+    astContext.addVar(func->name, var);
+    astContext.currentFunction = func;
     return nullptr;
 }
 
 //Assign
 llvm::Value* AssignStmt::codeGen(ASTContext &astContext) {
     llvm::Value* var = lv->codeGen(astContext);
-    if(var==NULL)
+    if(var==nullptr)
         std::cerr<<"No such Value"<<std::endl;
     else {
         llvm::Value* value = expr->codeGen(astContext);
         llvm::PointerType *pt = static_cast<llvm::PointerType*>(var->getType());
         value = createCast(value,pt->getElementType());
-        if(value == NULL){
+        if(value == nullptr){
             std::cerr<<"Wrong Type Assignment"<<std::endl;
         }
         builder.CreateStore(value,var);
     }
-    return NULL;
+    return nullptr;
 }
 
 llvm::Value* LeftValue::codeGen(ASTContext &astContext) {
@@ -632,14 +666,14 @@ llvm::Value* NameFactor::codeGen(ASTContext &astContext) {
 
 llvm::Value* CallFactor::codeGen(ASTContext &astContext) {
     ASTFunction* myfunc = astContext.getFunction(nm);
-    if(myfunc==NULL) {
+    if(myfunc==nullptr) {
         std::cerr<<"No Function"<<std::endl;
     } else {
         std::vector<llvm::Type*> &argTypes = myfunc->argTypes;
         std::vector<llvm::Value*> exprListValues;
         std::vector<Expression*> &exprList = al->vec;
-        for (int i = 0; i < exprList.size(); ++i) {
-            Expression *expr = exprList[i];
+        exprListValues.reserve(exprList.size());
+        for (auto expr : exprList) {
             exprListValues.push_back(expr->codeGen(astContext));
         }
         if(exprListValues.size()<argTypes.size())
@@ -647,14 +681,14 @@ llvm::Value* CallFactor::codeGen(ASTContext &astContext) {
         else if(exprListValues.size()>argTypes.size())
             std::cerr<<"Too Many Arguments"<<std::endl;
 
-        llvm::Value *callResult = NULL;
-        if(argTypes.size() == 0){
+        llvm::Value *callResult = nullptr;
+        if(argTypes.empty()){
             callResult = builder.CreateCall(myfunc->llvmFunction);
         }else{
             std::vector<llvm::Value*> argValues;
-            for(unsigned i=0; i < argTypes.size(); i++){
+            for(decltype(argTypes.size()) i=0; i < argTypes.size(); i++){
                 llvm::Value *v = createCast(exprListValues[i],argTypes[i]);
-                if(v == NULL){
+                if(v == nullptr){
                   std::cerr<<"Wrong Type"<<std::endl;
                 }
                 argValues.push_back(v);
@@ -752,13 +786,22 @@ ASTFunction::ASTFunction(const std::string &name, llvm::Function *llvmFunction, 
     returnType = llvmFunction->getReturnType();
 }
 
+void ASTFunction::printIR() {
+    const auto &vec = llvmFunction->getBasicBlockList();
+    llvm::outs() << name << "\n";
+    for(const auto &b : vec){
+        llvm::outs() << b << "\n";
+    }
+}
+
 TypeDefinition::TypeDefinition(std::string nm, TypeDecl *td) : nm(nm), td(td) {}
 
 llvm::Value *TypeDefinition::codeGen(ASTContext &astContext) {
     return ASTNode::codeGen(astContext);
 }
 
-NamedRangeType::NamedRangeType(std::string cv1, std::string cv2) : cv1(cv1), cv2(cv2) {}
+NamedRangeType::NamedRangeType(std::string cv1, std::string cv2, const std::string &decltp) : SimpleType(decltp),
+                                                                                              cv1(cv1), cv2(cv2) {}
 
 llvm::Value *NamedRangeType::codeGen(ASTContext &astContext) {
     return SimpleType::codeGen(astContext);
@@ -809,7 +852,7 @@ llvm::Value *ProcStmt::codeGen(ASTContext &astContext) {
 }
 
 llvm::Value *RoutineBody::codeGen(ASTContext &astContext) {
-    return ASTNode::codeGen(astContext);
+    return nullptr;
 }
 
 llvm::Value *CompoundStmt::codeGen(ASTContext &astContext) {
@@ -832,6 +875,10 @@ llvm::Value *TypeDecl::codeGen(ASTContext &astContext) {
     return ASTNode::codeGen(astContext);
 }
 
+TypeDecl::TypeDecl(const std::string &decltp) : declTp(decltp) {}
+
+TypeDecl::TypeDecl() {}
+
 llvm::Value *Parameters::codeGen(ASTContext &astContext) {
     return ASTNode::codeGen(astContext);
 }
@@ -839,6 +886,8 @@ llvm::Value *Parameters::codeGen(ASTContext &astContext) {
 llvm::Value *SimpleType::codeGen(ASTContext &astContext) {
     return TypeDecl::codeGen(astContext);
 }
+
+SimpleType::SimpleType(const std::string &decltp) : TypeDecl(decltp) {}
 
 llvm::Value *VarParaList::codeGen(ASTContext &astContext) {
     return ASTNode::codeGen(astContext);

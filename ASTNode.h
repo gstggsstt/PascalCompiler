@@ -9,6 +9,7 @@
 #include <vector>
 #include <llvm/IR/Value.h>
 #include <llvm/IR/IRBuilder.h>
+#include <llvm/IR/Verifier.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/GenericValue.h>
 #include <llvm/Support/TargetSelect.h>
@@ -32,12 +33,13 @@ llvm::Value* createCast(llvm::Value *value,llvm::Type *type);
 
 struct ASTFunction {
 public:
-	const std::string &name;
+	std::string name;
 	llvm::Function *llvmFunction;
 	llvm::Type *returnType;
 	std::vector<llvm::Type*> argTypes;
 	llvm::Value *returnVal;
-	ASTFunction(const std::string &name,llvm::Function *llvmFunction,llvm::Type *returnType,std::vector<llvm::Type*> &argTypes);
+	void printIR();
+	ASTFunction(const std::string &name, llvm::Function *llvmFunction, llvm::Type *returnType, std::vector<llvm::Type*> &argTypes);
 };
 
 struct ASTContext {
@@ -49,12 +51,10 @@ struct ASTContext {
 public:
 	ASTFunction *currentFunction;
 
-	explicit ASTContext(ASTContext *parent = nullptr):parent(parent) {
-		if(parent != nullptr) {
-			currentFunction = parent->currentFunction;
-		} else {
-			currentFunction = nullptr;
-		}
+
+    explicit ASTContext(ASTContext *p = nullptr):parent(p) {
+			if(p!=nullptr) currentFunction = parent->currentFunction;
+			else currentFunction = nullptr;
 	}
 
 	llvm::Type * getType(const std::string &name);
@@ -551,6 +551,12 @@ struct VarPart : public ASTNode {
 };
 
 struct TypeDecl : public ASTNode {
+    std::string declTp;
+
+    TypeDecl();
+
+    TypeDecl(const std::string &decltp);
+
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
@@ -676,6 +682,8 @@ struct TypeDefinition : public ASTNode {
 };
 
 struct SimpleType : public TypeDecl {
+    SimpleType(const std::string &decltp);
+
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
@@ -689,9 +697,8 @@ struct ArrayType : public TypeDecl {
 };
 
 struct SysType : public SimpleType {
-    std::string tp;
 
-    explicit SysType(const std::string &tp);
+    SysType(const std::string &decltp);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -726,7 +733,7 @@ struct FieldDeclList : public ASTNode {
 struct CustomType : public SimpleType {
     std::string nm;
 
-    explicit CustomType(std::string nm);
+    CustomType(std::string nm, const std::string &decltp);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -734,7 +741,7 @@ struct CustomType : public SimpleType {
 struct EnumType : public SimpleType {
     NameList *nl;
 
-    explicit EnumType(NameList *nl);
+    EnumType(NameList *nl, const std::string &decltp);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -743,7 +750,7 @@ struct RangeType : public SimpleType {
     ConstValue *l;
     ConstValue *r;
 
-    RangeType(ConstValue *l, ConstValue *r);
+    RangeType(ConstValue *l, ConstValue *r, const std::string &decltp);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -752,7 +759,7 @@ struct NamedRangeType : public SimpleType {
     std::string cv1;
     std::string cv2;
 
-    NamedRangeType(std::string cv1, std::string cv2);
+    NamedRangeType(std::string cv1, std::string cv2, const std::string &decltp);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
