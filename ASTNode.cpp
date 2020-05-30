@@ -315,9 +315,6 @@ llvm::Value *Stmt::codeGen(ASTContext &astContext) {
 }
 
 void Stmt::addLabel(std::string label) {
-    llvm::Type* returnType;
-    returnType = fh->st->codeGen(astContext);
-    std::vector<llvm::Type*> argTypes;
 }
 
 NameLeftValue::NameLeftValue(std::string nm) : nm(nm) {}
@@ -552,9 +549,6 @@ llvm::Value* FunctionHead::codeGen(ASTContext &astContext) {
     return nullptr;
 }
 
-llvm::Type* SysType::codeGen(ASTContext &astContext) {
-    return astContext.getType(tp);
-}
 //Assign
 llvm::Value* AssignStmt::codeGen(ASTContext &astContext) {
     llvm::Value* var = lv->codeGen(astContext);
