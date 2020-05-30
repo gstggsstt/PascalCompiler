@@ -1,14 +1,12 @@
 %{
 	#include "ASTNode.h"
-	#include <cstdio>
-	#include <cstdlib>
-	#include <cstring>
 	#include <string>
+	#include <iostream>
 	// NBlock *programBlock; /* the top level root node of our final AST */
 
 	extern int yylex();
-	void yyerror(const char *s) { std::printf("Error: %s\n", s);std::exit(1); }
-	/*Union is the set of all possible class*/
+	extern Program* program;
+	void yyerror(const char *s) { std::cerr << s << std::endl; }
 %}
 
 %union {
@@ -166,7 +164,7 @@
 %start program
 
 %%
-program : program_head routine DOT { $$ = new Program($1, $2); }
+program : program_head routine DOT { ::program = new Program($1, $2); }
 		;
 
 program_head : PROGRAM NAME SEMI { $$ = new ProgramHead(*$2); }
@@ -182,10 +180,10 @@ routine_head : label_part const_part type_part var_part routine_part
 			 { $$ = new RoutineHead($1, $2, $3, $4, $5); }
 			 ;
 
-label_part : {};
+label_part : { $$ = new LabelPart(); };
 
 const_part : CONST const_expr_list { $$ = new ConstPart($2); }
-		   | {}
+		   | { $$ = new ConstPart(new ConstExprList()); }
 		   ;
 
 const_expr_list : const_expr_list NAME EQUAL const_value SEMI
@@ -206,7 +204,7 @@ sys_con : FALSE  { $$ = new ConstIntValue("0"); }
 		;
 
 type_part : TYPE type_decl_list  { $$ = $2; }
-		  | {}
+		  | { $$ = new TypePart(); }
 		  ;
 
 type_decl_list : type_decl_list type_definition
@@ -325,6 +323,8 @@ para_type_list : var_para_list COLON simple_type_decl
 
 var_para_list : VAR name_list
 			  { $$ = $2; }
+			  | name_list
+			  { $$ = $1; $$->ref = true;}
 			  ;
 
 routine_body : compound_stmt

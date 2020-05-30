@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <string>
 #include "ASTNode.h"
-#include "parser.cpp"
+#include "parser.hpp"
 int line;
 #define TOKEN(t) (yylval.token = t)
 %}
@@ -77,7 +77,7 @@ READ "read"
 INTEGER [0-9]+
 REAL [0-9]+\.[0-9]+
 CHAR \'.\'
-ID [a-zA-Z][_a-zA-Z0-9]*
+NAME [a-zA-Z][_a-zA-Z0-9]*
 WS [ \t]+
 NL \n
 %x COMMENT QUOTE
@@ -303,6 +303,10 @@ NL \n
 {CHAR} {
 	yylval.string = new std::string (yytext);
 	return CHAR;
+}
+{NAME} {
+	yylval.string = new std::string (yytext);
+	return NAME;
 }
 {WS} { }
 {NL} {

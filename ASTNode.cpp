@@ -133,6 +133,7 @@ llvm::Value *ConstExprList::codeGen(ASTContext& astcontext){
 		}
 		builder.CreateStore(v, var);*/
 	}
+	return nullptr;
 }
 
 ConstValueDecl::ConstValueDecl(const std::string &name, ConstValue *value) : name(name), value(value) {};
@@ -144,11 +145,19 @@ ConstValue *ConstIntValue::setNeg() {
     return this;
 }
 
+llvm::Value *ConstIntValue::codeGen(ASTContext &astContext) {
+    return ConstValue::codeGen(astContext);
+}
+
 ConstRealValue::ConstRealValue(const std::string &val) : val(stof(val)) {typeName = "real";}
 
 ConstValue *ConstRealValue::setNeg() {
     val = -val;
     return this;
+}
+
+llvm::Value *ConstRealValue::codeGen(ASTContext &astContext) {
+    return ConstValue::codeGen(astContext);
 }
 
 ConstCharValue::ConstCharValue(const std::string &val) : val(val[1]) {typeName = "char";}
@@ -157,23 +166,55 @@ ConstValue *ConstCharValue::setNeg() {
     return this;
 }
 
+llvm::Value *ConstCharValue::codeGen(ASTContext &astContext) {
+    return ConstValue::codeGen(astContext);
+}
+
 TypeDeclList::TypeDeclList() {}
 
 void TypeDeclList::pushBack(TypeDefinition *td) {
     vec.push_back(td);
 }
 
+llvm::Value *TypeDeclList::codeGen(ASTContext &astContext) {
+    return TypePart::codeGen(astContext);
+}
+
 SysType::SysType(const std::string &tp) : tp(tp) {}
+
+llvm::Value *SysType::codeGen(ASTContext &astContext) {
+    return SimpleType::codeGen(astContext);
+}
 
 CustomType::CustomType(std::string nm) : nm(nm) {}
 
+llvm::Value *CustomType::codeGen(ASTContext &astContext) {
+    return SimpleType::codeGen(astContext);
+}
+
 EnumType::EnumType(NameList *nl) : nl(nl) {}
+
+llvm::Value *EnumType::codeGen(ASTContext &astContext) {
+    return SimpleType::codeGen(astContext);
+}
 
 RangeType::RangeType(ConstValue *l, ConstValue *r) : l(l), r(r) {}
 
+llvm::Value *RangeType::codeGen(ASTContext &astContext) {
+    return SimpleType::codeGen(astContext);
+}
+
 ArrayType::ArrayType(SimpleType *st, TypeDecl *td) : st(st), td(td) {}
 
+llvm::Value *ArrayType::codeGen(ASTContext &astContext) {
+    return TypeDecl::codeGen(astContext);
+}
+
 RecordType::RecordType(FieldDeclList *fdl) : fdl(fdl) {}
+
+llvm::Value *RecordType::codeGen(ASTContext &astContext) {
+    return TypeDecl::codeGen(astContext);
+}
 
 FieldDeclList::FieldDeclList() {}
 
@@ -181,7 +222,15 @@ void FieldDeclList::pushBack(FieldDecl *fd) {
     vec.push_back(fd);
 }
 
+llvm::Value *FieldDeclList::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
 FieldDecl::FieldDecl(NameList *nl, TypeDecl *td) : nl(nl), td(td) {}
+
+llvm::Value *FieldDecl::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
 
 void NameList::pushBack(std::string nm) {
     vec.push_back(nm);
@@ -189,16 +238,32 @@ void NameList::pushBack(std::string nm) {
 
 NameList::NameList() {}
 
+llvm::Value *NameList::codeGen(ASTContext &astContext) {
+    return VarParaList::codeGen(astContext);
+}
+
 void VarDeclList::pushBack(VarDecl *vd) {
     vec.push_back(vd);
 }
 
+llvm::Value *VarDeclList::codeGen(ASTContext &astContext) {
+    return VarPart::codeGen(astContext);
+}
+
 VarDecl::VarDecl(NameList *nl, TypeDecl *td) : nl(nl), td(td) {}
+
+llvm::Value *VarDecl::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
 
 RoutinePart::RoutinePart() {}
 
 void RoutinePart::pushBack(RoutineDecl *rd) {
     vec.push_back(rd);
+}
+
+llvm::Value *RoutinePart::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
 }
 
 Function::Function(FunctionHead *fh, Routine *rt) : fh(fh), RoutineDecl(rt) {}
@@ -209,7 +274,15 @@ void ParaDeclList::pushBack(ParaTypeList *ptl) {
     vec.push_back(ptl);
 }
 
+llvm::Value *ParaDeclList::codeGen(ASTContext &astContext) {
+    return Parameters::codeGen(astContext);
+}
+
 ParaTypeList::ParaTypeList(VarParaList *vpl, SimpleType *st) : vpl(vpl), st(st) {}
+
+llvm::Value *ParaTypeList::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
 
 void StmtList::pushBack(Stmt *st) {
     vec.push_back(st);
@@ -217,11 +290,23 @@ void StmtList::pushBack(Stmt *st) {
 
 StmtList::StmtList() {}
 
+llvm::Value *StmtList::codeGen(ASTContext &astContext) {
+    return CompoundStmt::codeGen(astContext);
+}
+
 Stmt::Stmt(): label(0),hasLabel(false) {}
 
 Stmt::Stmt(const std::string &str) {
     hasLabel=true;
     label=stoi(str);
+}
+
+llvm::Value *Stmt::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
+void Stmt::addLabel(std::string label) {
+
 }
 
 NameLeftValue::NameLeftValue(std::string nm) : nm(nm) {}
@@ -232,43 +317,107 @@ MemberLeftValue::MemberLeftValue(std::string nm1, std::string nm2) : nm1(nm1), n
 
 NameProcStmt::NameProcStmt(std::string nm) : nm(nm) {}
 
+llvm::Value *NameProcStmt::codeGen(ASTContext &astContext) {
+    return ProcStmt::codeGen(astContext);
+}
+
 CallProcStmt::CallProcStmt(std::string nm, ArgsList *al) : nm(nm), al(al) {}
+
+llvm::Value *CallProcStmt::codeGen(ASTContext &astContext) {
+    return ProcStmt::codeGen(astContext);
+}
 
 SysProcStmt::SysProcStmt(SysProc *sp) : sp(sp) {}
 
+llvm::Value *SysProcStmt::codeGen(ASTContext &astContext) {
+    return ProcStmt::codeGen(astContext);
+}
+
 SysCallProcStmt::SysCallProcStmt(SysProc *sp, ExpressionList *el) : sp(sp), el(el) {}
 
+llvm::Value *SysCallProcStmt::codeGen(ASTContext &astContext) {
+    return ProcStmt::codeGen(astContext);
+}
+
 ReadProcStmt::ReadProcStmt(Factor *f) : f(f) {}
+
+llvm::Value *ReadProcStmt::codeGen(ASTContext &astContext) {
+    return ProcStmt::codeGen(astContext);
+}
 
 AssignStmt::AssignStmt(LeftValue *lv, Expression *expr) : lv(lv), expr(expr) {}
 
 SysProc::SysProc(std::string proc) : proc(std::move(proc)) {}
 
+llvm::Value *SysProc::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
 ElseClause::ElseClause() : st(nullptr) {}
 
 ElseClause::ElseClause(Stmt *st) : st(st) {}
 
+llvm::Value *ElseClause::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
 IfStmt::IfStmt(Expression *expr, Stmt *st, ElseClause *ec) : expr(expr), st(st), ec(ec) {}
+
+llvm::Value *IfStmt::codeGen(ASTContext &astContext) {
+    return Stmt::codeGen(astContext);
+}
 
 WhileStmt::WhileStmt(Expression *expr, Stmt *st) : expr(expr), st(st) {}
 
+llvm::Value *WhileStmt::codeGen(ASTContext &astContext) {
+    return Stmt::codeGen(astContext);
+}
+
 Direction::Direction(std::string dir) : dir(std::move(dir)) {}
+
+llvm::Value *Direction::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
 
 CaseStmt::CaseStmt(Expression *expr, CaseExprList *cel) : expr(expr), cel(cel) {}
 
+llvm::Value *CaseStmt::codeGen(ASTContext &astContext) {
+    return Stmt::codeGen(astContext);
+}
+
 void CaseExprList::pushBack(CaseExpr *ce) {
     vec.push_back(ce);
+}
+
+llvm::Value *CaseExprList::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
 }
 
 CaseExprList::CaseExprList() = default;
 
 CaseExpr::CaseExpr(Stmt *st) : st(st) {}
 
+llvm::Value *CaseExpr::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
 ConstValueCaseExpr::ConstValueCaseExpr(ConstValue *cv, Stmt *st) : CaseExpr(st), cv(cv) {}
+
+llvm::Value *ConstValueCaseExpr::codeGen(ASTContext &astContext) {
+    return CaseExpr::codeGen(astContext);
+}
 
 NameCaseExpr::NameCaseExpr(std::string nm, Stmt *st) : CaseExpr(st), nm(nm) {}
 
+llvm::Value *NameCaseExpr::codeGen(ASTContext &astContext) {
+    return CaseExpr::codeGen(astContext);
+}
+
 GotoStmt::GotoStmt(const std::string& str) : label(stoi(str)) {}
+
+llvm::Value *GotoStmt::codeGen(ASTContext &astContext) {
+    return Stmt::codeGen(astContext);
+}
 
 void ExpressionList::pushBack(Expression *expr) {
     vec.push_back(expr);
@@ -286,15 +435,35 @@ CallFactor::CallFactor(std::string nm, ArgsList *al) : nm(nm), al(al) {}
 
 SysFuncFactor::SysFuncFactor(SysFunc *sf) : sf(sf) {}
 
+llvm::Value *SysFuncFactor::codeGen(ASTContext &astContext) {
+    return Factor::codeGen(astContext);
+}
+
 SysFuncCallFactor::SysFuncCallFactor(SysFunc *sf, ArgsList *al) : sf(sf), al(al) {}
 
 ConstFactor::ConstFactor(ConstValue *cv) : cv(cv) {}
 
+llvm::Value *ConstFactor::codeGen(ASTContext &astContext) {
+    return Factor::codeGen(astContext);
+}
+
 ParenthesesFactor::ParenthesesFactor(Expression *expr) : expr(expr) {}
+
+llvm::Value *ParenthesesFactor::codeGen(ASTContext &astContext) {
+    return Factor::codeGen(astContext);
+}
 
 IndexFactor::IndexFactor(std::string nm, Expression *expr) : nm(nm), expr(expr) {}
 
+llvm::Value *IndexFactor::codeGen(ASTContext &astContext) {
+    return Factor::codeGen(astContext);
+}
+
 MemberFactor::MemberFactor(std::string nm1, std::string nm2) : nm1(nm1), nm2(nm2) {}
+
+llvm::Value *MemberFactor::codeGen(ASTContext &astContext) {
+    return Factor::codeGen(astContext);
+}
 
 Factor *Factor::setNot() {
     // TODO
@@ -306,26 +475,46 @@ Factor *Factor::setNeg() {
     return this;
 }
 
+llvm::Value *Factor::codeGen(ASTContext &astContext) {
+    return Term::codeGen(astContext);
+}
+
 SysFunc::SysFunc(std::string str) : str(std::move(str)) {}
+
+llvm::Value *SysFunc::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
 
 void ArgsList::pushBack(Expression *expr) {
     vec.push_back(expr);
+}
+
+llvm::Value *ArgsList::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
 }
 
 ArgsList::ArgsList() = default;
 
 RoutineDecl::RoutineDecl(Routine *rt) : rt(rt) {}
 
+llvm::Value *RoutineDecl::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
 Procedure::Procedure(ProcedureHead *ph, Routine *rt) : RoutineDecl(rt), ph(ph) {}
+
+llvm::Value *Procedure::codeGen(ASTContext &astContext) {
+    return RoutineDecl::codeGen(astContext);
+}
 
 
 //Fucntion Declaration
 llvm::Value* Function::codeGen(ASTContext &astContext) {
-
+    return nullptr;
 }
 
 llvm::Value* FunctionHead::codeGen(ASTContext &astContext) {
-
+    return nullptr;
 }
 
 //Assign
@@ -346,7 +535,7 @@ llvm::Value* AssignStmt::codeGen(ASTContext &astContext) {
 }
 
 llvm::Value* LeftValue::codeGen(ASTContext &astContext) {
-
+    return nullptr;
 }
 
 llvm::Value* NameLeftValue::codeGen(ASTContext &astContext) {
@@ -356,11 +545,11 @@ llvm::Value* NameLeftValue::codeGen(ASTContext &astContext) {
 }
 
 llvm::Value* IndexLeftValue::codeGen(ASTContext &astContext) {
-
+    return nullptr;
 }
 
 llvm::Value* MemberLeftValue::codeGen(ASTContext &astContext) {
-
+    return nullptr;
 }
 
 //Code Generate For ExpList and so on
@@ -374,7 +563,7 @@ llvm::Value* ExpressionList::codeGen(ASTContext &astContext) {
 }
 
 llvm::Value* Expression::codeGen(ASTContext &astContext) {
-
+    return nullptr;
 }
 
 llvm::Value* BinaryExpr::codeGen(ASTContext &astContext) {
@@ -390,6 +579,7 @@ llvm::Value* BinaryExpr::codeGen(ASTContext &astContext) {
 	}else {
 		std::cerr<<"Wrong llvm::Type"<<std::endl;
 	}
+    return nullptr;
 }
 
 llvm::Value* CalcExpr::codeGen(ASTContext &astContext) {
@@ -431,6 +621,7 @@ llvm::Value* CalcExpr::codeGen(ASTContext &astContext) {
 	}else {
 		std::cerr<<"Wrong llvm::Type"<<std::endl;
 	}
+    return nullptr;
 }
 
 llvm::Value* NameFactor::codeGen(ASTContext &astContext) {
@@ -477,10 +668,11 @@ llvm::Value* CallFactor::codeGen(ASTContext &astContext) {
             builder.CreateStore(callResult,alloc);
         return resultValue;
     }
+    return nullptr;
 }
 
 llvm::Value* SysFuncCallFactor::codeGen(ASTContext &astContext) {
-
+    return nullptr;
 }
 
 llvm::Type* ASTContext::getType(const std::string &name){
@@ -562,16 +754,94 @@ ASTFunction::ASTFunction(const std::string &name, llvm::Function *llvmFunction, 
 
 TypeDefinition::TypeDefinition(std::string nm, TypeDecl *td) : nm(nm), td(td) {}
 
+llvm::Value *TypeDefinition::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
 NamedRangeType::NamedRangeType(std::string cv1, std::string cv2) : cv1(cv1), cv2(cv2) {}
+
+llvm::Value *NamedRangeType::codeGen(ASTContext &astContext) {
+    return SimpleType::codeGen(astContext);
+}
 
 FunctionHead::FunctionHead(const std::string &nm, Parameters *para, SimpleType *st) : nm(nm), para(para), st(st) {}
 
 ProcedureHead::ProcedureHead(const std::string &nm, Parameters *para) : nm(nm), para(para) {}
 
+llvm::Value *ProcedureHead::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
 RepeatStmt::RepeatStmt(StmtList *sl, Expression *expr) : sl(sl), expr(expr) {}
+
+llvm::Value *RepeatStmt::codeGen(ASTContext &astContext) {
+    return Stmt::codeGen(astContext);
+}
 
 ForStmt::ForStmt(const std::string &nm, Expression *expr, Direction *dir, Expression *toExpr, Stmt *st) : nm(nm),
                                                                                                           expr(expr),
                                                                                                           dir(dir),
                                                                                                           toExpr(toExpr),
                                                                                                           st(st) {}
+
+llvm::Value *ForStmt::codeGen(ASTContext &astContext) {
+    return Stmt::codeGen(astContext);
+}
+
+llvm::Value *ASTNode::codeGen(ASTContext &astContext) {
+    return nullptr;
+}
+
+llvm::Value *ConstValue::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
+llvm::Value *Expr::codeGen(ASTContext &astContext) {
+    return Expression::codeGen(astContext);
+}
+
+llvm::Value *Term::codeGen(ASTContext &astContext) {
+    return Expr::codeGen(astContext);
+}
+
+llvm::Value *ProcStmt::codeGen(ASTContext &astContext) {
+    return Stmt::codeGen(astContext);
+}
+
+llvm::Value *RoutineBody::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
+llvm::Value *CompoundStmt::codeGen(ASTContext &astContext) {
+    return Stmt::codeGen(astContext);
+}
+
+llvm::Value *LabelPart::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
+llvm::Value *TypePart::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
+llvm::Value *VarPart::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
+llvm::Value *TypeDecl::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
+llvm::Value *Parameters::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
+llvm::Value *SimpleType::codeGen(ASTContext &astContext) {
+    return TypeDecl::codeGen(astContext);
+}
+
+llvm::Value *VarParaList::codeGen(ASTContext &astContext) {
+    return ASTNode::codeGen(astContext);
+}
+
+VarParaList::VarParaList() : ref(false) {}

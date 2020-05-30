@@ -49,7 +49,7 @@ struct ASTContext {
 public:
 	ASTFunction *currentFunction;
 
-	ASTContext(ASTContext *parent = nullptr):parent(parent) {
+	explicit ASTContext(ASTContext *parent = nullptr):parent(parent) {
 		if(parent != nullptr) {
 			currentFunction = parent->currentFunction;
 		} else {
@@ -370,6 +370,8 @@ struct SysCallProcStmt : public ProcStmt {
 };
 
 struct Factor : public Term {
+    bool neg;
+    bool noT;
 
     Factor *setNot();
 
@@ -756,6 +758,10 @@ struct NamedRangeType : public SimpleType {
 };
 
 struct VarParaList : public ASTNode {
+    bool ref;
+
+    VarParaList();
+
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
