@@ -550,8 +550,8 @@ struct VarPart : public ASTNode {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
-struct TypeDecl : public ASTNode {
-    llvm::Value *codeGen(ASTContext &astContext) override;
+struct TypeDecl {
+    virtual llvm::Type *codeGen(ASTContext &astContext);
 };
 
 struct VarDecl : public ASTNode {
@@ -676,7 +676,7 @@ struct TypeDefinition : public ASTNode {
 };
 
 struct SimpleType : public TypeDecl {
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Type *codeGen(ASTContext &astContext) override;
 };
 
 struct ArrayType : public TypeDecl {
@@ -685,7 +685,7 @@ struct ArrayType : public TypeDecl {
 
     ArrayType(SimpleType *st, TypeDecl *td);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Type *codeGen(ASTContext &astContext) override;
 };
 
 struct SysType : public SimpleType {
@@ -693,7 +693,7 @@ struct SysType : public SimpleType {
 
     explicit SysType(const std::string &tp);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Type *codeGen(ASTContext &astContext) override;
 };
 
 struct RecordType : public TypeDecl {
@@ -701,7 +701,7 @@ struct RecordType : public TypeDecl {
 
     explicit RecordType(FieldDeclList *fdl);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Type *codeGen(ASTContext &astContext) override;
 };
 
 struct FieldDecl : public ASTNode {
@@ -728,7 +728,7 @@ struct CustomType : public SimpleType {
 
     explicit CustomType(std::string nm);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Type *codeGen(ASTContext &astContext) override;
 };
 
 struct EnumType : public SimpleType {
@@ -736,7 +736,7 @@ struct EnumType : public SimpleType {
 
     explicit EnumType(NameList *nl);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Type *codeGen(ASTContext &astContext) override;
 };
 
 struct RangeType : public SimpleType {
@@ -745,7 +745,7 @@ struct RangeType : public SimpleType {
 
     RangeType(ConstValue *l, ConstValue *r);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Type *codeGen(ASTContext &astContext) override;
 };
 
 struct NamedRangeType : public SimpleType {
@@ -754,7 +754,7 @@ struct NamedRangeType : public SimpleType {
 
     NamedRangeType(std::string cv1, std::string cv2);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Type *codeGen(ASTContext &astContext) override;
 };
 
 struct VarParaList : public ASTNode {
