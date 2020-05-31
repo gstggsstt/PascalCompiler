@@ -24,6 +24,6 @@ int main() {
     astContext.addType("real",builder.getDoubleTy());
     astContext.addType("bool",builder.getInt1Ty());
     program->codeGen(astContext);
-    //pm.run(module);
+    pm.run(module);
     return 0;
 }

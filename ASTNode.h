@@ -38,8 +38,8 @@ public:
 	llvm::Type *returnType;
 	std::vector<llvm::Type*> argTypes;
 	llvm::Value *returnVal;
-	void printIR();
-	ASTFunction(const std::string &name, llvm::Function *llvmFunction, llvm::Type *returnType, std::vector<llvm::Type*> &argTypes);
+	void printIR() const;
+	ASTFunction(std::string name, llvm::Function *llvmFunction, llvm::Type *returnType, std::vector<llvm::Type*> &argTypes);
 };
 
 struct ASTContext {
@@ -86,11 +86,11 @@ struct ArgsList : public ASTNode {
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
-struct ConstValueDecl{
+struct ConstValueDecl : public ASTNode {
     std::string name;
     ConstValue* value;
 
-    ConstValueDecl(const std::string &name, ConstValue *value);
+    ConstValueDecl(std::string name, ConstValue *value);
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
@@ -236,7 +236,7 @@ struct Stmt : public ASTNode {
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 
-    virtual void addLabel(std::string label);
+    virtual void addLabel(const std::string &);
 };
 
 struct CaseExpr : public ASTNode {
@@ -480,7 +480,7 @@ struct ForStmt : public Stmt {
     Expression *toExpr;
     Stmt *st;
 
-    ForStmt(const std::string &nm, Expression *expr, Direction *dir, Expression *toExpr, Stmt *st);
+    ForStmt(std::string nm, Expression *expr, Direction *dir, Expression *toExpr, Stmt *st);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -556,7 +556,7 @@ struct TypeDecl : public ASTNode {
 
     TypeDecl();
 
-    TypeDecl(const std::string &decltp);
+    TypeDecl(std::string decltp);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -625,7 +625,7 @@ struct FunctionHead : public ASTNode {
     Parameters *para;
     SimpleType *st;
 
-    FunctionHead(const std::string &nm, Parameters *para, SimpleType *st);
+    FunctionHead(std::string nm, Parameters *para, SimpleType *st);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -640,7 +640,7 @@ struct ProcedureHead : public ASTNode {
     std::string nm;
     Parameters *para;
 
-    ProcedureHead(const std::string &nm, Parameters *para);
+    ProcedureHead(std::string nm, Parameters *para);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
 };
@@ -785,7 +785,7 @@ struct ParaTypeList : public ASTNode {
 struct NameList : public VarParaList {
     std::vector<std::string > vec;
 
-    void pushBack(std::string nm);
+    void pushBack(const std::string& nm);
 
     NameList();
 
