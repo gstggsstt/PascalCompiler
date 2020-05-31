@@ -91,6 +91,7 @@ struct ConstValueDecl{
     ConstValue* value;
 
     ConstValueDecl(const std::string &name, ConstValue *value);
+    llvm::Value *codeGen(ASTContext &astContext) override;
 };
 
 struct ConstValue : public ASTNode {

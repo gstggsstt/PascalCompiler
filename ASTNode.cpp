@@ -9,19 +9,6 @@ std::string getTypeName(llvm::Type *type){
     return "";
 }
 
-llvm::Constant* getInitial(llvm::Type* type, ConstValue* value){
-	if(type->isDoubleTy()){
-		return llvm::ConstantFP::get(builder.getDoubleTy(), dynamic_cast<ConstRealValue*>(value)->val);
-	}else if(type->isIntegerTy(64)){
-		return builder.getInt64(dynamic_cast<ConstIntValue*>(value)->val);
-	}else if(type->isIntegerTy(8)){
-		return builder.getInt8(dynamic_cast<ConstCharValue*>(value)->val);
-	}else{
-		std::cerr<< "no initializer for '"+getTypeName(type)+"'"<<std::endl;
-		return nullptr;
-	}
-}
-
 llvm::Constant* getInitial(llvm::Type* type){
 	if(type->isDoubleTy()){
 		return llvm::ConstantFP::get(builder.getDoubleTy(), 0);
@@ -126,16 +113,16 @@ llvm::Value *ConstExprList::codeGen(ASTContext& astContext){
 		if(type == nullptr){
 			return nullptr;
 		}
-		llvm::Constant* initial = getInitial(type, vec[i]->value);
+		llvm::Constant* initial = getInitial(type);
 		llvm::Value* var = new llvm::GlobalVariable(module, type, false, llvm::GlobalValue::ExternalLinkage, initial);
 		astContext.addVar(vec[i]->name, var);
-		/*var = astContext.getVar(vec[i]->name);
-		Value* v = vec[i]->value.codeGen(astContext);
+		var = astContext.getVar(vec[i]->name);
+		llvm::Value* v = vec[i]->value->codeGen(astContext);
 		v = createCast(v, type);
 		if(v == nullptr){
 			return ;
 		}
-		builder.CreateStore(v, var);*/
+		builder.CreateStore(v, var);
 	}
 	return nullptr;
 }
@@ -181,6 +168,9 @@ void TypeDeclList::pushBack(TypeDefinition *td) {
 }
 
 llvm::Value *TypeDeclList::codeGen(ASTContext &astContext) {
+    for(auto i = 0; i < vec.size(); i++){
+        vec[i]->codeGen(astContext);
+    }
     return TypePart::codeGen(astContext);
 }
 
@@ -252,12 +242,25 @@ void VarDeclList::pushBack(VarDecl *vd) {
 }
 
 llvm::Value *VarDeclList::codeGen(ASTContext &astContext) {
+    for(auto i = 0; i < vec.size(); i++){
+        vec[i]->codeGen(astContext);
+    }
     return VarPart::codeGen(astContext);
 }
 
 VarDecl::VarDecl(NameList *nl, TypeDecl *td) : nl(nl), td(td) {}
 
 llvm::Value *VarDecl::codeGen(ASTContext &astContext) {
+    llvm::Type* type = astContext.getType(td->declTp);
+    if(type == nullptr){
+        return nullptr;
+    }
+    std::vector<std::string >& nv = nl->vec;
+    for(auto i = 0; i < nv.size(); i++){
+        llvm::Constant* initial = getInitial(type);
+		llvm::Value* var = new llvm::GlobalVariable(module, type, false, llvm::GlobalValue::ExternalLinkage, initial);
+		astContext.addVar(nv[i], var);
+    }
     return ASTNode::codeGen(astContext);
 }
 
@@ -516,7 +519,7 @@ llvm::Value *Procedure::codeGen(ASTContext &astContext) {
 }
 
 
-//Fucntion Declaration
+//Function Declaration
 llvm::Value* Function::codeGen(ASTContext &astContext) {
     ASTContext newContext(astContext);
     fh->codeGen(newContext);
@@ -795,6 +798,21 @@ void ASTFunction::printIR() {
 TypeDefinition::TypeDefinition(std::string nm, TypeDecl *td) : nm(nm), td(td) {}
 
 llvm::Value *TypeDefinition::codeGen(ASTContext &astContext) {
+    if(td->declTp == "Custom"){
+        llvm::Type* type = astContext.getType(dynamic_cast<CustomType*>(td)->nm);
+        if(type == nullptr){
+            return nullptr;
+        }
+        astContext.addType(nm, type);
+    }else if(td->declTp == "bool"){
+        astContext.addType(nm, astContext.getType("bool"));
+    }else if(td->declTp == "real"){
+        astContext.addType(nm, astContext.getType("real"));
+    }else if(td->declTp == "char"){
+        astContext.addType(nm, astContext.getType("char"));
+    }else if(td->declTp == "int"){
+        astContext.addType(nm, astContext.getType("int"));
+    }
     return ASTNode::codeGen(astContext);
 }
 
@@ -834,6 +852,13 @@ llvm::Value *ASTNode::codeGen(ASTContext &astContext) {
 }
 
 llvm::Value *ConstValue::codeGen(ASTContext &astContext) {
+    if(typeName == "int"){
+        return builder.getInt64(dynamic_cast<ConstIntValue*>(this)->val);
+    }else if(typeName == "real"){
+        return llvm::ConstantFP::get(builder.getDoubleTy(), dynamic_cast<ConstRealValue*>(this)->val);
+    }else if(typeName == "char"){
+        return builder.getInt8(dynamic_cast<ConstCharValue*>(this)->val);
+    }
     return ASTNode::codeGen(astContext);
 }
 
@@ -891,4 +916,4 @@ llvm::Value *VarParaList::codeGen(ASTContext &astContext) {
     return ASTNode::codeGen(astContext);
 }
 
-VarParaList::VarParaList() : ref(false) {}
+//VarParaList::VarParaList() : ref(false) {}
