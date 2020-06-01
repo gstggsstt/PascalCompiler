@@ -1,8 +1,9 @@
 program naive;
 var
   i : integer;
+  temp : integer;
 
-function go1(a : integer): integer;
+procedure go1(a : integer);
 begin
   i:=i+a;
   i:=i-2;
@@ -11,19 +12,10 @@ begin
 end
 ;
 
-function go2(a : integer): integer;
 begin
-  i:=i+a;
-  i:=i-2;
-  i:=i*3;
-  i:=i/-4;
-end
-;
-
-begin
-  go1(123);
-  go2(123);
-  writeln(i);
+  i := 1;
+  temp := i+2;
+  temp := temp*2;
 end
 .
 

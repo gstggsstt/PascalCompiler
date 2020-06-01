@@ -307,7 +307,7 @@ procedure_head : PROCEDURE NAME parameters
 
 parameters : LP para_decl_list RP
 		   { $$ = $2; }
- 		   |
+ 		   | LP RP
  		   { $$ = new ParaDeclList(); }
  		   ;
 
@@ -537,4 +537,6 @@ args_list : args_list COMMA expression
 		  { $$ = $1; $$->pushBack($3); }
 		  | expression
 		  { $$ = new ArgsList(); $$->pushBack($1); }
+		  |
+		  { $$ = new ArgsList(); }
 		  ;

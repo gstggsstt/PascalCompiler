@@ -30,6 +30,7 @@ extern llvm::Function *startFunc;
 extern std::string errorMsg;
 // extern Program *program;
 llvm::Value* createCast(llvm::Value *value,llvm::Type *type);
+void startBlock(const ASTContext &astContext);
 
 struct ASTFunction {
 public:
@@ -52,11 +53,9 @@ public:
 	ASTFunction *currentFunction;
 
 
-    explicit ASTContext(ASTContext *p = nullptr):parent(p) {
-			if(p!=nullptr) currentFunction = parent->currentFunction;
-			else currentFunction = nullptr;
-	}
+    explicit ASTContext(ASTContext *p = nullptr);
 
+    void createSysFunc();
 	llvm::Type * getType(const std::string &name);
 	ASTFunction * getFunction(const std::string &name);
 	llvm::Value * getVar(const std::string &name);
@@ -216,6 +215,7 @@ struct Program : public ASTNode {
     Program(ProgramHead *ph, Routine *rt);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
+
 };
 
 struct ProgramHead : public ASTNode {

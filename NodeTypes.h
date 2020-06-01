@@ -5,6 +5,8 @@
 #ifndef SPL_NODETYPES_H
 #define SPL_NODETYPES_H
 
+struct ASTContext;
+struct ASTFunction;
 struct ASTNode;
 struct ArgsList;
 struct ArrayType;
