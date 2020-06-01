@@ -46,8 +46,8 @@ llvm::Value *createCast(llvm::Value *value, llvm::Type *type) {
     else if (type->isIntegerTy(64) && valType->isDoubleTy())
         return builder.CreateFPToSI(value, type);
     else {
-        errorMsg = "no viable conversion from '" + getTypeName(valType)
-                   + "' to '" + getTypeName(type) + "'";
+         std::cerr << "no viable conversion from '" + getTypeName(valType)
+                   + "' to '" + getTypeName(type) + "'" << std::endl;
         return nullptr;
     }
 }
@@ -419,44 +419,39 @@ ElseClause::ElseClause() : st(nullptr) {}
 ElseClause::ElseClause(Stmt *st) : st(st) {}
 
 llvm::Value *ElseClause::codeGen(ASTContext &astContext) {
-    return ASTNode::codeGen(astContext);
+    return st->codeGen(astContext);
 }
 
 IfStmt::IfStmt(Expression *expr, Stmt *st, ElseClause *ec) : expr(expr), st(st), ec(ec) {}
 
 llvm::Value *IfStmt::codeGen(ASTContext &astContext) {
     llvm::Value* CondV = expr->codeGen(astContext);
-    if(CondV == nullptr){
-        return nullptr;
-    }
-    CondV = builder.CreateICmpNE(CondV, llvm::ConstantInt::get(builder.getInt64Ty(), 0), "ifcond");
+    if(CondV == nullptr) return nullptr;
     llvm::Function* TF = builder.GetInsertBlock()->getParent();
     llvm::BasicBlock* thenBB = llvm::BasicBlock::Create(context, "then", TF);
-    llvm::BasicBlock* elseBB = llvm::BasicBlock::Create(context, "else");
-    llvm::BasicBlock* mergeBB = llvm::BasicBlock::Create(context, "ifcond");
-    builder.CreateCondBr(CondV, thenBB, elseBB);
+    llvm::BasicBlock* elseBB = nullptr;
+    if(ec->st) elseBB = llvm::BasicBlock::Create(context, "else");
+    llvm::BasicBlock* mergeBB = llvm::BasicBlock::Create(context, "merge");
+    if(ec->st == nullptr)
+        builder.CreateCondBr(CondV, thenBB, mergeBB);
+    else
+        builder.CreateCondBr(CondV, thenBB, elseBB);
     builder.SetInsertPoint(thenBB);
-    llvm::Value* thenV = st->codeGen(astContext);
-    if(thenV == nullptr){
-        return nullptr;
-    }
+    st->codeGen(astContext);
     builder.CreateBr(mergeBB);
     thenBB = builder.GetInsertBlock();
-    TF->getBasicBlockList().push_back(elseBB);
-    builder.SetInsertPoint(elseBB);
-    llvm::Value* elseV = ec->codeGen(astContext);
-    if(elseV == nullptr){
-        return nullptr;
+
+    if(ec->st) {
+        TF->getBasicBlockList().push_back(elseBB);
+        builder.SetInsertPoint(elseBB);
+        ec->codeGen(astContext);
+        builder.CreateBr(mergeBB);
+        elseBB = builder.GetInsertBlock();
     }
-    builder.CreateBr(mergeBB);
-    elseBB = builder.GetInsertBlock();
+
     TF->getBasicBlockList().push_back(mergeBB);
     builder.SetInsertPoint(mergeBB);
-    llvm::PHINode* PN = builder.CreatePHI(builder.getInt64Ty(), 2, "iftmp");
-
-    PN->addIncoming(thenV, thenBB);
-    PN->addIncoming(elseV, elseBB);
-    return PN;
+    return nullptr;
 }
 
 WhileStmt::WhileStmt(Expression *expr, Stmt *st) : expr(expr), st(st) {}
@@ -466,25 +461,22 @@ llvm::Value *WhileStmt::codeGen(ASTContext &astContext) {
     llvm::BasicBlock* preBB = builder.GetInsertBlock();
     llvm::BasicBlock* loopBB = llvm::BasicBlock::Create(context, "loop", TF);
     builder.CreateBr(loopBB);
+
     builder.SetInsertPoint(loopBB);
     llvm::Value* condV = expr->codeGen(astContext);
-    if(condV == 0){
-        return 0;
-    }
-    condV = builder.CreateICmpNE(condV, llvm::ConstantInt::get(builder.getInt64Ty(), 0), "whilecond");
+    if(condV == nullptr) return nullptr;
+
     llvm::BasicBlock* execBB = llvm::BasicBlock::Create(context, "exec");
     llvm::BasicBlock* afterBB = llvm::BasicBlock::Create(context, "after");
+
     builder.CreateCondBr(condV, execBB, afterBB);
     TF->getBasicBlockList().push_back(execBB);
     TF->getBasicBlockList().push_back(afterBB);
     builder.SetInsertPoint(execBB);
-    llvm::Value* cd = st->codeGen(astContext);
-    if(cd == nullptr){
-        return nullptr;
-    }
+    st->codeGen(astContext);
     builder.CreateBr(loopBB);
     builder.SetInsertPoint(afterBB);
-    return llvm::Constant::getNullValue(builder.getInt64Ty());
+    return nullptr;
 }
 
 Direction::Direction(std::string dir) : dir(std::move(dir)) {}
@@ -545,18 +537,6 @@ CalcExpr::CalcExpr(Expression *l, Expression *r, std::string op) : l(l), r(r), o
 
 NameFactor::NameFactor(std::string nm) : nm(std::move(nm)) {}
 
-llvm::Value* NameFactor::codeGen(ASTContext &astContext){
-    llvm::Value* var = astContext.getVar(nm);
-    llvm::Value* v = builder.CreateLoad(var);
-    if(noT){
-        builder.CreateNot(v);
-    }
-    if(neg){
-        builder.CreateNeg(v);
-    }
-    return v;
-}
-
 CallFactor::CallFactor(std::string nm, ArgsList *al) : nm(std::move(nm)), al(al) {}
 
 SysFuncFactor::SysFuncFactor(SysFunc *sf) : sf(sf) {}
@@ -571,12 +551,8 @@ ConstFactor::ConstFactor(ConstValue *cv) : cv(cv) {}
 
 llvm::Value *ConstFactor::codeGen(ASTContext &astContext) {
     llvm::Value* v = cv->codeGen(astContext);
-    if(noT){
-        builder.CreateNot(v);
-    }
-    if(neg){
-        builder.CreateNeg(v);
-    }
+    if(noT) builder.CreateNot(v);
+    if(neg) builder.CreateNeg(v);
     return v;
 }
 
@@ -692,14 +668,13 @@ llvm::Value *FunctionHead::codeGen(ASTContext &astContext) {
 llvm::Value *AssignStmt::codeGen(ASTContext &astContext) {
     llvm::Value *var = lv->codeGen(astContext);
     if (var == nullptr)
-        std::cerr << "No such Value" << std::endl;
+        std::cerr << "No such Value of function is not implemented" << std::endl;
     else {
         llvm::Value *value = expr->codeGen(astContext);
         auto *pt = static_cast<llvm::PointerType *>(var->getType());
         value = createCast(value, pt->getElementType());
-        if (value == nullptr) {
+        if (value == nullptr)
             std::cerr << "Wrong Type Assignment" << std::endl;
-        }
         builder.CreateStore(value, var);
     }
     return nullptr;
@@ -786,7 +761,7 @@ llvm::Value *CalcExpr::codeGen(ASTContext &astContext) {
             else if (op == "-") { return builder.CreateSub(lv, rv); }
             else if (op == "*") { return builder.CreateMul(lv, rv); }
             else if (op == "/") { return builder.CreateSDiv(lv, rv); }
-            else if (op == "mod") { return builder.CreateFRem(lv, rv); }
+            else if (op == "mod") { return builder.CreateSRem(lv, rv); }
         }
     } else {
         std::cerr << "Wrong llvm::Type" << std::endl;
@@ -795,9 +770,14 @@ llvm::Value *CalcExpr::codeGen(ASTContext &astContext) {
 }
 
 llvm::Value *NameFactor::codeGen(ASTContext &astContext) {
-    llvm::Value *var = astContext.getVar(nm);
+    llvm::Value* var = astContext.getVar(nm);
+
     if (var == nullptr) std::cerr << "variable not declared" << std::endl;
-    return builder.CreateLoad(var);
+
+    llvm::Value* v = builder.CreateLoad(var);
+    if(noT) builder.CreateNot(v);
+    if(neg) builder.CreateNeg(v);
+    return v;
 }
 
 llvm::Value *CallFactor::codeGen(ASTContext &astContext) {
@@ -1005,47 +985,41 @@ llvm::Value *RepeatStmt::codeGen(ASTContext &astContext) {
     return Stmt::codeGen(astContext);
 }
 
-ForStmt::ForStmt(std::string nm, Expression *expr, Direction *dir, Expression *toExpr, Stmt *st) : nm(std::move(nm)),
-                                                                                                   expr(expr),
 llvm::Value *ForStmt::codeGen(ASTContext &astContext) {
     llvm::Value* var = astContext.getVar(nm);
-    if(var == nullptr){
-        return nullptr;
-    }
-    llvm::Value* begin = expr->codeGen(astContext);
-    builder.CreateStore(begin, var);
+    if(var == nullptr) return nullptr;
+
+    llvm::Value* initVal = expr->codeGen(astContext);
+    builder.CreateStore(initVal, var); // i = 1;
+
     llvm::Function* TF = builder.GetInsertBlock()->getParent();
     llvm::BasicBlock* preBB = builder.GetInsertBlock();
     llvm::BasicBlock* loopBB = llvm::BasicBlock::Create(context, "loop", TF);
-    builder.CreateBr(loopBB);
-    llvm::PHINode* ph = builder.CreatePHI(builder.getInt64Ty(), 2, nm);
-    llvm::Value* v = builder.CreateLoad(var);
-    ph->addIncoming(v, preBB);
-    if(st->codeGen(astContext) == nullptr){
-        return nullptr;
-    }
-    llvm::Value* stepVal = llvm::ConstantInt::get(builder.getInt64Ty(), 1);
-    llvm::Value* nextVal;
-    if(dir->dir == "to"){
-        nextVal = builder.CreateAdd(ph, stepVal, "nextvar");
-    }else if(dir->dir == "downto"){
-        nextVal = builder.CreateSub(ph, stepVal, "nextvar");
-    }else{
-        std::cerr << "direction " + dir->dir + " is not defied." << std::endl;
-        return nullptr;
-    }
-    llvm::Value* endCond = toExpr->codeGen(astContext);
-    if(endCond == nullptr){
-        return nullptr;
-    }
-    endCond = builder.CreateICmpNE(endCond, llvm::ConstantInt::get(builder.getInt64Ty(), 0), "loopcond");
-    llvm::BasicBlock* loopEndBB = builder.GetInsertBlock();
-    llvm::BasicBlock* afterBB = llvm::BasicBlock::Create(context, "afterloop", TF);
-    builder.CreateCondBr(endCond, loopBB, afterBB);
+
+    builder.CreateBr(loopBB);       // jmp loop
+    builder.SetInsertPoint(loopBB); // loop:
+    st->codeGen(astContext); // begin ... end;
+    llvm::Value* stepVal = llvm::ConstantInt::get(builder.getInt64Ty(), 1); // it_step = 1
+    llvm::Value* nextVal = nullptr;
+    if(dir->dir == "to")
+        nextVal = builder.CreateAdd(var, stepVal, "next_iter"); // temp = i+1
+    else if(dir->dir == "downto")
+        nextVal = builder.CreateSub(var, stepVal, "next_iter"); // temp = i-1
+    builder.CreateStore(nextVal, var); // i = temp;
+
+    llvm::Value *bound = toExpr->codeGen(astContext); // bound = toExpr
+    llvm::Value *condV = builder.CreateICmpNE(builder.CreateLoad(var), bound, "loop_cond");
+    llvm::BasicBlock* afterBB = llvm::BasicBlock::Create(context, "after_loop", TF);
+    builder.CreateCondBr(condV, loopBB, afterBB);
     builder.SetInsertPoint(afterBB);
-    ph->addIncoming(nextVal, loopEndBB);
     return llvm::Constant::getNullValue(builder.getInt64Ty());
 }
+
+ForStmt::ForStmt(std::string nm, Expression *expr, Direction *dir, Expression *toExpr, Stmt *st) : nm(std::move(nm)),
+                                                                                                          expr(expr),
+                                                                                                          dir(dir),
+                                                                                                          toExpr(toExpr),
+                                                                                                          st(st) {}
 
 llvm::Value *ASTNode::codeGen(ASTContext &astContext) {
     return nullptr;
@@ -1117,3 +1091,89 @@ llvm::Value *VarParaList::codeGen(ASTContext &astContext) {
 }
 
 VarParaList::VarParaList() : ref(false) {}
+
+std::string ArgsList::getClassName() { return "ArgsList";}
+std::string ConstValueDecl::getClassName() { return "ConstValueDecl";}
+std::string ConstValue::getClassName() { return "ConstValue";}
+std::string ConstIntValue::getClassName() { return "ConstIntValue";}
+std::string ConstRealValue::getClassName() { return "ConstRealValue";}
+std::string ConstCharValue::getClassName() { return "ConstCharValue";}
+std::string ConstExprList::getClassName() { return "ConstExprList";}
+std::string ConstPart::getClassName() { return "ConstPart";}
+std::string Direction::getClassName() { return "Direction";}
+std::string Expression::getClassName() { return "Expression";}
+std::string Expr::getClassName() { return "Expr";}
+std::string Term::getClassName() { return "Term";}
+std::string CalcExpr::getClassName() { return "CalcExpr";}
+std::string BinaryExpr::getClassName() { return "BinaryExpr";}
+std::string ExpressionList::getClassName() { return "ExpressionList";}
+std::string Program::getClassName() { return "Program";}
+std::string ProgramHead::getClassName() { return "ProgramHead";}
+std::string Stmt::getClassName() { return "Stmt";}
+std::string CaseExpr::getClassName() { return "CaseExpr";}
+std::string ConstValueCaseExpr::getClassName() { return "ConstValueCaseExpr";}
+std::string NameCaseExpr::getClassName() { return "NameCaseExpr";}
+std::string CaseExprList::getClassName() { return "CaseExprList";}
+std::string ElseClause::getClassName() { return "ElseClause";}
+std::string IfStmt::getClassName() { return "IfStmt";}
+std::string LeftValue::getClassName() { return "LeftValue";}
+std::string NameLeftValue::getClassName() { return "NameLeftValue";}
+std::string IndexLeftValue::getClassName() { return "IndexLeftValue";}
+std::string MemberLeftValue::getClassName() { return "MemberLeftValue";}
+std::string RepeatStmt::getClassName() { return "RepeatStmt";}
+std::string ProcStmt::getClassName() { return "ProcStmt";}
+std::string NameProcStmt::getClassName() { return "NameProcStmt";}
+std::string CallProcStmt::getClassName() { return "CallProcStmt";}
+std::string SysProcStmt::getClassName() { return "SysProcStmt";}
+std::string SysCallProcStmt::getClassName() { return "SysCallProcStmt";}
+std::string Factor::getClassName() { return "Factor";}
+std::string CallFactor::getClassName() { return "CallFactor";}
+std::string ConstFactor::getClassName() { return "ConstFactor";}
+std::string IndexFactor::getClassName() { return "IndexFactor";}
+std::string MemberFactor::getClassName() { return "MemberFactor";}
+std::string NameFactor::getClassName() { return "NameFactor";}
+std::string SysFunc::getClassName() { return "SysFunc";}
+std::string SysFuncCallFactor::getClassName() { return "SysFuncCallFactor";}
+std::string SysFuncFactor::getClassName() { return "SysFuncFactor";}
+std::string ParenthesesFactor::getClassName() { return "ParenthesesFactor";}
+std::string ReadProcStmt::getClassName() { return "ReadProcStmt";}
+std::string GotoStmt::getClassName() { return "GotoStmt";}
+std::string ForStmt::getClassName() { return "ForStmt";}
+std::string AssignStmt::getClassName() { return "AssignStmt";}
+std::string CaseStmt::getClassName() { return "CaseStmt";}
+std::string WhileStmt::getClassName() { return "WhileStmt";}
+std::string Routine::getClassName() { return "Routine";}
+std::string RoutineBody::getClassName() { return "RoutineBody";}
+std::string CompoundStmt::getClassName() { return "CompoundStmt";}
+std::string StmtList::getClassName() { return "StmtList";}
+std::string LabelPart::getClassName() { return "LabelPart";}
+std::string TypePart::getClassName() { return "TypePart";}
+std::string VarPart::getClassName() { return "VarPart";}
+std::string TypeDecl::getClassName() { return "TypeDecl";}
+std::string VarDecl::getClassName() { return "VarDecl";}
+std::string VarDeclList::getClassName() { return "VarDeclList";}
+std::string RoutineHead::getClassName() { return "RoutineHead";}
+std::string RoutineDecl::getClassName() { return "RoutineDecl";}
+std::string Parameters::getClassName() { return "Parameters";}
+std::string ParaDeclList::getClassName() { return "ParaDeclList";}
+std::string Function::getClassName() { return "Function";}
+std::string FunctionHead::getClassName() { return "FunctionHead";}
+std::string Procedure::getClassName() { return "Procedure";}
+std::string ProcedureHead::getClassName() { return "ProcedureHead";}
+std::string RoutinePart::getClassName() { return "RoutinePart";}
+std::string SysProc::getClassName() { return "SysProc";}
+std::string TypeDeclList::getClassName() { return "TypeDeclList";}
+std::string TypeDefinition::getClassName() { return "TypeDefinition";}
+std::string SimpleType::getClassName() { return "SimpleType";}
+std::string ArrayType::getClassName() { return "ArrayType";}
+std::string SysType::getClassName() { return "SysType";}
+std::string RecordType::getClassName() { return "RecordType";}
+std::string FieldDecl::getClassName() { return "FieldDecl";}
+std::string FieldDeclList::getClassName() { return "FieldDeclList";}
+std::string CustomType::getClassName() { return "CustomType";}
+std::string EnumType::getClassName() { return "EnumType";}
+std::string RangeType::getClassName() { return "RangeType";}
+std::string NamedRangeType::getClassName() { return "NamedRangeType";}
+std::string VarParaList::getClassName() { return "VarParaList";}
+std::string ParaTypeList::getClassName() { return "ParaTypeList";}
+std::string NameList::getClassName() { return "NameList";}

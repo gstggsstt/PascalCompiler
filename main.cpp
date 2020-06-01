@@ -42,9 +42,9 @@ void addSystemFunc(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBuilder
     intPrintLn -> setCallingConv(llvm::CallingConv::C);
     doublePrintLn -> setCallingConv(llvm::CallingConv::C);
     charPrintLn -> setCallingConv(llvm::CallingConv::C);
-    ee.addGlobalMapping((llvm::GlobalValue*)intPrintLn,(void*) &intWriteLn);
-    ee.addGlobalMapping((llvm::GlobalValue*)doublePrintLn,(void*) &doubleWriteLn);
-    ee.addGlobalMapping((llvm::GlobalValue*)charPrintLn,(void*) &charWriteLn);
+    ee.addGlobalMapping((llvm::GlobalValue*)intPrintLn, reinterpret_cast<void*>(&intWriteLn));
+    ee.addGlobalMapping((llvm::GlobalValue*)doublePrintLn,reinterpret_cast<void*>(&doubleWriteLn));
+    ee.addGlobalMapping((llvm::GlobalValue*)charPrintLn,reinterpret_cast<void*>(&charWriteLn));
 }
 
 int main() {
@@ -64,6 +64,7 @@ int main() {
 
     std::string boom = "boom";
     llvm::ExecutionEngine *ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(&module)).setErrorStr(&boom).setEngineKind(llvm::EngineKind::JIT).create();
+    addSystemFunc(module, *ee, builder);
     std::vector<llvm::GenericValue> args;
     ee->finalizeObject();
     llvm::GenericValue v = ee->runFunction(startFunc, args);
