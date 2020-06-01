@@ -7,7 +7,19 @@
 #include "ASTNode.h"
 
 std::string getTypeName(llvm::Type *type) {
-    return type->getStructName();
+    if(type->isDoubleTy()){
+		return "real";
+	}else if(type->isIntegerTy(64)){
+		return "int";
+	}if(type->isVoidTy()){
+		return "void";
+	}else if(type->isIntegerTy(8)){
+        return "char";
+    }else if(type->isIntegerTy(1)){
+        return "bool";
+    }else{
+		return "unknow";
+	}
 }
 
 llvm::Constant *getInitial(llvm::Type *type) {
@@ -413,13 +425,66 @@ llvm::Value *ElseClause::codeGen(ASTContext &astContext) {
 IfStmt::IfStmt(Expression *expr, Stmt *st, ElseClause *ec) : expr(expr), st(st), ec(ec) {}
 
 llvm::Value *IfStmt::codeGen(ASTContext &astContext) {
-    return Stmt::codeGen(astContext);
+    llvm::Value* CondV = expr->codeGen(astContext);
+    if(CondV == nullptr){
+        return nullptr;
+    }
+    CondV = builder.CreateICmpNE(CondV, llvm::ConstantInt::get(builder.getInt64Ty(), 0), "ifcond");
+    llvm::Function* TF = builder.GetInsertBlock()->getParent();
+    llvm::BasicBlock* thenBB = llvm::BasicBlock::Create(context, "then", TF);
+    llvm::BasicBlock* elseBB = llvm::BasicBlock::Create(context, "else");
+    llvm::BasicBlock* mergeBB = llvm::BasicBlock::Create(context, "ifcond");
+    builder.CreateCondBr(CondV, thenBB, elseBB);
+    builder.SetInsertPoint(thenBB);
+    llvm::Value* thenV = st->codeGen(astContext);
+    if(thenV == nullptr){
+        return nullptr;
+    }
+    builder.CreateBr(mergeBB);
+    thenBB = builder.GetInsertBlock();
+    TF->getBasicBlockList().push_back(elseBB);
+    builder.SetInsertPoint(elseBB);
+    llvm::Value* elseV = ec->codeGen(astContext);
+    if(elseV == nullptr){
+        return nullptr;
+    }
+    builder.CreateBr(mergeBB);
+    elseBB = builder.GetInsertBlock();
+    TF->getBasicBlockList().push_back(mergeBB);
+    builder.SetInsertPoint(mergeBB);
+    llvm::PHINode* PN = builder.CreatePHI(builder.getInt64Ty(), 2, "iftmp");
+
+    PN->addIncoming(thenV, thenBB);
+    PN->addIncoming(elseV, elseBB);
+    return PN;
 }
 
 WhileStmt::WhileStmt(Expression *expr, Stmt *st) : expr(expr), st(st) {}
 
 llvm::Value *WhileStmt::codeGen(ASTContext &astContext) {
-    return Stmt::codeGen(astContext);
+    llvm::Function* TF = builder.GetInsertBlock()->getParent();
+    llvm::BasicBlock* preBB = builder.GetInsertBlock();
+    llvm::BasicBlock* loopBB = llvm::BasicBlock::Create(context, "loop", TF);
+    builder.CreateBr(loopBB);
+    builder.SetInsertPoint(loopBB);
+    llvm::Value* condV = expr->codeGen(astContext);
+    if(condV == 0){
+        return 0;
+    }
+    condV = builder.CreateICmpNE(condV, llvm::ConstantInt::get(builder.getInt64Ty(), 0), "whilecond");
+    llvm::BasicBlock* execBB = llvm::BasicBlock::Create(context, "exec");
+    llvm::BasicBlock* afterBB = llvm::BasicBlock::Create(context, "after");
+    builder.CreateCondBr(condV, execBB, afterBB);
+    TF->getBasicBlockList().push_back(execBB);
+    TF->getBasicBlockList().push_back(afterBB);
+    builder.SetInsertPoint(execBB);
+    llvm::Value* cd = st->codeGen(astContext);
+    if(cd == nullptr){
+        return nullptr;
+    }
+    builder.CreateBr(loopBB);
+    builder.SetInsertPoint(afterBB);
+    return llvm::Constant::getNullValue(builder.getInt64Ty());
 }
 
 Direction::Direction(std::string dir) : dir(std::move(dir)) {}
@@ -480,6 +545,18 @@ CalcExpr::CalcExpr(Expression *l, Expression *r, std::string op) : l(l), r(r), o
 
 NameFactor::NameFactor(std::string nm) : nm(std::move(nm)) {}
 
+llvm::Value* NameFactor::codeGen(ASTContext &astContext){
+    llvm::Value* var = astContext.getVar(nm);
+    llvm::Value* v = builder.CreateLoad(var);
+    if(noT){
+        builder.CreateNot(v);
+    }
+    if(neg){
+        builder.CreateNeg(v);
+    }
+    return v;
+}
+
 CallFactor::CallFactor(std::string nm, ArgsList *al) : nm(std::move(nm)), al(al) {}
 
 SysFuncFactor::SysFuncFactor(SysFunc *sf) : sf(sf) {}
@@ -493,7 +570,14 @@ SysFuncCallFactor::SysFuncCallFactor(SysFunc *sf, ArgsList *al) : sf(sf), al(al)
 ConstFactor::ConstFactor(ConstValue *cv) : cv(cv) {}
 
 llvm::Value *ConstFactor::codeGen(ASTContext &astContext) {
-    return cv->codeGen(astContext);
+    llvm::Value* v = cv->codeGen(astContext);
+    if(noT){
+        builder.CreateNot(v);
+    }
+    if(neg){
+        builder.CreateNeg(v);
+    }
+    return v;
 }
 
 ParenthesesFactor::ParenthesesFactor(Expression *expr) : expr(expr) {}
@@ -515,12 +599,12 @@ llvm::Value *MemberFactor::codeGen(ASTContext &astContext) {
 }
 
 Factor *Factor::setNot() {
-    // TODO
+    noT = !noT;
     return this;
 }
 
 Factor *Factor::setNeg() {
-    // TODO
+    neg = !neg;
     return this;
 }
 
@@ -923,12 +1007,44 @@ llvm::Value *RepeatStmt::codeGen(ASTContext &astContext) {
 
 ForStmt::ForStmt(std::string nm, Expression *expr, Direction *dir, Expression *toExpr, Stmt *st) : nm(std::move(nm)),
                                                                                                    expr(expr),
-                                                                                                   dir(dir),
-                                                                                                   toExpr(toExpr),
-                                                                                                   st(st) {}
-
 llvm::Value *ForStmt::codeGen(ASTContext &astContext) {
-    return Stmt::codeGen(astContext);
+    llvm::Value* var = astContext.getVar(nm);
+    if(var == nullptr){
+        return nullptr;
+    }
+    llvm::Value* begin = expr->codeGen(astContext);
+    builder.CreateStore(begin, var);
+    llvm::Function* TF = builder.GetInsertBlock()->getParent();
+    llvm::BasicBlock* preBB = builder.GetInsertBlock();
+    llvm::BasicBlock* loopBB = llvm::BasicBlock::Create(context, "loop", TF);
+    builder.CreateBr(loopBB);
+    llvm::PHINode* ph = builder.CreatePHI(builder.getInt64Ty(), 2, nm);
+    llvm::Value* v = builder.CreateLoad(var);
+    ph->addIncoming(v, preBB);
+    if(st->codeGen(astContext) == nullptr){
+        return nullptr;
+    }
+    llvm::Value* stepVal = llvm::ConstantInt::get(builder.getInt64Ty(), 1);
+    llvm::Value* nextVal;
+    if(dir->dir == "to"){
+        nextVal = builder.CreateAdd(ph, stepVal, "nextvar");
+    }else if(dir->dir == "downto"){
+        nextVal = builder.CreateSub(ph, stepVal, "nextvar");
+    }else{
+        std::cerr << "direction " + dir->dir + " is not defied." << std::endl;
+        return nullptr;
+    }
+    llvm::Value* endCond = toExpr->codeGen(astContext);
+    if(endCond == nullptr){
+        return nullptr;
+    }
+    endCond = builder.CreateICmpNE(endCond, llvm::ConstantInt::get(builder.getInt64Ty(), 0), "loopcond");
+    llvm::BasicBlock* loopEndBB = builder.GetInsertBlock();
+    llvm::BasicBlock* afterBB = llvm::BasicBlock::Create(context, "afterloop", TF);
+    builder.CreateCondBr(endCond, loopBB, afterBB);
+    builder.SetInsertPoint(afterBB);
+    ph->addIncoming(nextVal, loopEndBB);
+    return llvm::Constant::getNullValue(builder.getInt64Ty());
 }
 
 llvm::Value *ASTNode::codeGen(ASTContext &astContext) {
