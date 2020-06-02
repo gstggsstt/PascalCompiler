@@ -73,11 +73,16 @@
 	#include <iostream>
 	// NBlock *programBlock; /* the top level root node of our final AST */
 
+	extern int line;
 	extern int yylex();
 	extern Program* program;
-	void yyerror(const char *s) { std::cerr << s << std::endl; }
+	void yyerror(const char *s)
+	{
+		std::cerr << "Line : " << line << std::endl;
+		std::cerr << s << std::endl;
+	}
 
-#line 81 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 86 "/home/gster/CLionProjects/SPL/parser.cpp"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -204,7 +209,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 12 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 17 "/home/gster/CLionProjects/SPL/SPL.y"
 
 	ASTNode *astnode;
 	ArgsList *argslist;
@@ -292,7 +297,7 @@ union YYSTYPE
 	int token;
 	std::string *string;
 
-#line 296 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 301 "/home/gster/CLionProjects/SPL/parser.cpp"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -674,21 +679,21 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   167,   167,   170,   173,   176,   179,   183,   185,   186,
-     189,   191,   195,   196,   197,   198,   201,   202,   203,   206,
-     207,   210,   212,   216,   220,   221,   222,   225,   226,   227,
-     228,   229,   230,   231,   234,   235,   236,   237,   240,   244,
-     248,   250,   254,   258,   260,   264,   267,   270,   272,   276,
-     280,   282,   284,   286,   289,   292,   296,   300,   304,   308,
-     310,   314,   316,   320,   322,   326,   330,   334,   338,   342,
-     345,   348,   350,   354,   356,   358,   360,   362,   364,   366,
-     368,   370,   374,   378,   380,   382,   386,   388,   390,   392,
-     394,   398,   400,   404,   408,   411,   414,   418,   422,   426,
-     428,   432,   436,   438,   442,   444,   448,   452,   454,   458,
-     460,   462,   464,   466,   468,   470,   474,   476,   478,   480,
-     484,   486,   488,   490,   492,   496,   498,   500,   502,   504,
-     506,   508,   510,   512,   514,   518,   520,   522,   524,   526,
-     528,   530,   532,   536,   538,   541
+       0,   172,   172,   175,   178,   181,   184,   188,   190,   191,
+     194,   196,   200,   201,   202,   203,   206,   207,   208,   211,
+     212,   215,   217,   221,   225,   226,   227,   230,   231,   232,
+     233,   234,   235,   236,   239,   240,   241,   242,   245,   249,
+     253,   255,   259,   263,   265,   269,   272,   275,   277,   281,
+     285,   287,   289,   291,   294,   297,   301,   305,   309,   313,
+     315,   319,   321,   325,   327,   331,   335,   339,   343,   347,
+     350,   353,   355,   359,   361,   363,   365,   367,   369,   371,
+     373,   375,   379,   383,   385,   387,   391,   393,   395,   397,
+     399,   403,   405,   409,   413,   416,   419,   423,   427,   431,
+     433,   437,   441,   443,   447,   449,   453,   457,   459,   463,
+     465,   467,   469,   471,   473,   475,   479,   481,   483,   485,
+     489,   491,   493,   495,   497,   501,   503,   505,   507,   509,
+     511,   513,   515,   517,   519,   523,   525,   527,   529,   531,
+     533,   535,   537,   541,   543,   546
 };
 #endif
 
@@ -1694,871 +1699,871 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 167 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 172 "/home/gster/CLionProjects/SPL/SPL.y"
                                    { ::program = new Program((yyvsp[-2].programhead), (yyvsp[-1].routine)); }
-#line 1700 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1705 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 3:
-#line 170 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 175 "/home/gster/CLionProjects/SPL/SPL.y"
                                  { (yyval.programhead) = new ProgramHead(*(yyvsp[-1].string)); }
-#line 1706 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1711 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 4:
-#line 173 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 178 "/home/gster/CLionProjects/SPL/SPL.y"
                                     { (yyval.routine) = new Routine((yyvsp[-1].routinehead), (yyvsp[0].routinebody)); }
-#line 1712 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1717 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 5:
-#line 176 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 181 "/home/gster/CLionProjects/SPL/SPL.y"
                                         { (yyval.routine) = new Routine((yyvsp[-1].routinehead), (yyvsp[0].routinebody)); }
-#line 1718 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1723 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 6:
-#line 180 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 185 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinehead) = new RoutineHead((yyvsp[-4].labelpart), (yyvsp[-3].constpart), (yyvsp[-2].typepart), (yyvsp[-1].varpart), (yyvsp[0].routinepart)); }
-#line 1724 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1729 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 7:
-#line 183 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 188 "/home/gster/CLionProjects/SPL/SPL.y"
              { (yyval.labelpart) = new LabelPart(); }
-#line 1730 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1735 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 8:
-#line 185 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 190 "/home/gster/CLionProjects/SPL/SPL.y"
                                    { (yyval.constpart) = new ConstPart((yyvsp[0].constexprlist)); }
-#line 1736 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1741 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 9:
-#line 186 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 191 "/home/gster/CLionProjects/SPL/SPL.y"
                      { (yyval.constpart) = new ConstPart(new ConstExprList()); }
-#line 1742 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1747 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 10:
-#line 190 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 195 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.constexprlist) = (yyvsp[-4].constexprlist); (yyval.constexprlist)->pushBack(new ConstValueDecl(*(yyvsp[-3].string), (yyvsp[-1].constvalue))); }
-#line 1748 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1753 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 11:
-#line 192 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 197 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.constexprlist) = new ConstExprList(); (yyval.constexprlist)->pushBack(new ConstValueDecl(*(yyvsp[-3].string), (yyvsp[-1].constvalue))); }
-#line 1754 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1759 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 12:
-#line 195 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 200 "/home/gster/CLionProjects/SPL/SPL.y"
                       { (yyval.constvalue) = new ConstIntValue(*(yyvsp[0].string)); }
-#line 1760 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1765 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 13:
-#line 196 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 201 "/home/gster/CLionProjects/SPL/SPL.y"
                                   { (yyval.constvalue) = new ConstRealValue(*(yyvsp[0].string)); }
-#line 1766 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1771 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 14:
-#line 197 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 202 "/home/gster/CLionProjects/SPL/SPL.y"
                                   { (yyval.constvalue) = new ConstCharValue(*(yyvsp[0].string)); }
-#line 1772 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1777 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 15:
-#line 198 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 203 "/home/gster/CLionProjects/SPL/SPL.y"
                                   { (yyval.constvalue) = (yyvsp[0].constvalue); }
-#line 1778 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1783 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 16:
-#line 201 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 206 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.constvalue) = new ConstIntValue("0"); }
-#line 1784 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1789 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 17:
-#line 202 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 207 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.constvalue) = new ConstIntValue("2147483647"); }
-#line 1790 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1795 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 18:
-#line 203 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 208 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.constvalue) = new ConstIntValue("1"); }
-#line 1796 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1801 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 19:
-#line 206 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 211 "/home/gster/CLionProjects/SPL/SPL.y"
                                  { (yyval.typepart) = (yyvsp[0].typedecllist); }
-#line 1802 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1807 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 20:
-#line 207 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 212 "/home/gster/CLionProjects/SPL/SPL.y"
                     { (yyval.typepart) = new TypePart(); }
-#line 1808 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1813 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 21:
-#line 211 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 216 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.typedecllist) = (yyvsp[-1].typedecllist); (yyval.typedecllist)->pushBack((yyvsp[0].typedefinition)); }
-#line 1814 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1819 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 22:
-#line 213 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 218 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.typedecllist) = new TypeDeclList(); (yyval.typedecllist)->pushBack((yyvsp[0].typedefinition)); }
-#line 1820 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1825 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 23:
-#line 217 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 222 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.typedefinition) = new TypeDefinition(*(yyvsp[-3].string), (yyvsp[-1].typedecl)); }
-#line 1826 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1831 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 24:
-#line 220 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 225 "/home/gster/CLionProjects/SPL/SPL.y"
                              { (yyval.typedecl) = (yyvsp[0].simpletype); }
-#line 1832 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1837 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 25:
-#line 221 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 226 "/home/gster/CLionProjects/SPL/SPL.y"
                                      { (yyval.typedecl) = (yyvsp[0].arraytype); }
-#line 1838 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1843 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 26:
-#line 222 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 227 "/home/gster/CLionProjects/SPL/SPL.y"
                                      { (yyval.typedecl) = (yyvsp[0].recordtype); }
-#line 1844 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1849 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 27:
-#line 225 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 230 "/home/gster/CLionProjects/SPL/SPL.y"
                             { (yyval.simpletype) = (yyvsp[0].systype); }
-#line 1850 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1855 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 28:
-#line 226 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 231 "/home/gster/CLionProjects/SPL/SPL.y"
                                          { (yyval.simpletype) = new CustomType(*(yyvsp[0].string), std::string("Custom")); }
-#line 1856 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1861 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 29:
-#line 227 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 232 "/home/gster/CLionProjects/SPL/SPL.y"
                                                    { (yyval.simpletype) = new EnumType((yyvsp[-1].namelist), "Enum"); }
-#line 1862 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1867 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 30:
-#line 228 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 233 "/home/gster/CLionProjects/SPL/SPL.y"
                                                                   { (yyval.simpletype) = new RangeType((yyvsp[-2].constvalue), (yyvsp[0].constvalue), "Range"); }
-#line 1868 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1873 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 31:
-#line 229 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 234 "/home/gster/CLionProjects/SPL/SPL.y"
                                                                         { (yyval.simpletype) = new RangeType((yyvsp[-2].constvalue)->setNeg(), (yyvsp[0].constvalue), "Range"); }
-#line 1874 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1879 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 32:
-#line 230 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 235 "/home/gster/CLionProjects/SPL/SPL.y"
                                                                               { (yyval.simpletype) = new RangeType((yyvsp[-3].constvalue)->setNeg(), (yyvsp[0].constvalue)->setNeg(), "Range"); }
-#line 1880 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1885 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 33:
-#line 231 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 236 "/home/gster/CLionProjects/SPL/SPL.y"
                                                     { (yyval.simpletype) = new NamedRangeType(*(yyvsp[-2].string), *(yyvsp[0].string), "NamedRange"); }
-#line 1886 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1891 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 34:
-#line 234 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 239 "/home/gster/CLionProjects/SPL/SPL.y"
                      { (yyval.systype) = new SysType("bool"); }
-#line 1892 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1897 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 35:
-#line 235 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 240 "/home/gster/CLionProjects/SPL/SPL.y"
                              { (yyval.systype) = new SysType("real"); }
-#line 1898 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1903 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 36:
-#line 236 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 241 "/home/gster/CLionProjects/SPL/SPL.y"
                              { (yyval.systype) = new SysType("char"); }
-#line 1904 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1909 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 37:
-#line 237 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 242 "/home/gster/CLionProjects/SPL/SPL.y"
                              { (yyval.systype) = new SysType("int"); }
-#line 1910 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1915 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 38:
-#line 241 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 246 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.arraytype) = new ArrayType((yyvsp[-3].simpletype), (yyvsp[0].typedecl)); }
-#line 1916 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1921 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 39:
-#line 245 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 250 "/home/gster/CLionProjects/SPL/SPL.y"
                                  { (yyval.recordtype) = new RecordType((yyvsp[-1].fielddecllist)); }
-#line 1922 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1927 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 40:
-#line 249 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 254 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.fielddecllist) = (yyvsp[-1].fielddecllist); (yyval.fielddecllist)->pushBack((yyvsp[0].fielddecl)); }
-#line 1928 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1933 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 41:
-#line 251 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 256 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.fielddecllist) = new FieldDeclList(); (yyval.fielddecllist)->pushBack((yyvsp[0].fielddecl)); }
-#line 1934 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1939 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 42:
-#line 255 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 260 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.fielddecl) = new FieldDecl((yyvsp[-3].namelist), (yyvsp[-1].typedecl)); }
-#line 1940 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1945 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 43:
-#line 259 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 264 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.namelist) = (yyvsp[-2].namelist); (yyval.namelist)->pushBack(*(yyvsp[0].string)); }
-#line 1946 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1951 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 44:
-#line 261 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 266 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.namelist) = new NameList(); (yyval.namelist)->pushBack(*(yyvsp[0].string)); }
-#line 1952 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1957 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 45:
-#line 265 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 270 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.varpart) = (yyvsp[0].vardecllist); }
-#line 1958 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1963 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 46:
-#line 267 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 272 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.varpart) = new VarDeclList(); }
-#line 1964 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1969 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 47:
-#line 271 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 276 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.vardecllist) = (yyvsp[-1].vardecllist); (yyval.vardecllist)->pushBack((yyvsp[0].vardecl)); }
-#line 1970 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1975 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 48:
-#line 273 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 278 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.vardecllist) = new VarDeclList(); (yyval.vardecllist)->pushBack((yyvsp[0].vardecl)); }
-#line 1976 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1981 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 49:
-#line 277 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 282 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.vardecl) = new VarDecl((yyvsp[-3].namelist), (yyvsp[-1].typedecl)); }
-#line 1982 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1987 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 50:
-#line 281 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 286 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinepart) = (yyvsp[-1].routinepart); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 1988 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1993 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 51:
-#line 283 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 288 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinepart) = (yyvsp[-1].routinepart); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 1994 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1999 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 52:
-#line 285 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 290 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinepart) = new RoutinePart(); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 2000 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2005 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 53:
-#line 287 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 292 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinepart) = new RoutinePart(); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 2006 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2011 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 54:
-#line 289 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 294 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinepart) = new RoutinePart(); }
-#line 2012 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2017 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 55:
-#line 293 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 298 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.routinedecl) = new Function((yyvsp[-3].functionhead), (yyvsp[-1].routine)); }
-#line 2018 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2023 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 56:
-#line 297 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 302 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.functionhead) = new FunctionHead(*(yyvsp[-3].string), (yyvsp[-2].parameters), (yyvsp[0].simpletype)); }
-#line 2024 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2029 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 57:
-#line 301 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 306 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.routinedecl) = new Procedure((yyvsp[-3].procedurehead), (yyvsp[-1].routine)); }
-#line 2030 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2035 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 58:
-#line 305 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 310 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.procedurehead) = new ProcedureHead(*(yyvsp[-1].string), (yyvsp[0].parameters)); }
-#line 2036 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2041 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 59:
-#line 309 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 314 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.parameters) = (yyvsp[-1].paradecllist); }
-#line 2042 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2047 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 60:
-#line 311 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 316 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.parameters) = new ParaDeclList(); }
-#line 2048 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2053 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 61:
-#line 315 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 320 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.paradecllist) = (yyvsp[-2].paradecllist); (yyval.paradecllist)->pushBack((yyvsp[0].paratypelist)); }
-#line 2054 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2059 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 62:
-#line 317 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 322 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.paradecllist) = new ParaDeclList(); (yyval.paradecllist)->pushBack((yyvsp[0].paratypelist)); }
-#line 2060 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2065 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 63:
-#line 321 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 326 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.paratypelist) = new ParaTypeList((yyvsp[-2].varparalist), (yyvsp[0].simpletype)); }
-#line 2066 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2071 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 64:
-#line 323 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 328 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.paratypelist) = new ParaTypeList((yyvsp[-2].varparalist), (yyvsp[0].simpletype)); }
-#line 2072 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2077 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 65:
-#line 327 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 332 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.varparalist) = (yyvsp[0].namelist); (yyval.varparalist)->ref = true; }
-#line 2078 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2083 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 66:
-#line 331 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 336 "/home/gster/CLionProjects/SPL/SPL.y"
                 { (yyval.varparalist) = (yyvsp[0].namelist); (yyval.varparalist)->ref = false; }
-#line 2084 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2089 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 67:
-#line 335 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 340 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinebody) = (yyvsp[0].compoundstmt); }
-#line 2090 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2095 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 68:
-#line 339 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 344 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.compoundstmt) = (yyvsp[-1].stmtlist); }
-#line 2096 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2101 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 69:
-#line 343 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 348 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.stmtlist) = (yyvsp[-2].stmtlist); (yyval.stmtlist)->pushBack((yyvsp[-1].stmt)); }
-#line 2102 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2107 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 70:
-#line 345 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 350 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.stmtlist) = new StmtList(); }
-#line 2108 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2113 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 71:
-#line 349 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 354 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.stmt) = (yyvsp[0].stmt); (yyval.stmt)->addLabel(*(yyvsp[-2].string)); }
-#line 2114 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2119 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 72:
-#line 351 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 356 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 2120 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2125 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 73:
-#line 355 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 360 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].assignstmt); }
-#line 2126 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2131 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 74:
-#line 357 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 362 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].procstmt); }
-#line 2132 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2137 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 75:
-#line 359 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 364 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].compoundstmt); }
-#line 2138 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2143 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 76:
-#line 361 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 366 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].ifstmt); }
-#line 2144 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2149 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 77:
-#line 363 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 368 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].repeatstmt); }
-#line 2150 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2155 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 78:
-#line 365 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 370 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].whilestmt); }
-#line 2156 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2161 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 79:
-#line 367 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 372 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].forstmt); }
-#line 2162 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2167 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 80:
-#line 369 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 374 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].casestmt); }
-#line 2168 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2173 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 81:
-#line 371 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 376 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].gotostmt); }
-#line 2174 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2179 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 82:
-#line 375 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 380 "/home/gster/CLionProjects/SPL/SPL.y"
                         { (yyval.assignstmt) = new AssignStmt((yyvsp[-2].leftvalue), (yyvsp[0].expression)); }
-#line 2180 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2185 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 83:
-#line 379 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 384 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.leftvalue) = new NameLeftValue(*(yyvsp[0].string)); }
-#line 2186 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2191 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 84:
-#line 381 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 386 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.leftvalue) = new IndexLeftValue(*(yyvsp[-3].string), (yyvsp[-1].expression)); }
-#line 2192 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2197 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 85:
-#line 383 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 388 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.leftvalue) = new MemberLeftValue(*(yyvsp[-2].string), *(yyvsp[0].string)); }
-#line 2198 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2203 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 86:
-#line 387 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 392 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.procstmt) = new NameProcStmt(*(yyvsp[0].string)); }
-#line 2204 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2209 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 87:
-#line 389 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 394 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.procstmt) = new CallProcStmt(*(yyvsp[-3].string), (yyvsp[-1].argslist)); }
-#line 2210 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2215 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 88:
-#line 391 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 396 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.procstmt) = new SysProcStmt((yyvsp[0].sysproc)); }
-#line 2216 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2221 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 89:
-#line 393 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 398 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.procstmt) = new SysCallProcStmt((yyvsp[-3].sysproc), (yyvsp[-1].expressionlist)); }
-#line 2222 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2227 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 90:
-#line 395 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 400 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.procstmt) = new ReadProcStmt((yyvsp[-1].factor)); }
-#line 2228 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2233 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 91:
-#line 399 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 404 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.sysproc) = new SysProc("write"); }
-#line 2234 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2239 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 92:
-#line 401 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 406 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.sysproc) = new SysProc("writeln"); }
-#line 2240 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2245 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 93:
-#line 405 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 410 "/home/gster/CLionProjects/SPL/SPL.y"
                 { (yyval.ifstmt) = new IfStmt((yyvsp[-3].expression), (yyvsp[-1].stmt), (yyvsp[0].elseclause)); }
-#line 2246 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2251 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 94:
-#line 409 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 414 "/home/gster/CLionProjects/SPL/SPL.y"
                         { (yyval.elseclause) = new ElseClause((yyvsp[0].stmt)); }
-#line 2252 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2257 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 95:
-#line 411 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 416 "/home/gster/CLionProjects/SPL/SPL.y"
                         { (yyval.elseclause) = new ElseClause(); }
-#line 2258 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2263 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 96:
-#line 415 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 420 "/home/gster/CLionProjects/SPL/SPL.y"
                         { (yyval.repeatstmt) = new RepeatStmt((yyvsp[-2].stmtlist), (yyvsp[0].expression)); }
-#line 2264 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2269 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 97:
-#line 419 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 424 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.whilestmt) = new WhileStmt((yyvsp[-2].expression), (yyvsp[0].stmt)); }
-#line 2270 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2275 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 98:
-#line 423 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 428 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.forstmt) = new ForStmt(*(yyvsp[-6].string), (yyvsp[-4].expression), (yyvsp[-3].direction), (yyvsp[-2].expression), (yyvsp[0].stmt)); }
-#line 2276 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2281 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 99:
-#line 427 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 432 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.direction) = new Direction("to"); }
-#line 2282 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2287 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 100:
-#line 429 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 434 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.direction) = new Direction("downto"); }
-#line 2288 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2293 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 101:
-#line 433 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 438 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.casestmt) = new CaseStmt((yyvsp[-3].expression), (yyvsp[-1].caseexprlist)); }
-#line 2294 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2299 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 102:
-#line 437 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 442 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.caseexprlist) = (yyvsp[-1].caseexprlist); (yyval.caseexprlist)->pushBack((yyvsp[0].caseexpr)); }
-#line 2300 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2305 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 103:
-#line 439 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 444 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.caseexprlist) = new CaseExprList(); (yyval.caseexprlist)->pushBack((yyvsp[0].caseexpr)); }
-#line 2306 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2311 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 104:
-#line 443 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 448 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.caseexpr) = new ConstValueCaseExpr((yyvsp[-3].constvalue), (yyvsp[-1].stmt)); }
-#line 2312 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2317 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 105:
-#line 445 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 450 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.caseexpr) = new NameCaseExpr(*(yyvsp[-3].string), (yyvsp[-1].stmt)); }
-#line 2318 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2323 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 106:
-#line 449 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 454 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.gotostmt) = new GotoStmt(*(yyvsp[0].string)); }
-#line 2324 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2329 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 107:
-#line 453 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 458 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.expressionlist) = (yyvsp[-2].expressionlist); (yyval.expressionlist)->pushBack((yyvsp[0].expression)); }
-#line 2330 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2335 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 108:
-#line 455 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 460 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.expressionlist) = new ExpressionList(); (yyval.expressionlist)->pushBack((yyvsp[0].expression)); }
-#line 2336 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2341 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 109:
-#line 459 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 464 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), ">="); }
-#line 2342 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2347 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 110:
-#line 461 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 466 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), ">"); }
-#line 2348 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2353 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 111:
-#line 463 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 468 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<="); }
-#line 2354 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2359 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 112:
-#line 465 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 470 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<"); }
-#line 2360 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2365 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 113:
-#line 467 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 472 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "="); }
-#line 2366 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2371 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 114:
-#line 469 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 474 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<>"); }
-#line 2372 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2377 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 115:
-#line 471 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 476 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = (yyvsp[0].expr); }
-#line 2378 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2383 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 116:
-#line 475 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 480 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.expr) = new CalcExpr((yyvsp[-2].expr), (yyvsp[0].term), "+"); }
-#line 2384 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2389 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 117:
-#line 477 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 482 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.expr) = new CalcExpr((yyvsp[-2].expr), (yyvsp[0].term), "-"); }
-#line 2390 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2395 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 118:
-#line 479 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 484 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.expr) = new BinaryExpr((yyvsp[-2].expr), (yyvsp[0].term), "or"); }
-#line 2396 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2401 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 119:
-#line 481 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 486 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.expr) = (yyvsp[0].term); }
-#line 2402 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2407 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 120:
-#line 485 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 490 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "*"); }
-#line 2408 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2413 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 121:
-#line 487 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 492 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "/"); }
-#line 2414 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2419 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 122:
-#line 489 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 494 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "mod"); }
-#line 2420 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2425 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 123:
-#line 491 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 496 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.term) = new BinaryExpr((yyvsp[-2].term), (yyvsp[0].factor), "and"); }
-#line 2426 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2431 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 124:
-#line 493 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 498 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.term) = (yyvsp[0].factor); }
-#line 2432 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2437 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 125:
-#line 497 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 502 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new NameFactor(*(yyvsp[0].string)); }
-#line 2438 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2443 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 126:
-#line 499 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 504 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new CallFactor(*(yyvsp[-3].string), (yyvsp[-1].argslist)); }
-#line 2444 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2449 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 127:
-#line 501 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 506 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new SysFuncFactor((yyvsp[0].sysfunc)); }
-#line 2450 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2455 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 128:
-#line 503 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 508 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new SysFuncCallFactor((yyvsp[-3].sysfunc), (yyvsp[-1].argslist)); }
-#line 2456 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2461 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 129:
-#line 505 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 510 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new ConstFactor((yyvsp[0].constvalue)); }
-#line 2462 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2467 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 130:
-#line 507 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 512 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new ParenthesesFactor((yyvsp[-1].expression)); }
-#line 2468 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2473 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 131:
-#line 509 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 514 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = (yyvsp[0].factor); (yyval.factor)->setNot(); }
-#line 2474 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2479 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 132:
-#line 511 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 516 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = (yyvsp[0].factor); (yyval.factor)->setNeg(); }
-#line 2480 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2485 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 133:
-#line 513 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 518 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new IndexFactor(*(yyvsp[-3].string), (yyvsp[-1].expression)); }
-#line 2486 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2491 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 134:
-#line 515 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 520 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new MemberFactor(*(yyvsp[-2].string), *(yyvsp[0].string)); }
-#line 2492 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2497 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 135:
-#line 519 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 524 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.sysfunc) = new SysFunc("abs"); }
-#line 2498 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2503 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 136:
-#line 521 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 526 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.sysfunc) = new SysFunc("chr"); }
-#line 2504 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2509 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 137:
-#line 523 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 528 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.sysfunc) = new SysFunc("odd"); }
-#line 2510 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2515 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 138:
-#line 525 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 530 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.sysfunc) = new SysFunc("ord"); }
-#line 2516 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2521 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 139:
-#line 527 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 532 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.sysfunc) = new SysFunc("pred"); }
-#line 2522 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2527 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 140:
-#line 529 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 534 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.sysfunc) = new SysFunc("sqr"); }
-#line 2528 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2533 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 141:
-#line 531 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 536 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.sysfunc) = new SysFunc("sqrt"); }
-#line 2534 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2539 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 142:
-#line 533 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 538 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.sysfunc) = new SysFunc("succ"); }
-#line 2540 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2545 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 143:
-#line 537 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 542 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.argslist) = (yyvsp[-2].argslist); (yyval.argslist)->pushBack((yyvsp[0].expression)); }
-#line 2546 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2551 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 144:
-#line 539 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 544 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.argslist) = new ArgsList(); (yyval.argslist)->pushBack((yyvsp[0].expression)); }
-#line 2552 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2557 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 145:
-#line 541 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 546 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.argslist) = new ArgsList(); }
-#line 2558 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2563 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
 
-#line 2562 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2567 "/home/gster/CLionProjects/SPL/parser.cpp"
 
       default: break;
     }

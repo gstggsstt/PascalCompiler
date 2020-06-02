@@ -4,9 +4,14 @@
 	#include <iostream>
 	// NBlock *programBlock; /* the top level root node of our final AST */
 
+	extern int line;
 	extern int yylex();
 	extern Program* program;
-	void yyerror(const char *s) { std::cerr << s << std::endl; }
+	void yyerror(const char *s)
+	{
+		std::cerr << "Line : " << line << std::endl;
+		std::cerr << s << std::endl;
+	}
 %}
 
 %union {

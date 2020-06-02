@@ -257,6 +257,7 @@ struct CaseExpr : public ASTNode {
     explicit CaseExpr(Stmt *st);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
+    virtual llvm::Value *codeGen2(ASTContext &astContext);
     std::string getClassName() override;
 };
 

@@ -43,6 +43,16 @@ begin
   go3 := sum;
 end;
 
+procedure testCase();
+begin
+  case i of
+    temp:
+      temp := 123;
+    2:
+      temp := 456;
+  end;
+end;
+
 begin
   i := 1;
   temp := i+2;

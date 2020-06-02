@@ -489,57 +489,44 @@ CaseStmt::CaseStmt(Expression *expr, CaseExprList *cel) : expr(expr), cel(cel) {
 
 llvm::Value *CaseStmt::codeGen(ASTContext &astContext) {
     llvm::Function* TF = builder.GetInsertBlock()->getParent();
-    std::string t = "case";
-    llvm::BasicBlock* jump = llvm::BasicBlock::Create(context, "jump", TF);
-    builder.CreateBr(jump);
-    builder.SetInsertPoint(jump);
+    llvm::BasicBlock* sw = llvm::BasicBlock::Create(context, "switch", TF);
+    llvm::BasicBlock* after = llvm::BasicBlock::Create(context, "after");
+    builder.CreateBr(sw);
+    builder.SetInsertPoint(sw);
     llvm::Value* cur = expr->codeGen(astContext);
     llvm::Type* type = cur->getType();
-    if(cur == nullptr){
+    if(cur == nullptr) {
+        std::cerr << "unable to get value of expr" << std::endl;
         return nullptr;
     }
     std::vector<llvm::BasicBlock*> js;
     std::vector<llvm::BasicBlock*> cs;
-    for(auto i = 0; i < cel->vec.size(); i++){
-        llvm::BasicBlock* j = llvm::BasicBlock::Create(context, "jump"+std::to_string(i));
-        llvm::BasicBlock* c = llvm::BasicBlock::Create(context, "case"+std::to_string(i));
-        builder.SetInsertPoint(jump);
-        llvm::Value* temp;
-        if(cel->vec[i]->getClassName() == "ConstValueCaseExpr"){
-            temp = dynamic_cast<ConstValueCaseExpr*>(cel->vec[i])->codeGen(astContext);
-            if(temp == nullptr){
-                return nullptr;
-            }
-        }else if(cel->vec[i]->getClassName() == "NameCaseExpr"){
-            temp = astContext.getVar(dynamic_cast<NameCaseExpr*>(cel->vec[i])->nm);
-            if(temp == nullptr){
-                return nullptr;
-            }
-            temp = builder.CreateLoad(temp);
-        }
+    for(auto & i : cel->vec){
+        llvm::BasicBlock* c = llvm::BasicBlock::Create(context, "case");
+        llvm::BasicBlock* j = llvm::BasicBlock::Create(context, "jump");
+        llvm::Value* temp = i->codeGen(astContext);
         llvm::Value* condV;
         if(type->isDoubleTy()){
+            condV = createCast(temp, type);
             condV = builder.CreateFCmpOEQ(cur, temp);
         }else{
+            condV = createCast(cur, temp->getType());
             condV = builder.CreateICmpEQ(cur, temp);
         }
-        builder.CreateCondBr(condV, c, j);
-        builder.SetInsertPoint(c);
-        cel->vec[i]->st->codeGen(astContext);
-        js.push_back(j);
+        builder.CreateCondBr(condV, j, c);
+        builder.SetInsertPoint(j);
+        i->codeGen2(astContext);
+        builder.CreateBr(after);
         cs.push_back(c);
-        jump = j;
+        js.push_back(j);
+        builder.SetInsertPoint(c);
     }
-    for(auto i = 0; i < cel->vec.size(); i++){
-        TF->getBasicBlockList().push_back(js[i]);
-    }
-    for(auto i = 0; i < cel->vec.size(); i++){
-        TF->getBasicBlockList().push_back(cs[i]);
-    }
-    llvm::BasicBlock* after = llvm::BasicBlock::Create(context, "after", TF);
-    builder.SetInsertPoint(jump);
     builder.CreateBr(after);
+    for(auto & c : cs) TF->getBasicBlockList().push_back(c);
+    for(auto & j : js) TF->getBasicBlockList().push_back(j);
+    builder.SetInsertPoint(sw);
     builder.SetInsertPoint(after);
+    TF->getBasicBlockList().push_back(after);
     return nullptr;
 }
 
@@ -559,16 +546,20 @@ llvm::Value *CaseExpr::codeGen(ASTContext &astContext) {
     return ASTNode::codeGen(astContext);
 }
 
+llvm::Value *CaseExpr::codeGen2(ASTContext &astContext) {
+    return st->codeGen(astContext);
+}
+
 ConstValueCaseExpr::ConstValueCaseExpr(ConstValue *cv, Stmt *st) : CaseExpr(st), cv(cv) {}
 
 llvm::Value *ConstValueCaseExpr::codeGen(ASTContext &astContext) {
-    return CaseExpr::codeGen(astContext);
+    return cv->codeGen(astContext);
 }
 
 NameCaseExpr::NameCaseExpr(std::string nm, Stmt *st) : CaseExpr(st), nm(std::move(nm)) {}
 
 llvm::Value *NameCaseExpr::codeGen(ASTContext &astContext) {
-    return CaseExpr::codeGen(astContext);
+    return builder.CreateLoad(astContext.getVar(nm));
 }
 
 GotoStmt::GotoStmt(const std::string &str) : label(stoi(str)) {}
@@ -697,6 +688,7 @@ llvm::Value *FunctionHead::codeGen(ASTContext &astContext) {
     llvm::ArrayRef<llvm::Type *> argTypeArrayRef(argType);
     llvm::FunctionType *funcType = llvm::FunctionType::get(astContext.getType(st->declTp), argTypeArrayRef, false);
     llvm::Function *llvmFunc = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, nm + "_sp", module);
+    //                                                         use &module in old version of llvm                   ^~~~~~~
     auto *func = new ASTFunction(nm, llvmFunc, astContext.getType(st->declTp), argType);
     astContext.parent->addFunction(nm, func);
     astContext.currentFunction = func;
@@ -1159,88 +1151,88 @@ llvm::Value *VarParaList::codeGen(ASTContext &astContext) {
 
 VarParaList::VarParaList() : ref(false) {}
 
-std::string ArgsList::getClassName() { return "ArgsList";}
-std::string ConstValueDecl::getClassName() { return "ConstValueDecl";}
-std::string ConstValue::getClassName() { return "ConstValue";}
-std::string ConstIntValue::getClassName() { return "ConstIntValue";}
-std::string ConstRealValue::getClassName() { return "ConstRealValue";}
-std::string ConstCharValue::getClassName() { return "ConstCharValue";}
-std::string ConstExprList::getClassName() { return "ConstExprList";}
-std::string ConstPart::getClassName() { return "ConstPart";}
-std::string Direction::getClassName() { return "Direction";}
-std::string Expression::getClassName() { return "Expression";}
-std::string Expr::getClassName() { return "Expr";}
-std::string Term::getClassName() { return "Term";}
-std::string CalcExpr::getClassName() { return "CalcExpr";}
-std::string BinaryExpr::getClassName() { return "BinaryExpr";}
-std::string ExpressionList::getClassName() { return "ExpressionList";}
-std::string Program::getClassName() { return "Program";}
-std::string ProgramHead::getClassName() { return "ProgramHead";}
-std::string Stmt::getClassName() { return "Stmt";}
-std::string CaseExpr::getClassName() { return "CaseExpr";}
-std::string ConstValueCaseExpr::getClassName() { return "ConstValueCaseExpr";}
-std::string NameCaseExpr::getClassName() { return "NameCaseExpr";}
-std::string CaseExprList::getClassName() { return "CaseExprList";}
-std::string ElseClause::getClassName() { return "ElseClause";}
-std::string IfStmt::getClassName() { return "IfStmt";}
-std::string LeftValue::getClassName() { return "LeftValue";}
-std::string NameLeftValue::getClassName() { return "NameLeftValue";}
-std::string IndexLeftValue::getClassName() { return "IndexLeftValue";}
-std::string MemberLeftValue::getClassName() { return "MemberLeftValue";}
-std::string RepeatStmt::getClassName() { return "RepeatStmt";}
-std::string ProcStmt::getClassName() { return "ProcStmt";}
-std::string NameProcStmt::getClassName() { return "NameProcStmt";}
-std::string CallProcStmt::getClassName() { return "CallProcStmt";}
-std::string SysProcStmt::getClassName() { return "SysProcStmt";}
-std::string SysCallProcStmt::getClassName() { return "SysCallProcStmt";}
-std::string Factor::getClassName() { return "Factor";}
-std::string CallFactor::getClassName() { return "CallFactor";}
-std::string ConstFactor::getClassName() { return "ConstFactor";}
-std::string IndexFactor::getClassName() { return "IndexFactor";}
-std::string MemberFactor::getClassName() { return "MemberFactor";}
-std::string NameFactor::getClassName() { return "NameFactor";}
-std::string SysFunc::getClassName() { return "SysFunc";}
-std::string SysFuncCallFactor::getClassName() { return "SysFuncCallFactor";}
-std::string SysFuncFactor::getClassName() { return "SysFuncFactor";}
-std::string ParenthesesFactor::getClassName() { return "ParenthesesFactor";}
-std::string ReadProcStmt::getClassName() { return "ReadProcStmt";}
-std::string GotoStmt::getClassName() { return "GotoStmt";}
-std::string ForStmt::getClassName() { return "ForStmt";}
-std::string AssignStmt::getClassName() { return "AssignStmt";}
-std::string CaseStmt::getClassName() { return "CaseStmt";}
-std::string WhileStmt::getClassName() { return "WhileStmt";}
-std::string Routine::getClassName() { return "Routine";}
-std::string RoutineBody::getClassName() { return "RoutineBody";}
-std::string CompoundStmt::getClassName() { return "CompoundStmt";}
-std::string StmtList::getClassName() { return "StmtList";}
-std::string LabelPart::getClassName() { return "LabelPart";}
-std::string TypePart::getClassName() { return "TypePart";}
-std::string VarPart::getClassName() { return "VarPart";}
-std::string TypeDecl::getClassName() { return "TypeDecl";}
-std::string VarDecl::getClassName() { return "VarDecl";}
-std::string VarDeclList::getClassName() { return "VarDeclList";}
-std::string RoutineHead::getClassName() { return "RoutineHead";}
-std::string RoutineDecl::getClassName() { return "RoutineDecl";}
-std::string Parameters::getClassName() { return "Parameters";}
-std::string ParaDeclList::getClassName() { return "ParaDeclList";}
-std::string Function::getClassName() { return "Function";}
-std::string FunctionHead::getClassName() { return "FunctionHead";}
-std::string Procedure::getClassName() { return "Procedure";}
-std::string ProcedureHead::getClassName() { return "ProcedureHead";}
-std::string RoutinePart::getClassName() { return "RoutinePart";}
-std::string SysProc::getClassName() { return "SysProc";}
-std::string TypeDeclList::getClassName() { return "TypeDeclList";}
-std::string TypeDefinition::getClassName() { return "TypeDefinition";}
-std::string SimpleType::getClassName() { return "SimpleType";}
-std::string ArrayType::getClassName() { return "ArrayType";}
-std::string SysType::getClassName() { return "SysType";}
-std::string RecordType::getClassName() { return "RecordType";}
-std::string FieldDecl::getClassName() { return "FieldDecl";}
-std::string FieldDeclList::getClassName() { return "FieldDeclList";}
-std::string CustomType::getClassName() { return "CustomType";}
-std::string EnumType::getClassName() { return "EnumType";}
-std::string RangeType::getClassName() { return "RangeType";}
-std::string NamedRangeType::getClassName() { return "NamedRangeType";}
-std::string VarParaList::getClassName() { return "VarParaList";}
-std::string ParaTypeList::getClassName() { return "ParaTypeList";}
-std::string NameList::getClassName() { return "NameList";}
+std::string ArgsList::getClassName() { return ASTClassName::ArgsList;}
+std::string ConstValueDecl::getClassName() { return ASTClassName::ConstValueDecl;}
+std::string ConstValue::getClassName() { return ASTClassName::ConstValue;}
+std::string ConstIntValue::getClassName() { return ASTClassName::ConstIntValue;}
+std::string ConstRealValue::getClassName() { return ASTClassName::ConstRealValue;}
+std::string ConstCharValue::getClassName() { return ASTClassName::ConstCharValue;}
+std::string ConstExprList::getClassName() { return ASTClassName::ConstExprList;}
+std::string ConstPart::getClassName() { return ASTClassName::ConstPart;}
+std::string Direction::getClassName() { return ASTClassName::Direction;}
+std::string Expression::getClassName() { return ASTClassName::Expression;}
+std::string Expr::getClassName() { return ASTClassName::Expr;}
+std::string Term::getClassName() { return ASTClassName::Term;}
+std::string CalcExpr::getClassName() { return ASTClassName::CalcExpr;}
+std::string BinaryExpr::getClassName() { return ASTClassName::BinaryExpr;}
+std::string ExpressionList::getClassName() { return ASTClassName::ExpressionList;}
+std::string Program::getClassName() { return ASTClassName::Program;}
+std::string ProgramHead::getClassName() { return ASTClassName::ProgramHead;}
+std::string Stmt::getClassName() { return ASTClassName::Stmt;}
+std::string CaseExpr::getClassName() { return ASTClassName::CaseExpr;}
+std::string ConstValueCaseExpr::getClassName() { return ASTClassName::ConstValueCaseExpr;}
+std::string NameCaseExpr::getClassName() { return ASTClassName::NameCaseExpr;}
+std::string CaseExprList::getClassName() { return ASTClassName::CaseExprList;}
+std::string ElseClause::getClassName() { return ASTClassName::ElseClause;}
+std::string IfStmt::getClassName() { return ASTClassName::IfStmt;}
+std::string LeftValue::getClassName() { return ASTClassName::LeftValue;}
+std::string NameLeftValue::getClassName() { return ASTClassName::NameLeftValue;}
+std::string IndexLeftValue::getClassName() { return ASTClassName::IndexLeftValue;}
+std::string MemberLeftValue::getClassName() { return ASTClassName::MemberLeftValue;}
+std::string RepeatStmt::getClassName() { return ASTClassName::RepeatStmt;}
+std::string ProcStmt::getClassName() { return ASTClassName::ProcStmt;}
+std::string NameProcStmt::getClassName() { return ASTClassName::NameProcStmt;}
+std::string CallProcStmt::getClassName() { return ASTClassName::CallProcStmt;}
+std::string SysProcStmt::getClassName() { return ASTClassName::SysProcStmt;}
+std::string SysCallProcStmt::getClassName() { return ASTClassName::SysCallProcStmt;}
+std::string Factor::getClassName() { return ASTClassName::Factor;}
+std::string CallFactor::getClassName() { return ASTClassName::CallFactor;}
+std::string ConstFactor::getClassName() { return ASTClassName::ConstFactor;}
+std::string IndexFactor::getClassName() { return ASTClassName::IndexFactor;}
+std::string MemberFactor::getClassName() { return ASTClassName::MemberFactor;}
+std::string NameFactor::getClassName() { return ASTClassName::NameFactor;}
+std::string SysFunc::getClassName() { return ASTClassName::SysFunc;}
+std::string SysFuncCallFactor::getClassName() { return ASTClassName::SysFuncCallFactor;}
+std::string SysFuncFactor::getClassName() { return ASTClassName::SysFuncFactor;}
+std::string ParenthesesFactor::getClassName() { return ASTClassName::ParenthesesFactor;}
+std::string ReadProcStmt::getClassName() { return ASTClassName::ReadProcStmt;}
+std::string GotoStmt::getClassName() { return ASTClassName::GotoStmt;}
+std::string ForStmt::getClassName() { return ASTClassName::ForStmt;}
+std::string AssignStmt::getClassName() { return ASTClassName::AssignStmt;}
+std::string CaseStmt::getClassName() { return ASTClassName::CaseStmt;}
+std::string WhileStmt::getClassName() { return ASTClassName::WhileStmt;}
+std::string Routine::getClassName() { return ASTClassName::Routine;}
+std::string RoutineBody::getClassName() { return ASTClassName::RoutineBody;}
+std::string CompoundStmt::getClassName() { return ASTClassName::CompoundStmt;}
+std::string StmtList::getClassName() { return ASTClassName::StmtList;}
+std::string LabelPart::getClassName() { return ASTClassName::LabelPart;}
+std::string TypePart::getClassName() { return ASTClassName::TypePart;}
+std::string VarPart::getClassName() { return ASTClassName::VarPart;}
+std::string TypeDecl::getClassName() { return ASTClassName::TypeDecl;}
+std::string VarDecl::getClassName() { return ASTClassName::VarDecl;}
+std::string VarDeclList::getClassName() { return ASTClassName::VarDeclList;}
+std::string RoutineHead::getClassName() { return ASTClassName::RoutineHead;}
+std::string RoutineDecl::getClassName() { return ASTClassName::RoutineDecl;}
+std::string Parameters::getClassName() { return ASTClassName::Parameters;}
+std::string ParaDeclList::getClassName() { return ASTClassName::ParaDeclList;}
+std::string Function::getClassName() { return ASTClassName::Function;}
+std::string FunctionHead::getClassName() { return ASTClassName::FunctionHead;}
+std::string Procedure::getClassName() { return ASTClassName::Procedure;}
+std::string ProcedureHead::getClassName() { return ASTClassName::ProcedureHead;}
+std::string RoutinePart::getClassName() { return ASTClassName::RoutinePart;}
+std::string SysProc::getClassName() { return ASTClassName::SysProc;}
+std::string TypeDeclList::getClassName() { return ASTClassName::TypeDeclList;}
+std::string TypeDefinition::getClassName() { return ASTClassName::TypeDefinition;}
+std::string SimpleType::getClassName() { return ASTClassName::SimpleType;}
+std::string ArrayType::getClassName() { return ASTClassName::ArrayType;}
+std::string SysType::getClassName() { return ASTClassName::SysType;}
+std::string RecordType::getClassName() { return ASTClassName::RecordType;}
+std::string FieldDecl::getClassName() { return ASTClassName::FieldDecl;}
+std::string FieldDeclList::getClassName() { return ASTClassName::FieldDeclList;}
+std::string CustomType::getClassName() { return ASTClassName::CustomType;}
+std::string EnumType::getClassName() { return ASTClassName::EnumType;}
+std::string RangeType::getClassName() { return ASTClassName::RangeType;}
+std::string NamedRangeType::getClassName() { return ASTClassName::NamedRangeType;}
+std::string VarParaList::getClassName() { return ASTClassName::VarParaList;}
+std::string ParaTypeList::getClassName() { return ASTClassName::ParaTypeList;}
+std::string NameList::getClassName() { return ASTClassName::NameList;}

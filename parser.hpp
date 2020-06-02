@@ -128,7 +128,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 12 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 17 "/home/gster/CLionProjects/SPL/SPL.y"
 
 	ASTNode *astnode;
 	ArgsList *argslist;
