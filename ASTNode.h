@@ -27,9 +27,6 @@ extern llvm::IRBuilder<> builder;
 extern llvm::Module module;
 extern llvm::Function *startFunc;
 
-llvm::Value* createCast(llvm::Value *value,llvm::Type *type);
-void startBlock(const ASTContext &astContext);
-
 struct ASTFunction {
 public:
 	std::string name;
@@ -37,7 +34,6 @@ public:
 	llvm::Type *returnType;
 	std::vector<llvm::Type*> argTypes;
 	llvm::Value *returnVal;
-	void printIR() const;
 	ASTFunction(std::string name, llvm::Function *llvmFunction, llvm::Type *returnType, std::vector<llvm::Type*> &argTypes);
 };
 
@@ -46,6 +42,7 @@ struct ASTContext {
 	std::map<std::string,llvm::Type*> typeTable;
 	std::map<std::string,ASTFunction*> functionTable;
 	std::map<std::string,llvm::Value*> varTable;
+	std::set<std::string> constTable;
 
 public:
 	ASTFunction *currentFunction;
@@ -53,19 +50,20 @@ public:
 
     explicit ASTContext(ASTContext *p = nullptr);
 
-    void createSysFunc();
 	llvm::Type * getType(const std::string &name);
 	ASTFunction * getFunction(const std::string &name);
 	llvm::Value * getVar(const std::string &name);
 	bool addFunction(const std::string &name, ASTFunction *function);
 	bool addVar(const std::string &name, llvm::Value *value);
 	bool addType(const std::string &name, llvm::Type *type); // Like typeOf("real"),change string to llvm::Type
+	void addConst(const std::string &name);
+	[[nodiscard]] bool checkConst(const std::string &name) const;
 };//Used to create symbol table and access link,when create a new block by BEGIN END,create an AST context.
 
 struct ASTNode {
 public:
     virtual std::string getClassName() = 0;
-    virtual llvm::Value *codeGen(ASTContext &astContext);
+    virtual llvm::Value *codeGen(ASTContext &astContext) = 0;
 };
 
 struct ArgsList : public ASTNode {
@@ -94,7 +92,7 @@ struct ConstValue : public ASTNode {
 
     virtual ConstValue *setNeg() = 0;
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
@@ -168,19 +166,19 @@ struct Direction : public ASTNode {
 
 struct Expression  : public ASTNode{
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
 struct Expr : public Expression {
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
 struct Term : public Expr {
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
@@ -256,7 +254,7 @@ struct CaseExpr : public ASTNode {
 
     explicit CaseExpr(Stmt *st);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     virtual llvm::Value *codeGen2(ASTContext &astContext);
     std::string getClassName() override;
 };
@@ -313,7 +311,7 @@ struct IfStmt : public Stmt {
 };
 
 struct LeftValue : public ASTNode {
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
@@ -357,7 +355,7 @@ struct RepeatStmt : public Stmt {
 };
 
 struct ProcStmt : public Stmt {
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
@@ -380,20 +378,11 @@ struct CallProcStmt : public ProcStmt {
     std::string getClassName() override;
 };
 
-struct SysProcStmt : public ProcStmt {
-    SysProc *sp;
-
-    explicit SysProcStmt(SysProc *sp);
-
-    llvm::Value *codeGen(ASTContext &astContext) override;
-    std::string getClassName() override;
-};
-
 struct SysCallProcStmt : public ProcStmt {
-    SysProc *sp;
+    std::string nm;
     ExpressionList *el;
 
-    SysCallProcStmt(SysProc *sp, ExpressionList *el);
+    SysCallProcStmt(const std::string &nm, ExpressionList *el);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
@@ -407,7 +396,7 @@ struct Factor : public Term {
 
     Factor *setNeg();
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
@@ -459,29 +448,20 @@ struct NameFactor : public Factor {
     std::string getClassName() override;
 };
 
-struct SysFunc : public ASTNode {
-    std::string str;
-
-    explicit SysFunc(std::string str);
-
-    llvm::Value *codeGen(ASTContext &astContext) override;
-    std::string getClassName() override;
-};
-
 struct SysFuncCallFactor : public Factor {
-    SysFunc *sf;
+    std::string nm;
     ArgsList *al;
 
-    SysFuncCallFactor(SysFunc *sf, ArgsList *al);
+    SysFuncCallFactor(std::string nm, ArgsList *al);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
 };
 
 struct SysFuncFactor : public Factor {
-    SysFunc *sf;
+    std::string nm;
 
-    explicit SysFuncFactor(SysFunc *sf);
+    explicit SysFuncFactor(const std::string &nm);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
@@ -497,9 +477,9 @@ struct ParenthesesFactor : public Factor {
 };
 
 struct ReadProcStmt : public ProcStmt {
-    Factor *f;
+    LeftValue *lv;
 
-    explicit ReadProcStmt(Factor *f);
+    explicit ReadProcStmt(LeftValue *lv);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
@@ -568,12 +548,12 @@ struct Routine  : public ASTNode{
 };
 
 struct RoutineBody : public ASTNode {
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
 struct CompoundStmt : public RoutineBody, public Stmt {
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
@@ -599,7 +579,7 @@ struct TypePart : public ASTNode {
 };
 
 struct VarPart : public ASTNode {
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
@@ -610,7 +590,7 @@ struct TypeDecl : public ASTNode {
 
     explicit TypeDecl(std::string decltp);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
@@ -651,12 +631,12 @@ struct RoutineDecl : public ASTNode {
 
     explicit RoutineDecl(Routine *rt);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
 struct Parameters : public ASTNode {
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
@@ -719,15 +699,6 @@ struct RoutinePart : public ASTNode {
     std::string getClassName() override;
 };
 
-struct SysProc : public ASTNode {
-    std::string proc;
-
-    explicit SysProc(std::string proc);
-
-    llvm::Value *codeGen(ASTContext &astContext) override;
-    std::string getClassName() override;
-};
-
 struct TypeDeclList : public TypePart {
     std::vector<TypeDefinition *> vec;
 
@@ -752,7 +723,7 @@ struct TypeDefinition : public ASTNode {
 struct SimpleType : public TypeDecl {
     explicit SimpleType(const std::string &decltp);
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 
@@ -847,7 +818,7 @@ struct VarParaList : public ASTNode {
 
     VarParaList();
 
-    llvm::Value *codeGen(ASTContext &astContext) override;
+    llvm::Value *codeGen(ASTContext &astContext) override = 0;
     std::string getClassName() override;
 };
 

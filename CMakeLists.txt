@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(SPL)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "--coverage")
 find_package(LLVM REQUIRED CONFIG)
 find_package(BISON)
 find_package(FLEX)
@@ -21,7 +22,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_definitions(${LLVM_DEFINITIONS})
 
 # Now build our tools
-add_executable(SPL main.cpp ASTNode.cpp ASTNode.h NodeTypes.h SystemCall.h SystemCall.cpp ${BISON_parser_OUTPUTS} ${FLEX_lexer_OUTPUTS})
+add_executable(SPL main.cpp ASTNode.cpp ASTNode.h NodeTypes.h SystemCall.h SystemCall.cpp ${BISON_parser_OUTPUTS} ${FLEX_lexer_OUTPUTS} GetClassName.cpp Utility.h Utility.cpp)
 
 # Find the libraries that correspond to the LLVM components
 # that we wish to use

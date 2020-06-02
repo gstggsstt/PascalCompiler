@@ -128,7 +128,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 17 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 18 "/home/gster/CLionProjects/SPL/SPL.y"
 
 	ASTNode *astnode;
 	ArgsList *argslist;
@@ -197,11 +197,8 @@ union YYSTYPE
 	Stmt *stmt;
 	StmtList *stmtlist;
 	SysCallProcStmt *syscallprocstmt;
-	SysFunc *sysfunc;
 	SysFuncCallFactor *sysfunccallfactor;
 	SysFuncFactor *sysfuncfactor;
-	SysProc *sysproc;
-	SysProcStmt *sysprocstmt;
 	SysType *systype;
 	Term *term;
 	TypeDecl *typedecl;
@@ -216,7 +213,7 @@ union YYSTYPE
 	int token;
 	std::string *string;
 
-#line 220 "/home/gster/CLionProjects/SPL/parser.hpp"
+#line 217 "/home/gster/CLionProjects/SPL/parser.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

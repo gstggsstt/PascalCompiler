@@ -18,30 +18,29 @@ Program *program = nullptr;
 llvm::Function *startFunc;
 std::string errorMsg;
 
-
-
 int main() {
 
-    yyparse();
+    if(yyparse()) return 0;
 
     ASTContext astContext;
     llvm::InitializeNativeTarget();
     llvm::InitializeNativeTargetAsmPrinter();
     llvm::InitializeNativeTargetAsmParser();
-    std::string boom = "boom";
-    llvm::ExecutionEngine *ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(&module)).setErrorStr(&boom).setEngineKind(llvm::EngineKind::JIT).create();
-    addSystemFuncWriteLn(module, *ee, builder,astContext);
+    llvm::ExecutionEngine *ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(&module)).create();
+
+    addSystemFuncWrite(module, *ee, builder,astContext);
     program->codeGen(astContext);
 
     llvm::legacy::PassManager pm;
     pm.add(llvm::createPrintModulePass(llvm::outs()));
     pm.run(module);
 
-
-
-
     std::vector<llvm::GenericValue> args;
     ee->finalizeObject();
+
+    std::cout << "##### Function output #####" << std::endl;
     llvm::GenericValue v = ee->runFunction(startFunc, args);
+    std::cout << std::endl;
+    std::cout << "##### Function end #####" << std::endl;
     return 0;
 }

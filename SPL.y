@@ -5,11 +5,12 @@
 	// NBlock *programBlock; /* the top level root node of our final AST */
 
 	extern int line;
+	extern int column;
 	extern int yylex();
 	extern Program* program;
 	void yyerror(const char *s)
 	{
-		std::cerr << "Line : " << line << std::endl;
+		std::cerr << "Error at " << line << ":" << column << std::endl;
 		std::cerr << s << std::endl;
 	}
 %}
@@ -82,11 +83,8 @@
 	Stmt *stmt;
 	StmtList *stmtlist;
 	SysCallProcStmt *syscallprocstmt;
-	SysFunc *sysfunc;
 	SysFuncCallFactor *sysfunccallfactor;
 	SysFuncFactor *sysfuncfactor;
-	SysProc *sysproc;
-	SysProcStmt *sysprocstmt;
 	SysType *systype;
 	Term *term;
 	TypeDecl *typedecl;
@@ -147,7 +145,6 @@
 %type<assignstmt> assign_stmt
 %type<leftvalue> left_value
 %type<procstmt> proc_stmt
-%type<sysproc> sys_proc
 %type<ifstmt> if_stmt
 %type<elseclause> else_clause
 %type<repeatstmt> repeat_stmt
@@ -163,8 +160,8 @@
 %type<expr> expr
 %type<term> term
 %type<factor> factor
-%type<sysfunc> sys_func
 %type<argslist> args_list
+%type<string> sys_func sys_proc
 
 %start program
 
@@ -191,9 +188,9 @@ const_part : CONST const_expr_list { $$ = new ConstPart($2); }
 		   | { $$ = new ConstPart(new ConstExprList()); }
 		   ;
 
-const_expr_list : const_expr_list NAME EQUAL const_value SEMI
+const_expr_list : const_expr_list NAME ASSIGN const_value SEMI
 				{ $$ = $1; $$->pushBack(new ConstValueDecl(*$2, $4)); }
-				| NAME EQUAL const_value SEMI
+				| NAME ASSIGN const_value SEMI
 				{ $$ = new ConstExprList(); $$->pushBack(new ConstValueDecl(*$1, $3)); }
 				;
 
@@ -393,17 +390,17 @@ proc_stmt : NAME
 		  | NAME LP args_list RP
 		  { $$ = new CallProcStmt(*$1, $3); }
 		  | sys_proc LP RP
-		  { $$ = new SysProcStmt($1); }
+		  { $$ = new SysCallProcStmt(*$1, new ExpressionList()); }
 		  | sys_proc LP expression_list RP
-		  { $$ = new SysCallProcStmt($1, $3); }
-		  | READ LP factor RP
+		  { $$ = new SysCallProcStmt(*$1, $3); }
+		  | READ LP left_value RP
 		  { $$ = new ReadProcStmt($3); }
 		  ;
 
 sys_proc : WRITE
-		 { $$ = new SysProc("write"); }
+		 { $$ = new std::string("write"); }
 		 | WRTIELN
-		 { $$ = new SysProc("writeln"); }
+		 { $$ = new std::string("writeln"); }
 		 ;
 
 if_stmt : IF expression THEN stmt else_clause
@@ -503,9 +500,9 @@ factor : NAME
 	   | NAME LP args_list RP
 	   { $$ = new CallFactor(*$1, $3); }
 	   | sys_func
-	   { $$ = new SysFuncFactor($1); }
+	   { $$ = new SysFuncFactor(*$1); }
 	   | sys_func LP args_list RP
-	   { $$ = new SysFuncCallFactor($1, $3); }
+	   { $$ = new SysFuncCallFactor(*$1, $3); }
 	   | const_value
 	   { $$ = new ConstFactor($1); }
 	   | LP expression RP
@@ -521,21 +518,21 @@ factor : NAME
 	   ;
 
 sys_func : ABS
-		 { $$ = new SysFunc("abs"); }
+		 { $$ = new std::string("abs"); }
 		 | CHR
-		 { $$ = new SysFunc("chr"); }
+		 { $$ = new std::string("chr"); }
 		 | ODD
-		 { $$ = new SysFunc("odd"); }
+		 { $$ = new std::string("odd"); }
 		 | ORD
-		 { $$ = new SysFunc("ord"); }
+		 { $$ = new std::string("ord"); }
 		 | PRED
-		 { $$ = new SysFunc("pred"); }
+		 { $$ = new std::string("pred"); }
 		 | SQR
-		 { $$ = new SysFunc("sqr"); }
+		 { $$ = new std::string("sqr"); }
 		 | SQRT
-		 { $$ = new SysFunc("sqrt"); }
+		 { $$ = new std::string("sqrt"); }
 		 | SUCC
-		 { $$ = new SysFunc("succ"); }
+		 { $$ = new std::string("succ"); }
 		 ;
 
 args_list : args_list COMMA expression

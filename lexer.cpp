@@ -569,11 +569,12 @@ char *yytext;
 #include <string>
 #include "ASTNode.h"
 #include "parser.hpp"
-int line;
+int line=1;
+int column;
 #define TOKEN(t) (yylval.token = t)
-#line 575 "/home/gster/CLionProjects/SPL/lexer.cpp"
+#line 576 "/home/gster/CLionProjects/SPL/lexer.cpp"
 
-#line 577 "/home/gster/CLionProjects/SPL/lexer.cpp"
+#line 578 "/home/gster/CLionProjects/SPL/lexer.cpp"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -792,9 +793,9 @@ YY_DECL
 		}
 
 	{
-#line 84 "SPL.l"
+#line 85 "SPL.l"
 
-#line 798 "/home/gster/CLionProjects/SPL/lexer.cpp"
+#line 799 "/home/gster/CLionProjects/SPL/lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -853,477 +854,545 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 85 "SPL.l"
+#line 86 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(LP);
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 88 "SPL.l"
+#line 90 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(RP);
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 91 "SPL.l"
+#line 94 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(LB);
 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 94 "SPL.l"
+#line 98 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(RB);
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 97 "SPL.l"
+#line 102 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(RC);
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 100 "SPL.l"
+#line 106 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(DOT);
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 103 "SPL.l"
+#line 110 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(DOTDOT);
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 106 "SPL.l"
+#line 114 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(SEMI);
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 109 "SPL.l"
+#line 118 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(COMMA);
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 112 "SPL.l"
+#line 122 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(COLON);
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 115 "SPL.l"
+#line 126 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(MUL);
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 118 "SPL.l"
+#line 130 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(DIV);
 }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 121 "SPL.l"
+#line 134 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(MOD);
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 124 "SPL.l"
+#line 138 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(PLUS);
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 127 "SPL.l"
+#line 142 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(MINUS);
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 130 "SPL.l"
+#line 146 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(UNEQUAL);
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 133 "SPL.l"
+#line 150 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(NOT);
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 136 "SPL.l"
+#line 154 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(GE);
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 139 "SPL.l"
+#line 158 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(GT);
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 142 "SPL.l"
+#line 162 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(LE);
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 145 "SPL.l"
+#line 166 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(LT);
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 148 "SPL.l"
+#line 170 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(EQUAL);
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 151 "SPL.l"
+#line 174 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(ASSIGN);
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 154 "SPL.l"
+#line 178 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(FALSE);
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 157 "SPL.l"
+#line 182 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(MAXINT);
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 160 "SPL.l"
+#line 186 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(TRUE);
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 163 "SPL.l"
+#line 190 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(ABS);
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 166 "SPL.l"
+#line 194 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(CHR);
 }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 169 "SPL.l"
+#line 198 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(ODD);
 }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 172 "SPL.l"
+#line 202 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(ORD);
 }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 175 "SPL.l"
+#line 206 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(PRED);
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 178 "SPL.l"
+#line 210 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(SQR);
 }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 181 "SPL.l"
+#line 214 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(SQRT);
 }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 184 "SPL.l"
+#line 218 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(SUCC);
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 187 "SPL.l"
+#line 222 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(WRITE);
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 190 "SPL.l"
+#line 226 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(WRTIELN);
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 193 "SPL.l"
+#line 230 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(TYBOOLEAN);
 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 196 "SPL.l"
+#line 234 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(TYCHAR);
 }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 199 "SPL.l"
+#line 238 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(TYINTEGER);
 }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 202 "SPL.l"
+#line 242 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(TYREAL);
 }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 205 "SPL.l"
+#line 246 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(AND);
 }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 208 "SPL.l"
+#line 250 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(ARRAY);
 }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 211 "SPL.l"
+#line 254 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(_BEGIN);
 }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 214 "SPL.l"
+#line 258 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(CASE);
 }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 217 "SPL.l"
+#line 262 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(CONST);
 }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 220 "SPL.l"
+#line 266 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(DO);
 }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 223 "SPL.l"
+#line 270 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(DOWNTO);
 }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 226 "SPL.l"
+#line 274 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(ELSE);
 }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 229 "SPL.l"
+#line 278 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(END);
 }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 232 "SPL.l"
+#line 282 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(FOR);
 }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 235 "SPL.l"
+#line 286 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(FUNCTION);
 }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 238 "SPL.l"
+#line 290 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(GOTO);
 }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 241 "SPL.l"
+#line 294 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(IF);
 }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 244 "SPL.l"
+#line 298 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(OF);
 }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 247 "SPL.l"
+#line 302 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(OR);
 }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 250 "SPL.l"
+#line 306 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(PACKED);
 }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 253 "SPL.l"
+#line 310 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(PROCEDURE);
 }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 256 "SPL.l"
+#line 314 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(PROGRAM);
 }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 259 "SPL.l"
+#line 318 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(RECORD);
 }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 262 "SPL.l"
+#line 322 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(REPEAT);
 }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 265 "SPL.l"
+#line 326 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(THEN);
 }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 268 "SPL.l"
+#line 330 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(TO);
 }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 271 "SPL.l"
+#line 334 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(TYPE);
 }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 274 "SPL.l"
+#line 338 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(UNTIL);
 }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 277 "SPL.l"
+#line 342 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(VAR);
 }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 280 "SPL.l"
+#line 346 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(WHILE);
 }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 283 "SPL.l"
+#line 350 "SPL.l"
 {
+	column+=yyleng;
 	return TOKEN(READ);
 }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 286 "SPL.l"
+#line 354 "SPL.l"
 {
+	column+=yyleng;
 	printf("COMMENT\tEND\n");
 	BEGIN(COMMENT);
 }
@@ -1331,68 +1400,74 @@ YY_RULE_SETUP
 case 69:
 /* rule 69 can match eol */
 YY_RULE_SETUP
-#line 290 "SPL.l"
+#line 359 "SPL.l"
 
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 291 "SPL.l"
+#line 360 "SPL.l"
 {
+	column+=yyleng;
 	printf("COMMENT\tEND\n");
 	BEGIN(INITIAL);
 }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 295 "SPL.l"
+#line 365 "SPL.l"
 {
+	column+=yyleng;
 	yylval.string = new std::string (yytext);
 	return INTEGER;
 }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 299 "SPL.l"
+#line 370 "SPL.l"
 {
+	column+=yyleng;
 	yylval.string = new std::string (yytext);
 	return REAL;
 }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 303 "SPL.l"
+#line 375 "SPL.l"
 {
+	column+=yyleng;
 	yylval.string = new std::string (yytext);
 	return CHAR;
 }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 307 "SPL.l"
+#line 380 "SPL.l"
 {
+	column+=yyleng;
 	yylval.string = new std::string (yytext);
 	return NAME;
 }
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 311 "SPL.l"
-{ }
+#line 385 "SPL.l"
+{ column+=yyleng; }
 	YY_BREAK
 case 76:
 /* rule 76 can match eol */
 YY_RULE_SETUP
-#line 312 "SPL.l"
+#line 386 "SPL.l"
 {
 	line++;
+	column = 0;
 }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 315 "SPL.l"
+#line 390 "SPL.l"
 ECHO;
 	YY_BREAK
-#line 1396 "/home/gster/CLionProjects/SPL/lexer.cpp"
+#line 1471 "/home/gster/CLionProjects/SPL/lexer.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT):
 case YY_STATE_EOF(QUOTE):
@@ -2399,7 +2474,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 315 "SPL.l"
+#line 390 "SPL.l"
 
 int yywrap()
 {
