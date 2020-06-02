@@ -488,7 +488,59 @@ llvm::Value *Direction::codeGen(ASTContext &astContext) {
 CaseStmt::CaseStmt(Expression *expr, CaseExprList *cel) : expr(expr), cel(cel) {}
 
 llvm::Value *CaseStmt::codeGen(ASTContext &astContext) {
-    return Stmt::codeGen(astContext);
+    llvm::Function* TF = builder.GetInsertBlock()->getParent();
+    std::string t = "case";
+    llvm::BasicBlock* jump = llvm::BasicBlock::Create(context, "jump", TF);
+    builder.CreateBr(jump);
+    builder.SetInsertPoint(jump);
+    llvm::Value* cur = expr->codeGen(astContext);
+    llvm::Type* type = cur->getType();
+    if(cur == nullptr){
+        return nullptr;
+    }
+    std::vector<llvm::BasicBlock*> js;
+    std::vector<llvm::BasicBlock*> cs;
+    for(auto i = 0; i < cel->vec.size(); i++){
+        llvm::BasicBlock* j = llvm::BasicBlock::Create(context, "jump"+std::to_string(i));
+        llvm::BasicBlock* c = llvm::BasicBlock::Create(context, "case"+std::to_string(i));
+        builder.SetInsertPoint(jump);
+        llvm::Value* temp;
+        if(cel->vec[i]->getClassName() == "ConstValueCaseExpr"){
+            temp = dynamic_cast<ConstValueCaseExpr*>(cel->vec[i])->codeGen(astContext);
+            if(temp == nullptr){
+                return nullptr;
+            }
+        }else if(cel->vec[i]->getClassName() == "NameCaseExpr"){
+            temp = astContext.getVar(dynamic_cast<NameCaseExpr*>(cel->vec[i])->nm);
+            if(temp == nullptr){
+                return nullptr;
+            }
+            temp = builder.CreateLoad(temp);
+        }
+        llvm::Value* condV;
+        if(type->isDoubleTy()){
+            condV = builder.CreateFCmpOEQ(cur, temp);
+        }else{
+            condV = builder.CreateICmpEQ(cur, temp);
+        }
+        builder.CreateCondBr(condV, c, j);
+        builder.SetInsertPoint(c);
+        cel->vec[i]->st->codeGen(astContext);
+        js.push_back(j);
+        cs.push_back(c);
+        jump = j;
+    }
+    for(auto i = 0; i < cel->vec.size(); i++){
+        TF->getBasicBlockList().push_back(js[i]);
+    }
+    for(auto i = 0; i < cel->vec.size(); i++){
+        TF->getBasicBlockList().push_back(cs[i]);
+    }
+    llvm::BasicBlock* after = llvm::BasicBlock::Create(context, "after", TF);
+    builder.SetInsertPoint(jump);
+    builder.CreateBr(after);
+    builder.SetInsertPoint(after);
+    return nullptr;
 }
 
 void CaseExprList::pushBack(CaseExpr *ce) {
@@ -982,7 +1034,22 @@ llvm::Value *ProcedureHead::codeGen(ASTContext &astContext) {
 RepeatStmt::RepeatStmt(StmtList *sl, Expression *expr) : sl(sl), expr(expr) {}
 
 llvm::Value *RepeatStmt::codeGen(ASTContext &astContext) {
-    return Stmt::codeGen(astContext);
+    llvm::Function* TF = builder.GetInsertBlock()->getParent();
+    llvm::BasicBlock* preBB = builder.GetInsertBlock();
+    llvm::BasicBlock* loopBB = llvm::BasicBlock::Create(context, "loop", TF);
+    builder.CreateBr(loopBB);
+
+    builder.SetInsertPoint(loopBB);
+    sl->codeGen(astContext);
+    llvm::Value* condV = expr->codeGen(astContext);
+    if(condV == nullptr) return nullptr;
+
+    llvm::BasicBlock* afterBB = llvm::BasicBlock::Create(context, "after");
+
+    builder.CreateCondBr(condV, afterBB, loopBB);
+    TF->getBasicBlockList().push_back(afterBB);
+    builder.SetInsertPoint(afterBB);
+    return nullptr;
 }
 
 llvm::Value *ForStmt::codeGen(ASTContext &astContext) {
