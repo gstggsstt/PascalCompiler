@@ -1,0 +1,22 @@
+program hello;
+var
+  ans : integer;
+
+function gcd(a, b : integer) : integer;
+begin
+  if b = 0 then begin
+    gcd := a;
+  end
+  else begin
+    gcd := gcd(b , a mod b);
+  end
+;
+end
+;
+
+begin
+  ans := gcd(9 , 36) * gcd(3 , 6);
+  writeln(ans);
+  writeln(gcd(66, 66*7));
+end
+.

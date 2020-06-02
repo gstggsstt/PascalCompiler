@@ -27,8 +27,7 @@ llvm::Value *Program::codeGen(ASTContext &astContext) {
     builder.CreateRetVoid();
     startFunc = llvmFunc;
 
-    if(llvm::verifyFunction(*(astContext.currentFunction->llvmFunction)))
-        std::cerr << "error in generated IR, please check code" << std::endl;
+    llvm::verifyFunction(*(astContext.currentFunction->llvmFunction));
     if(astContext.checkLabel())
         std::cerr << "using undeclared label" << std::endl;
     return nullptr;
@@ -45,8 +44,7 @@ Routine::Routine(RoutineHead *rh, RoutineBody *rb) : rh(rh), rb(rb) {}
 llvm::Value *Routine::codeGen(ASTContext &astContext) {
     rh->codeGen(astContext);
     rb->codeGen(astContext);
-    if(llvm::verifyFunction(*(astContext.currentFunction->llvmFunction)))
-        std::cerr << "error in generated IR, please check code" << std::endl;
+    llvm::verifyFunction(*(astContext.currentFunction->llvmFunction));
     if(astContext.checkLabel())
         std::cerr << "using undeclared label" << std::endl;
     return nullptr;
@@ -662,8 +660,7 @@ llvm::Value *Procedure::codeGen(ASTContext &astContext) {
     ph->codeGen(newContext);
     rt->codeGen(newContext);
     builder.CreateRetVoid();
-    if(llvm::verifyFunction(*(newContext.currentFunction->llvmFunction)))
-        std::cerr << "error in generated IR, please check code" << std::endl;
+    llvm::verifyFunction(*(newContext.currentFunction->llvmFunction));
     if(astContext.checkLabel())
         std::cerr << "using undeclared label" << std::endl;
     return nullptr;
@@ -676,8 +673,7 @@ llvm::Value *Function::codeGen(ASTContext &astContext) {
     fh->codeGen(newContext);
     rt->codeGen(newContext);
     builder.CreateRet(builder.CreateLoad(newContext.getVar(fh->nm)));
-    if(llvm::verifyFunction(*(newContext.currentFunction->llvmFunction)))
-        std::cerr << "error in generated IR, please check code" << std::endl;
+    llvm::verifyFunction(*(newContext.currentFunction->llvmFunction));
     if(astContext.checkLabel())
         std::cerr << "using undeclared label" << std::endl;
     return nullptr;
