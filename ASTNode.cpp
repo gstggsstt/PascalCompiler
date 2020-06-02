@@ -424,7 +424,23 @@ llvm::Value *SysCallProcStmt::codeGen(ASTContext &astContext) {
 ReadProcStmt::ReadProcStmt(Factor *f) : f(f) {}
 
 llvm::Value *ReadProcStmt::codeGen(ASTContext &astContext) {
-    return ProcStmt::codeGen(astContext);
+    ASTFunction *intFunc = astContext.getFunction("intRead");
+    ASTFunction *doubleFunc = astContext.getFunction("doubleRead");
+    ASTFunction *charFunc = astContext.getFunction("charRead");
+    llvm::Value *var = lv->codeGen();
+    if (var->getType()->isIntegerTy(64)) {
+        llvm::Value *val = builder.CreateCall(intFunc->llvmFunction);
+        builder.CreateStore(val,var);
+    }
+    else if (var->getType()->getDoubleTy()) {
+        llvm::Value *val = builder.CreateCall(doubleFunc->llvmFunction);
+        builder.CreateStore(val,var);
+    }
+    else if (var->getType()->isIntegerTy(8)) {
+        llvm::Value *val = builder.CreateCall(charFunc->llvmFunction);
+        builder.CreateStore(val,var);
+    }
+    return nullptr;
 }
 
 AssignStmt::AssignStmt(LeftValue *lv, Expression *expr) : lv(lv), expr(expr) {}
