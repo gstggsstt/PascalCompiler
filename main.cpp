@@ -26,7 +26,7 @@ void doubleWriteLn(double_t a) {
 void charWriteLn(int8_t a) {
     std::cout << a << std::endl;
 }
-void addSystemFunc(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBuilder<> &bdr) {
+void addSystemFunc(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBuilder<> &bdr,ASTContext &astContext) {
     std::vector<llvm::Type*> intArgs;
     std::vector<llvm::Type*> doubleArgs;
     std::vector<llvm::Type*> charArgs;
@@ -45,6 +45,12 @@ void addSystemFunc(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBuilder
     ee.addGlobalMapping((llvm::GlobalValue*)intPrintLn, reinterpret_cast<void*>(&intWriteLn));
     ee.addGlobalMapping((llvm::GlobalValue*)doublePrintLn,reinterpret_cast<void*>(&doubleWriteLn));
     ee.addGlobalMapping((llvm::GlobalValue*)charPrintLn,reinterpret_cast<void*>(&charWriteLn));
+    auto* intFunc = new ASTFunction("intWriteLn",intPrintLn,intType,intArgs);
+    astContext.addFunction("intWriteLn",intFunc);
+    auto* doubleFunc = new ASTFunction("doubleWriteLn",intPrintLn,intType,intArgs);
+    astContext.addFunction("doubleWriteLn",doubleFunc);
+    auto* charFunc = new ASTFunction("charWriteLn",intPrintLn,intType,intArgs);
+    astContext.addFunction("charWriteLn",charFunc);
 }
 
 int main() {
@@ -64,7 +70,7 @@ int main() {
 
     std::string boom = "boom";
     llvm::ExecutionEngine *ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(&module)).setErrorStr(&boom).setEngineKind(llvm::EngineKind::JIT).create();
-    addSystemFunc(module, *ee, builder);
+    addSystemFunc(module, *ee, builder,astContext);
     std::vector<llvm::GenericValue> args;
     ee->finalizeObject();
     llvm::GenericValue v = ee->runFunction(startFunc, args);

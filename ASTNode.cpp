@@ -397,7 +397,28 @@ llvm::Value *SysProcStmt::codeGen(ASTContext &astContext) {
 SysCallProcStmt::SysCallProcStmt(SysProc *sp, ExpressionList *el) : sp(sp), el(el) {}
 
 llvm::Value *SysCallProcStmt::codeGen(ASTContext &astContext) {
-    return ProcStmt::codeGen(astContext);
+    std::string Name = sp->proc;
+    ASTFunction *intFunc = astContext.getFunction("intWriteLn");
+    ASTFunction *doubleFunc = astContext.getFunction("doubleWriteLn");
+    ASTFunction *charFunc = astContext.getFunction("charWriteLn");
+    llvm::Value* arg;
+    std::vector<llvm::Value*> args;
+    for (int j = 0; j < el->vec.size(); ++j) {
+        arg = el->vec[j]->codeGen(astContext);
+        if (arg->getType()->isDoubleTy()) {
+            args.clear();
+            args.push_back(arg);
+            return builder.CreateCall(doubleFunc->llvmFunction,args);
+        } else if (arg->getType()->isIntegerTy(64)) {
+            args.clear();
+            args.push_back(arg);
+            return builder.CreateCall(doubleFunc->llvmFunction,args);
+        } else if (arg->getType()->isIntegerTy(8)) {
+            args.clear();
+            args.push_back(arg);
+            return builder.CreateCall(doubleFunc->llvmFunction,args);
+        }
+    }
 }
 
 ReadProcStmt::ReadProcStmt(Factor *f) : f(f) {}
