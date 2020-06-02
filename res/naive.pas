@@ -57,6 +57,7 @@ begin
   i := 1;
   temp := i+2;
   temp := temp*2;
+  writeln(temp);
 end
 .
 

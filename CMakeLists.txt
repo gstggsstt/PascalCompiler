@@ -21,7 +21,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_definitions(${LLVM_DEFINITIONS})
 
 # Now build our tools
-add_executable(SPL main.cpp ASTNode.cpp ASTNode.h NodeTypes.h ${BISON_parser_OUTPUTS} ${FLEX_lexer_OUTPUTS})
+add_executable(SPL main.cpp ASTNode.cpp ASTNode.h NodeTypes.h SystemCall.h SystemCall.cpp ${BISON_parser_OUTPUTS} ${FLEX_lexer_OUTPUTS})
 
 # Find the libraries that correspond to the LLVM components
 # that we wish to use

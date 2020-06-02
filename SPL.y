@@ -392,7 +392,7 @@ proc_stmt : NAME
 		  { $$ = new NameProcStmt(*$1); }
 		  | NAME LP args_list RP
 		  { $$ = new CallProcStmt(*$1, $3); }
-		  | sys_proc
+		  | sys_proc LP RP
 		  { $$ = new SysProcStmt($1); }
 		  | sys_proc LP expression_list RP
 		  { $$ = new SysCallProcStmt($1, $3); }
