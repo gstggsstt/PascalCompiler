@@ -381,8 +381,7 @@ llvm::Value *CallProcStmt::codeGen(ASTContext &astContext) {
                     std::cerr << "Wrong Type" << std::endl;
                 argValues.push_back(v);
             }
-            llvm::ArrayRef<llvm::Value *> args(argValues);
-            builder.CreateCall(myfunc->llvmFunction, args);
+            builder.CreateCall(myfunc->llvmFunction, argValues);
         }
         return nullptr;
     }
@@ -699,9 +698,11 @@ llvm::Value *FunctionHead::codeGen(ASTContext &astContext) {
     llvm::Value *var = builder.CreateAlloca(astContext.getType((st->declTp)), nullptr, nm);
     astContext.addVar(func->name, var);
     // Generate para var
+    auto argI = llvmFunc->arg_begin();
     for (const auto &i : dynamic_cast<ParaDeclList *>(para)->vec) {
         for (const auto &j : dynamic_cast<NameList *>(i->vpl)->vec) {
-            var = builder.CreateAlloca(astContext.getType(i->st->declTp), nullptr, j);
+            llvm::Value *var = builder.CreateAlloca(astContext.getType(i->st->declTp), nullptr, j);
+            builder.CreateStore(argI++, var);
             astContext.addVar(j, var);
         }
     }
@@ -854,8 +855,7 @@ llvm::Value *CallFactor::codeGen(ASTContext &astContext) {
                 }
                 argValues.push_back(v);
             }
-            llvm::ArrayRef<llvm::Value *> args(argValues);
-            callResult = builder.CreateCall(myfunc->llvmFunction, args);
+            callResult = builder.CreateCall(myfunc->llvmFunction, argValues);
         }
 
         return callResult;
@@ -1014,9 +1014,11 @@ llvm::Value *ProcedureHead::codeGen(ASTContext &astContext) {
     // Start Block
     startBlock(astContext);
     // Generate para var
+    auto argI = llvmFunc->arg_begin();
     for (const auto &i : dynamic_cast<ParaDeclList *>(para)->vec) {
         for (const auto &j : dynamic_cast<NameList *>(i->vpl)->vec) {
             llvm::Value *var = builder.CreateAlloca(astContext.getType(i->st->declTp), nullptr, j);
+            builder.CreateStore(argI++, var);
             astContext.addVar(j, var);
         }
     }

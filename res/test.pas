@@ -2,7 +2,7 @@ program test;
 var
   i : integer;
 
-function go(var a : integer): integer;
+function go(a : integer): integer;
 begin
   if a = 1 then
   begin
