@@ -121,8 +121,7 @@ begin
   writeln(testConst(temp));
   if temp>100 then goto testLabel2;
   goto testLabel;
-  testLabel2:
-  writeln(1);
+  testLabel2:;
 end
 .
 

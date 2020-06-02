@@ -371,6 +371,8 @@ non_label_stmt : assign_stmt
 			   { $$ = $1; }
 			   | goto_stmt
 			   { $$ = $1; }
+			   |
+			   { $$ = new Stmt(); }
 			   ;
 
 assign_stmt : left_value ASSIGN expression

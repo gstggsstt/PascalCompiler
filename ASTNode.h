@@ -45,6 +45,8 @@ public:
     std::map<std::string, ASTFunction*> functionTable;
     std::map<std::string, llvm::Value*> varTable;
     std::set<std::string> constTable;
+    std::set<std::string> declaredLabel;
+    std::set<std::string> usedLabel;
 
 public:
     ASTFunction *currentFunction;
@@ -61,6 +63,9 @@ public:
     bool addType(const std::string &name, llvm::Type *type); // Like typeOf("real"),change string to llvm::Type
     static bool addBlock(const std::string &name, llvm::BasicBlock* bb); // Like typeOf("real"),change string to llvm::Type
     void addConst(const std::string &name);
+    void declLabel(const std::string &name);
+    void useLabel(const std::string &name);
+    bool checkLabel();
     [[nodiscard]] bool checkConst(const std::string &name) const;
 };
 

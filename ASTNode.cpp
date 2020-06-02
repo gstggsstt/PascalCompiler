@@ -7,6 +7,8 @@
 #include "ASTNode.h"
 #include "Utility.h"
 
+std::map<std::string, llvm::BasicBlock*> blockTable;
+
 Program::Program(ProgramHead *ph, Routine *rt) : ph(ph), rt(rt) {}
 
 llvm::Value *Program::codeGen(ASTContext &astContext) {
@@ -24,6 +26,11 @@ llvm::Value *Program::codeGen(ASTContext &astContext) {
 
     builder.CreateRetVoid();
     startFunc = llvmFunc;
+
+    if(llvm::verifyFunction(*(astContext.currentFunction->llvmFunction)))
+        std::cerr << "error in generated IR, please check code" << std::endl;
+    if(astContext.checkLabel())
+        std::cerr << "using undeclared label" << std::endl;
     return nullptr;
 }
 
@@ -38,7 +45,10 @@ Routine::Routine(RoutineHead *rh, RoutineBody *rb) : rh(rh), rb(rb) {}
 llvm::Value *Routine::codeGen(ASTContext &astContext) {
     rh->codeGen(astContext);
     rb->codeGen(astContext);
-    llvm::verifyFunction(*(astContext.currentFunction->llvmFunction));
+    if(llvm::verifyFunction(*(astContext.currentFunction->llvmFunction)))
+        std::cerr << "error in generated IR, please check code" << std::endl;
+    if(astContext.checkLabel())
+        std::cerr << "using undeclared label" << std::endl;
     return nullptr;
 }
 
@@ -292,7 +302,7 @@ Stmt::Stmt() : label(""), bb(nullptr) {}
 
 llvm::Value *Stmt::codeGen(ASTContext &astContext) {
     if(label.empty()) return nullptr;
-    ASTContext::addBlock(label, bb);
+    astContext.declLabel(label);
     astContext.currentFunction->llvmFunction->getBasicBlockList().push_back(bb);
     builder.CreateBr(bb);
     builder.SetInsertPoint(bb);
@@ -302,6 +312,7 @@ llvm::Value *Stmt::codeGen(ASTContext &astContext) {
 void Stmt::addLabel(const std::string &str) {
     label = str;
     bb = llvm::BasicBlock::Create(context, label);
+    ASTContext::addBlock(label, bb);
 }
 
 NameLeftValue::NameLeftValue(std::string nm) : nm(std::move(nm)) {}
@@ -567,6 +578,7 @@ llvm::Value *NameCaseExpr::codeGen(ASTContext &astContext) {
 GotoStmt::GotoStmt(std::string str) : label(std::move(str)) {}
 
 llvm::Value *GotoStmt::codeGen(ASTContext &astContext) {
+    astContext.useLabel(label);
     Stmt::codeGen(astContext);
     builder.CreateBr(ASTContext::getBlock(label));
     return nullptr;
@@ -650,7 +662,10 @@ llvm::Value *Procedure::codeGen(ASTContext &astContext) {
     ph->codeGen(newContext);
     rt->codeGen(newContext);
     builder.CreateRetVoid();
-    llvm::verifyFunction(*(newContext.currentFunction->llvmFunction));
+    if(llvm::verifyFunction(*(newContext.currentFunction->llvmFunction)))
+        std::cerr << "error in generated IR, please check code" << std::endl;
+    if(astContext.checkLabel())
+        std::cerr << "using undeclared label" << std::endl;
     return nullptr;
 }
 
@@ -661,7 +676,10 @@ llvm::Value *Function::codeGen(ASTContext &astContext) {
     fh->codeGen(newContext);
     rt->codeGen(newContext);
     builder.CreateRet(builder.CreateLoad(newContext.getVar(fh->nm)));
-    llvm::verifyFunction(*(newContext.currentFunction->llvmFunction));
+    if(llvm::verifyFunction(*(newContext.currentFunction->llvmFunction)))
+        std::cerr << "error in generated IR, please check code" << std::endl;
+    if(astContext.checkLabel())
+        std::cerr << "using undeclared label" << std::endl;
     return nullptr;
 }
 
@@ -858,10 +876,8 @@ llvm::Type *ASTContext::getType(const std::string &name) {
     }
     if (type == nullptr) {
         if (name == "void") {
-            //errorMsg = "variable has incomplete type 'void'";
             std::cerr << "variable has incomplete type 'void'" << std::endl;
         } else {
-            //errorMsg = "undeclared type '"+name+"'";
             std::cerr << "undeclared type '" << name << "'" << std::endl;
         }
     }
@@ -874,7 +890,6 @@ ASTFunction *ASTContext::getFunction(const std::string &name) {
         return parent->getFunction(name);
     }
     if (function == nullptr) {
-        //errorMsg = "undeclared function '"+name+"'";
         std::cerr << "undeclared function '" << name << "'" << std::endl;
     }
     return function;
@@ -886,7 +901,6 @@ llvm::Value *ASTContext::getVar(const std::string &name) {
         return parent->getVar(name);
     }
     if (var == nullptr) {
-        //errorMsg = "undeclared identifier '"+name+"'";
         std::cerr << "undeclared identifier '" << name << "'" << std::endl;
     }
     return var;
@@ -894,7 +908,6 @@ llvm::Value *ASTContext::getVar(const std::string &name) {
 
 bool ASTContext::addFunction(const std::string &name, ASTFunction *function) {
     if (functionTable[name]) {
-        //errorMsg = "redefine function named '"+name+"'";
         std::cerr << "redefine type named '" << name << "'" << std::endl;
         return false;
     }
@@ -904,7 +917,6 @@ bool ASTContext::addFunction(const std::string &name, ASTFunction *function) {
 
 bool ASTContext::addVar(const std::string &name, llvm::Value *value) {
     if (varTable[name]) {
-        //errorMsg = "redefine variable named '"+name+"'";
         std::cerr << "redefine type named '" << name << "'" << std::endl;
         return false;
     }
@@ -914,7 +926,6 @@ bool ASTContext::addVar(const std::string &name, llvm::Value *value) {
 
 bool ASTContext::addType(const std::string &name, llvm::Type *type) {
     if (typeTable[name]) {
-        //errorMsg =  "redefine type named '"+name+"'";
         std::cerr << "redefine type named '" << name << "'" << std::endl;
         return false;
     }
@@ -951,11 +962,27 @@ llvm::BasicBlock * ASTContext::getBlock(const std::string &name) {
 
 bool ASTContext::addBlock(const std::string &name, llvm::BasicBlock *bb) {
     if (blockTable[name]) {
-        std::cerr << "redefine label: '" << name << "'" << std::endl;
+        std::cerr << "redefined label: '" << name << "'" << std::endl;
         return false;
     }
     blockTable[name] = bb;
     return true;
+}
+
+void ASTContext::declLabel(const std::string &name) {
+    declaredLabel.insert(name);
+}
+
+void ASTContext::useLabel(const std::string &name) {
+    usedLabel.insert(name);
+}
+
+bool ASTContext::checkLabel() {
+    for(const auto& i:usedLabel) {
+        if (!declaredLabel.count(i))
+            return true;
+    }
+    return false;
 }
 
 ASTFunction::ASTFunction(std::string name, llvm::Function *llvmFunction, llvm::Type *returnType,
