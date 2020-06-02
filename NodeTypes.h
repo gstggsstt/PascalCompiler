@@ -179,4 +179,5 @@ namespace ASTClassName {
     [[maybe_unused]] const std::string WhileStmt = "WhileStmt";
 };
 
+
 #endif //SPL_NODETYPES_H

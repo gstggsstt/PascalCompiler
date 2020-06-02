@@ -3,6 +3,8 @@
 //
 
 #include "SystemCall.h"
+#include "ASTNode.h"
+
 void writeLn() {
     std::cout << std::endl;
 }
@@ -16,7 +18,7 @@ void charWrite(int8_t a) {
     std::cout << (char)a;
 }
 
-void addSystemFuncWrite(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBuilder<> &bdr,ASTContext &astContext) {
+void addSystemFuncWrite(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBuilder<> &bdr, ASTContext &astContext) {
     std::vector<llvm::Type*> intArgs;
     std::vector<llvm::Type*> doubleArgs;
     std::vector<llvm::Type*> charArgs;
@@ -40,13 +42,13 @@ void addSystemFuncWrite(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBu
     ee.addGlobalMapping((llvm::GlobalValue*)doublePrint, (void*)&doubleWrite);
     ee.addGlobalMapping((llvm::GlobalValue*)charPrint, (void*)&charWrite);
     ee.addGlobalMapping((llvm::GlobalValue*)endlPrint, (void*)&writeLn);
-    auto* intFunc = new ASTFunction("intWrite",intPrint, intType,intArgs);
+    auto* intFunc = new ASTFunction("intWrite", intPrint, intType, intArgs);
     astContext.addFunction("intWrite",intFunc);
-    auto* doubleFunc = new ASTFunction("doubleWrite",doublePrint, doubleType,doubleArgs);
+    auto* doubleFunc = new ASTFunction("doubleWrite", doublePrint, doubleType, doubleArgs);
     astContext.addFunction("doubleWrite",doubleFunc);
-    auto* charFunc = new ASTFunction("charWrite",charPrint, charType,charArgs);
+    auto* charFunc = new ASTFunction("charWrite", charPrint, charType, charArgs);
     astContext.addFunction("charWrite",charFunc);
-    auto* endlFunc = new ASTFunction("writeLn",endlPrint, lnType ,voidArgs);
+    auto* endlFunc = new ASTFunction("writeLn", endlPrint, lnType , voidArgs);
     astContext.addFunction("writeLn", endlFunc);
 }
 
@@ -66,12 +68,12 @@ double_t getDouble()
 
 int8_t getChar()
 {
-    int8_t a;
+    char a;
     std::cin >> a;
     return a;
 }
 
-void addSystemFuncRead(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBuilder<> &bdr,ASTContext &astContext) {
+void addSystemFuncRead(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBuilder<> &bdr, ASTContext &astContext) {
     std::vector<llvm::Type*> intArgs;
     std::vector<llvm::Type*> doubleArgs;
     std::vector<llvm::Type*> charArgs;
@@ -87,13 +89,13 @@ void addSystemFuncRead(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBui
     intRead -> setCallingConv(llvm::CallingConv::C);
     doubleRead -> setCallingConv(llvm::CallingConv::C);
     charRead -> setCallingConv(llvm::CallingConv::C);
-    ee.addGlobalMapping((llvm::GlobalValue*)intRead, reinterpret_cast<void*>(&getInt));
-    ee.addGlobalMapping((llvm::GlobalValue*)doubleRead, reinterpret_cast<void*>(&getDouble));
-    ee.addGlobalMapping((llvm::GlobalValue*)charRead, reinterpret_cast<void*>(&getChar));
+    ee.addGlobalMapping((llvm::GlobalValue*)intRead, (void*)&getInt);
+    ee.addGlobalMapping((llvm::GlobalValue*)doubleRead, (void*)&getDouble);
+    ee.addGlobalMapping((llvm::GlobalValue*)charRead, (void*)&getChar);
     auto* intFunc = new ASTFunction("intRead", intRead, intType, intArgs);
     astContext.addFunction("intRead",intFunc);
-    auto* doubleFunc = new ASTFunction("doubleRead", intRead, intType, intArgs);
+    auto* doubleFunc = new ASTFunction("doubleRead", doubleRead, intType, intArgs);
     astContext.addFunction("doubleRead",doubleFunc);
-    auto* charFunc = new ASTFunction("charRead", intRead, intType, intArgs);
+    auto* charFunc = new ASTFunction("charRead", charRead, intType, intArgs);
     astContext.addFunction("charRead",charFunc);
 }

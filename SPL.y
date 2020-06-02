@@ -347,7 +347,7 @@ stmt_list : stmt_list stmt SEMI
 		  { $$ = new StmtList(); }
 		  ;
 
-stmt : INTEGER COLON non_label_stmt
+stmt : NAME COLON non_label_stmt
 	 { $$ = $3; $$->addLabel(*$1); }
 	 | non_label_stmt
 	 { $$ = $1; }
@@ -447,7 +447,7 @@ case_expr : const_value COLON stmt SEMI
 		  { $$ = new NameCaseExpr(*$1, $3); }
 		  ;
 
-goto_stmt : GOTO INTEGER
+goto_stmt : GOTO NAME
 		  { $$ = new GotoStmt(*$2); }
 		  ;
 

@@ -26,39 +26,43 @@ extern llvm::LLVMContext context;
 extern llvm::IRBuilder<> builder;
 extern llvm::Module module;
 extern llvm::Function *startFunc;
+extern std::map<std::string, llvm::BasicBlock*> blockTable;
 
 struct ASTFunction {
 public:
-	std::string name;
-	llvm::Function *llvmFunction;
-	llvm::Type *returnType;
-	std::vector<llvm::Type*> argTypes;
-	llvm::Value *returnVal;
-	ASTFunction(std::string name, llvm::Function *llvmFunction, llvm::Type *returnType, std::vector<llvm::Type*> &argTypes);
+    std::string name;
+    llvm::Function *llvmFunction;
+    llvm::Type *returnType;
+    std::vector<llvm::Type*> argTypes;
+    llvm::Value *returnVal;
+    ASTFunction(std::string name, llvm::Function *llvmFunction, llvm::Type *returnType, std::vector<llvm::Type*> &argTypes);
 };
 
 struct ASTContext {
-	ASTContext *parent;
-	std::map<std::string,llvm::Type*> typeTable;
-	std::map<std::string,ASTFunction*> functionTable;
-	std::map<std::string,llvm::Value*> varTable;
-	std::set<std::string> constTable;
+public:
+    ASTContext *parent;
+    std::map<std::string, llvm::Type*> typeTable;
+    std::map<std::string, ASTFunction*> functionTable;
+    std::map<std::string, llvm::Value*> varTable;
+    std::set<std::string> constTable;
 
 public:
-	ASTFunction *currentFunction;
+    ASTFunction *currentFunction;
 
 
     explicit ASTContext(ASTContext *p = nullptr);
 
-	llvm::Type * getType(const std::string &name);
-	ASTFunction * getFunction(const std::string &name);
-	llvm::Value * getVar(const std::string &name);
-	bool addFunction(const std::string &name, ASTFunction *function);
-	bool addVar(const std::string &name, llvm::Value *value);
-	bool addType(const std::string &name, llvm::Type *type); // Like typeOf("real"),change string to llvm::Type
-	void addConst(const std::string &name);
-	[[nodiscard]] bool checkConst(const std::string &name) const;
-};//Used to create symbol table and access link,when create a new block by BEGIN END,create an AST context.
+    llvm::Type * getType(const std::string &name);
+    ASTFunction * getFunction(const std::string &name);
+    llvm::Value * getVar(const std::string &name);
+    static llvm::BasicBlock * getBlock(const std::string &name);
+    bool addFunction(const std::string &name, ASTFunction *function);
+    bool addVar(const std::string &name, llvm::Value *value);
+    bool addType(const std::string &name, llvm::Type *type); // Like typeOf("real"),change string to llvm::Type
+    static bool addBlock(const std::string &name, llvm::BasicBlock* bb); // Like typeOf("real"),change string to llvm::Type
+    void addConst(const std::string &name);
+    [[nodiscard]] bool checkConst(const std::string &name) const;
+};
 
 struct ASTNode {
 public:
@@ -195,11 +199,11 @@ struct CalcExpr : public Term {
 };
 
 struct BinaryExpr : public Term {
-	Expression *l;
+    Expression *l;
     Expression *r;
     std::string op;
 public:
-	BinaryExpr(Expression *l, Expression *r, std::string op);
+    BinaryExpr(Expression *l, Expression *r, std::string op);
     llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
 };
@@ -236,16 +240,14 @@ struct ProgramHead : public ASTNode {
 };
 
 struct Stmt : public ASTNode {
-    int label;
-    bool hasLabel;
+    std::string label;
+    llvm::BasicBlock *bb;
 
     Stmt();
 
-    explicit Stmt(const std::string &str);
-
     llvm::Value *codeGen(ASTContext &astContext) override;
 
-    virtual void addLabel(const std::string &);
+    virtual void addLabel(const std::string &str);
     std::string getClassName() override;
 };
 
@@ -355,7 +357,7 @@ struct RepeatStmt : public Stmt {
 };
 
 struct ProcStmt : public Stmt {
-    llvm::Value *codeGen(ASTContext &astContext) override = 0;
+    llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
 };
 
@@ -382,7 +384,7 @@ struct SysCallProcStmt : public ProcStmt {
     std::string nm;
     ExpressionList *el;
 
-    SysCallProcStmt(const std::string &nm, ExpressionList *el);
+    SysCallProcStmt(std::string nm, ExpressionList *el);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
@@ -461,7 +463,7 @@ struct SysFuncCallFactor : public Factor {
 struct SysFuncFactor : public Factor {
     std::string nm;
 
-    explicit SysFuncFactor(const std::string &nm);
+    explicit SysFuncFactor(std::string nm);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
@@ -486,9 +488,9 @@ struct ReadProcStmt : public ProcStmt {
 };
 
 struct GotoStmt : public Stmt {
-    int label;
+    std::string label;
 
-    explicit GotoStmt(const std::string& str);
+    explicit GotoStmt(std::string str);
 
     llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
@@ -553,7 +555,7 @@ struct RoutineBody : public ASTNode {
 };
 
 struct CompoundStmt : public RoutineBody, public Stmt {
-    llvm::Value *codeGen(ASTContext &astContext) override = 0;
+    llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
 };
 
@@ -842,5 +844,7 @@ struct NameList : public VarParaList {
     llvm::Value *codeGen(ASTContext &astContext) override;
     std::string getClassName() override;
 };
+
+//Used to create symbol table and access link,when create a new block by BEGIN END,create an AST context.
 
 #endif //SPL_ASTNODE_H

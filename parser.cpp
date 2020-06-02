@@ -614,7 +614,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   394
+#define YYLAST   410
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  75
@@ -742,7 +742,7 @@ static const yytype_int16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF (-195)
+#define YYPACT_NINF (-185)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -756,34 +756,34 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     -44,   -19,    52,  -195,    76,  -195,    53,    27,    54,  -195,
-    -195,  -195,  -195,  -195,    45,    69,   221,   110,    77,    87,
-      96,  -195,  -195,    95,  -195,    89,   102,    95,  -195,    95,
-     186,   190,    24,  -195,   193,  -195,  -195,   201,  -195,   213,
-    -195,  -195,  -195,  -195,  -195,  -195,   113,   208,   194,    87,
-    -195,   166,    46,    95,    95,    95,  -195,  -195,  -195,  -195,
-    -195,  -195,  -195,  -195,  -195,  -195,  -195,  -195,  -195,  -195,
-      48,  -195,  -195,   214,     7,     4,  -195,   238,   222,  -195,
-     124,   241,   157,   173,   279,    95,    95,   175,  -195,    95,
-       8,   239,   113,   180,  -195,  -195,    63,   166,  -195,   181,
-     182,    46,  -195,   247,  -195,   250,   340,  -195,  -195,    95,
-      95,   188,    95,    95,    95,    95,    95,    95,   -13,    95,
-      95,    95,    95,    95,    95,    95,    95,    95,   267,    95,
-     267,   151,   259,  -195,   369,    62,   354,  -195,   369,  -195,
-      74,   369,  -195,   253,   166,   113,  -195,  -195,  -195,  -195,
-     260,   166,   256,   265,   258,  -195,  -195,  -195,  -195,   196,
-     180,  -195,   275,   275,  -195,  -195,  -195,  -195,  -195,    99,
-     362,  -195,     7,     7,     7,     7,     7,     7,   268,   269,
-      81,  -195,     4,     4,     4,  -195,  -195,  -195,  -195,   108,
-     207,   232,   369,  -195,  -195,  -195,    95,  -195,  -195,    95,
-    -195,   146,   276,   172,   -18,  -195,   104,   211,   113,  -195,
-    -195,   278,     9,   280,  -195,   287,    27,   288,  -195,  -195,
-     267,   267,  -195,  -195,  -195,  -195,  -195,    95,   267,  -195,
-     369,   369,  -195,    66,   294,  -195,  -195,   180,  -195,  -195,
-    -195,  -195,   166,   289,    19,  -195,   290,   296,   172,  -195,
-    -195,  -195,   291,   305,   333,  -195,   113,  -195,   262,   310,
-     289,  -195,    91,   172,   172,  -195,  -195,  -195,   267,  -195,
-     180,  -195,  -195,  -195,  -195,  -195,  -195
+     -48,   -46,    40,  -185,    31,  -185,    50,    20,    41,  -185,
+    -185,  -185,  -185,  -185,    39,    51,   232,   103,    59,    68,
+      56,  -185,  -185,   202,  -185,    78,    83,   202,  -185,   202,
+     145,   360,  -185,   148,  -185,  -185,   135,  -185,   159,  -185,
+    -185,  -185,  -185,  -185,  -185,   122,   138,   149,    68,  -185,
+      99,    52,   202,   202,   202,  -185,  -185,  -185,  -185,  -185,
+    -185,  -185,  -185,  -185,  -185,  -185,  -185,  -185,  -185,   127,
+    -185,  -185,   237,     4,    29,  -185,   182,   161,  -185,   229,
+     244,    11,   115,   202,   202,   123,   270,  -185,   202,    21,
+     185,   122,    98,  -185,  -185,    74,    99,  -185,   124,   125,
+      52,  -185,   193,  -185,   198,   358,  -185,  -185,   202,   202,
+     143,   202,   202,   202,   202,   202,   202,    94,   202,   202,
+     202,   202,   202,   202,   202,   202,   202,   282,   202,   282,
+      18,   208,   385,     8,   368,  -185,   181,  -185,   385,  -185,
+      25,   385,  -185,   210,    99,   122,  -185,  -185,  -185,  -185,
+     219,    99,   216,   217,   230,  -185,  -185,  -185,  -185,   154,
+      98,  -185,   239,   239,  -185,  -185,  -185,  -185,  -185,    57,
+     378,  -185,     4,     4,     4,     4,     4,     4,   227,   236,
+      82,  -185,    29,    29,    29,  -185,  -185,  -185,  -185,    86,
+     158,   192,   385,  -185,  -185,  -185,   202,  -185,  -185,   202,
+    -185,    87,   245,   173,   -36,  -185,    90,   183,   122,  -185,
+    -185,   258,     3,   259,  -185,   266,    20,   269,  -185,  -185,
+     282,   282,  -185,  -185,  -185,  -185,  -185,   202,   282,  -185,
+     385,   385,  -185,    47,   275,  -185,  -185,    98,  -185,  -185,
+    -185,  -185,    99,   274,     7,  -185,   276,   279,   173,  -185,
+    -185,  -185,   285,   287,   336,  -185,   122,  -185,   246,   293,
+     274,  -185,    63,   173,   173,  -185,  -185,  -185,   282,  -185,
+      98,  -185,  -185,  -185,  -185,  -185,  -185
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -794,17 +794,17 @@ static const yytype_uint8 yydefact[] =
        0,     0,     0,     7,     0,     1,     0,     0,     9,     3,
        2,    70,     4,    67,     0,    20,     0,     0,     8,     0,
       46,    91,    92,     0,    68,     0,     0,     0,    70,     0,
-       0,     0,    86,    75,     0,    72,    73,     0,    74,     0,
-      76,    77,    78,    79,    80,    81,     0,     0,     0,    19,
-      22,     0,    54,     0,     0,     0,    16,    17,    18,   135,
-     136,   137,   138,   139,   140,   141,   142,    12,    13,    14,
-     125,   129,    15,     0,   115,   119,   124,   127,     0,   106,
-       0,     0,     0,     0,     0,   145,     0,     0,    69,     0,
-       0,     0,     0,     0,    21,    44,     0,    45,    48,     0,
-       0,     6,    52,     0,    53,     0,     0,   132,   131,   145,
+       0,    86,    75,     0,    72,    73,     0,    74,     0,    76,
+      77,    78,    79,    80,    81,     0,     0,     0,    19,    22,
+       0,    54,     0,     0,     0,    16,    17,    18,   135,   136,
+     137,   138,   139,   140,   141,   142,    12,    13,    14,   125,
+     129,    15,     0,   115,   119,   124,   127,     0,   106,     0,
+       0,     0,     0,   145,     0,     0,     0,    69,     0,     0,
+       0,     0,     0,    21,    44,     0,    45,    48,     0,     0,
+       6,    52,     0,    53,     0,     0,   132,   131,   145,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,   145,     0,     0,     0,
-       0,    83,     0,    71,   144,     0,     0,    85,    82,    88,
+       0,     0,     0,     0,     0,   145,     0,     0,     0,     0,
+      83,     0,   144,     0,     0,    85,    86,    71,    82,    88,
        0,   108,    11,     0,     0,     0,    34,    36,    37,    35,
        0,     0,    28,     0,     0,    24,    27,    25,    26,     0,
        0,    47,     0,     0,    50,    51,     7,     7,   130,     0,
@@ -824,25 +824,25 @@ static const yytype_uint8 yydefact[] =
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-    -195,  -195,  -195,  -195,   140,   321,  -195,  -195,  -195,   -46,
-    -195,  -195,  -195,   282,  -152,  -194,  -195,  -195,  -195,  -195,
-     123,  -141,  -195,  -195,   231,  -195,   228,  -195,   242,  -195,
-     170,  -195,    78,  -195,  -195,   129,    -5,   311,  -124,   263,
-    -195,   283,  -195,  -195,  -195,  -195,  -195,  -195,  -195,  -195,
-    -195,  -195,   171,  -195,  -195,   -22,    80,    51,   -33,  -195,
-     -77
+    -185,  -185,  -185,  -185,   155,   302,  -185,  -185,  -185,   -45,
+    -185,  -185,  -185,   262,  -156,  -184,  -185,  -185,  -185,  -185,
+     108,  -134,  -185,  -185,   223,  -185,   215,  -185,   224,  -185,
+     164,  -185,    69,  -185,  -185,   114,    -6,   304,  -124,   248,
+    -185,   254,  -185,  -185,  -185,  -185,  -185,  -185,  -185,  -185,
+    -185,  -185,   162,  -185,  -185,   -21,   152,    27,   -39,  -185,
+     -99
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
-      -1,     2,     3,     6,   215,   216,     8,    15,    18,    71,
-      72,    20,    49,    50,   154,   155,   156,   157,   158,   204,
-     205,    96,    52,    97,    98,   101,   102,   103,   104,   105,
-     213,   244,   245,   246,   247,    12,    33,    16,    34,    35,
-      36,    37,    38,    39,    40,   229,    41,    42,    43,   227,
-      44,   180,   181,    45,   140,   134,    74,    75,    76,    77,
-     135
+      -1,     2,     3,     6,   215,   216,     8,    15,    18,    70,
+      71,    20,    48,    49,   154,   155,   156,   157,   158,   204,
+     205,    95,    51,    96,    97,   100,   101,   102,   103,   104,
+     213,   244,   245,   246,   247,    12,    32,    16,    33,    34,
+      35,    36,    37,    38,    39,   229,    40,    41,    42,   227,
+      43,   180,   181,    44,   140,   132,    73,    74,    75,    76,
+     133
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -850,90 +850,94 @@ static const yytype_int16 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      91,    73,    13,   201,   191,    80,   193,    82,   211,   234,
-     206,    53,   139,   241,    56,    57,    58,     1,   122,   123,
-     124,   107,   108,   261,   119,   120,    54,    85,    55,    86,
-     262,   106,   169,    87,   235,    56,    57,    58,    59,    60,
-      61,    62,    63,    64,    65,    66,   143,   153,   125,   189,
-     -83,   109,     5,   110,   265,     4,    95,   111,    67,    68,
-      69,   178,    10,   206,   136,   121,   195,   138,   141,   273,
-     274,   243,   179,    11,   196,   159,   160,   242,   198,    67,
-      68,    69,    70,    95,   256,   259,   199,     9,   170,   185,
-     186,   187,   188,    56,    57,    58,   252,   253,    53,   202,
-      99,   260,    14,   218,   255,   190,   100,   192,    56,    57,
-      58,   196,   224,    54,   153,    55,   159,   237,   276,    17,
-     196,   243,    56,    57,    58,    59,    60,    61,    62,    63,
-      64,    65,    66,   222,   179,    19,    46,    67,    68,    69,
-      56,    57,    58,   112,   275,   113,   114,   115,   116,   117,
-     232,    47,    67,    68,    69,   178,    86,   153,   159,   242,
-      87,    48,   239,    78,    51,    95,    67,    68,    69,    70,
-     182,   183,   184,    79,   230,   144,   112,   231,   113,   114,
-     115,   116,   117,   144,    67,    68,    69,   257,   128,    83,
-     145,   153,   172,   173,   174,   175,   176,   177,   145,    56,
-      57,    58,   153,    84,    88,   254,   130,    56,    57,    58,
-     269,    13,   146,   147,   148,   149,    90,   153,   153,    93,
-     146,   147,   148,   149,   153,   150,   112,    89,   113,   114,
-     115,   116,   117,   112,    92,   113,   114,   115,   116,   117,
-      95,   126,   151,    67,    68,    69,   152,   131,   127,   137,
-     142,    67,    68,    69,   152,   162,   163,   225,   166,    21,
-      22,   167,   171,   194,   200,   203,   207,    11,    23,   209,
-     210,   118,   226,    24,    25,   208,    26,    27,   212,    21,
-      22,   220,   221,   228,    28,   238,   233,    11,    23,   240,
-      29,    30,    31,   248,    25,    32,    26,    27,   249,   251,
-     258,   159,   266,   263,    28,    21,    22,   217,   129,   264,
-      29,    30,    31,    11,    23,    32,   267,    21,    22,   270,
-      25,   271,    26,    27,     7,    11,    23,   236,   161,   164,
-      28,    94,    25,   214,    26,    27,    29,    30,    31,    81,
-     272,    32,    28,   165,   168,   250,     0,   133,    29,    30,
-       0,   223,   112,    32,   113,   114,   115,   116,   117,   112,
-     197,   113,   114,   115,   116,   117,   132,     0,   219,     0,
-       0,     0,     0,   112,     0,   113,   114,   115,   116,   117,
-       0,   112,   268,   113,   114,   115,   116,   117,   112,     0,
-     113,   114,   115,   116,   117
+      90,    13,    72,   191,   211,   193,    79,   241,    81,   169,
+     201,   261,   195,     1,   106,   107,   235,   206,   262,   234,
+     196,   118,   119,    84,    52,   139,   189,    85,     4,   198,
+     111,   105,   112,   113,   114,   115,   116,   199,    94,    53,
+       5,    54,     9,   121,   122,   123,   143,   153,    55,    56,
+      57,    58,    59,    60,    61,    62,    63,    64,    65,    10,
+     129,   218,   120,   134,   265,   256,    11,   138,   141,   196,
+     206,   242,   179,   124,    55,    56,    57,    94,   243,   273,
+     274,   259,   185,   186,   187,   188,   159,   160,   170,    14,
+     224,   232,    66,    67,    68,    69,   252,   253,   196,   159,
+     202,   144,   159,   237,   255,   190,    98,   192,   260,    55,
+      56,    57,    99,    17,   276,   153,   145,    19,    66,    67,
+      68,    55,    56,    57,    50,    55,    56,    57,   243,    45,
+     108,   242,   109,    46,   222,   179,   110,    94,   146,   147,
+     148,   149,    47,   150,   275,   182,   183,   184,    82,    55,
+      56,    57,    77,    66,    67,    68,   178,    78,   153,    87,
+     151,    88,    89,   239,    91,    66,    67,    68,   178,    66,
+      67,    68,   152,    94,    92,   230,   144,   111,   231,   112,
+     113,   114,   115,   116,    83,   125,    84,   126,   257,   130,
+      85,   145,   153,    66,    67,    68,   142,   135,   162,   163,
+      55,    56,    57,   153,   166,    52,   254,   -83,   225,   167,
+      13,   269,   194,   146,   147,   148,   149,   171,   153,   153,
+      53,   200,    54,   226,   203,   153,   207,   208,   210,    55,
+      56,    57,    58,    59,    60,    61,    62,    63,    64,    65,
+     220,   209,   212,   228,    66,    67,    68,   152,   111,   221,
+     112,   113,   114,   115,   116,   233,   111,   238,   112,   113,
+     114,   115,   116,   172,   173,   174,   175,   176,   177,   240,
+      21,    22,   248,    66,    67,    68,    69,   249,    11,    23,
+     251,   258,    21,    22,    24,    25,   159,    26,    27,   263,
+      11,    23,   264,   127,   117,    28,   266,    25,   267,    26,
+      27,    29,    30,   270,   271,     7,    31,    28,    21,    22,
+      93,   128,   236,    29,    30,   164,    11,    23,    31,   161,
+      21,    22,   217,    25,   165,    26,    27,   214,    11,    23,
+     250,   272,    80,    28,   137,    25,   131,    26,    27,    29,
+      30,     0,   223,     0,   136,    28,     0,     0,     0,     0,
+       0,    29,    30,     0,     0,   111,    31,   112,   113,   114,
+     115,   116,   168,    83,     0,    84,     0,     0,     0,    85,
+       0,     0,     0,    86,   197,     0,     0,   111,     0,   112,
+     113,   114,   115,   116,   219,   268,   -83,   111,     0,   112,
+     113,   114,   115,   116,     0,     0,     0,   111,     0,   112,
+     113,   114,   115,   116,   111,     0,   112,   113,   114,   115,
+     116
 };
 
 static const yytype_int16 yycheck[] =
 {
-      46,    23,     7,   144,   128,    27,   130,    29,   160,   203,
-     151,     3,     4,     4,    27,    28,    29,    61,    14,    15,
-      16,    54,    55,     4,    17,    18,    18,     3,    20,     5,
-      11,    53,   109,     9,    52,    27,    28,    29,    30,    31,
-      32,    33,    34,    35,    36,    37,    92,    93,    44,   126,
-      26,     3,     0,     5,   248,    74,    74,     9,    71,    72,
-      73,    74,     9,   204,    86,    58,     4,    89,    90,   263,
-     264,   212,   118,    46,    12,    12,    13,    68,     4,    71,
-      72,    73,    74,    74,    18,   237,    12,    11,   110,   122,
-     123,   124,   125,    27,    28,    29,   220,   221,     3,   145,
-      54,   242,    48,     4,   228,   127,    60,   129,    27,    28,
-      29,    12,     4,    18,   160,    20,    12,    13,   270,    74,
-      12,   262,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    52,   180,    66,    26,    71,    72,    73,
-      27,    28,    29,    19,   268,    21,    22,    23,    24,    25,
-       4,    74,    71,    72,    73,    74,     5,   203,    12,    68,
-       9,    74,   208,    74,    68,    74,    71,    72,    73,    74,
-     119,   120,   121,    71,   196,     3,    19,   199,    21,    22,
-      23,    24,    25,     3,    71,    72,    73,   233,    64,     3,
-      18,   237,   112,   113,   114,   115,   116,   117,    18,    27,
-      28,    29,   248,    13,    11,   227,    49,    27,    28,    29,
-     256,   216,    40,    41,    42,    43,     3,   263,   264,    25,
-      40,    41,    42,    43,   270,    45,    19,    26,    21,    22,
-      23,    24,    25,    19,    26,    21,    22,    23,    24,    25,
-      74,     3,    62,    71,    72,    73,    74,    74,    26,    74,
-      11,    71,    72,    73,    74,    74,    74,    50,    11,    38,
-      39,    11,    74,     4,    11,     5,    10,    46,    47,    11,
-      74,    57,    65,    52,    53,    10,    55,    56,     3,    38,
-      39,    13,    13,    51,    63,    74,    10,    46,    47,    11,
-      69,    70,    71,    13,    53,    74,    55,    56,    11,    11,
-       6,    12,    11,    13,    63,    38,    39,   167,    67,    13,
-      69,    70,    71,    46,    47,    74,    11,    38,    39,    57,
-      53,    11,    55,    56,     3,    46,    47,   204,    97,   101,
-      63,    49,    53,   163,    55,    56,    69,    70,    71,    28,
-     262,    74,    63,   101,     4,   216,    -1,    84,    69,    70,
-      -1,   180,    19,    74,    21,    22,    23,    24,    25,    19,
-       6,    21,    22,    23,    24,    25,    83,    -1,     6,    -1,
-      -1,    -1,    -1,    19,    -1,    21,    22,    23,    24,    25,
-      -1,    19,    49,    21,    22,    23,    24,    25,    19,    -1,
-      21,    22,    23,    24,    25
+      45,     7,    23,   127,   160,   129,    27,     4,    29,   108,
+     144,     4,     4,    61,    53,    54,    52,   151,    11,   203,
+      12,    17,    18,     5,     3,     4,   125,     9,    74,     4,
+      19,    52,    21,    22,    23,    24,    25,    12,    74,    18,
+       0,    20,    11,    14,    15,    16,    91,    92,    27,    28,
+      29,    30,    31,    32,    33,    34,    35,    36,    37,     9,
+      49,     4,    58,    84,   248,    18,    46,    88,    89,    12,
+     204,    68,   117,    44,    27,    28,    29,    74,   212,   263,
+     264,   237,   121,   122,   123,   124,    12,    13,   109,    48,
+       4,     4,    71,    72,    73,    74,   220,   221,    12,    12,
+     145,     3,    12,    13,   228,   126,    54,   128,   242,    27,
+      28,    29,    60,    74,   270,   160,    18,    66,    71,    72,
+      73,    27,    28,    29,    68,    27,    28,    29,   262,    26,
+       3,    68,     5,    74,    52,   180,     9,    74,    40,    41,
+      42,    43,    74,    45,   268,   118,   119,   120,     3,    27,
+      28,    29,    74,    71,    72,    73,    74,    74,   203,    11,
+      62,    26,     3,   208,    26,    71,    72,    73,    74,    71,
+      72,    73,    74,    74,    25,   196,     3,    19,   199,    21,
+      22,    23,    24,    25,     3,     3,     5,    26,   233,    74,
+       9,    18,   237,    71,    72,    73,    11,    74,    74,    74,
+      27,    28,    29,   248,    11,     3,   227,    26,    50,    11,
+     216,   256,     4,    40,    41,    42,    43,    74,   263,   264,
+      18,    11,    20,    65,     5,   270,    10,    10,    74,    27,
+      28,    29,    30,    31,    32,    33,    34,    35,    36,    37,
+      13,    11,     3,    51,    71,    72,    73,    74,    19,    13,
+      21,    22,    23,    24,    25,    10,    19,    74,    21,    22,
+      23,    24,    25,   111,   112,   113,   114,   115,   116,    11,
+      38,    39,    13,    71,    72,    73,    74,    11,    46,    47,
+      11,     6,    38,    39,    52,    53,    12,    55,    56,    13,
+      46,    47,    13,    64,    57,    63,    11,    53,    11,    55,
+      56,    69,    70,    57,    11,     3,    74,    63,    38,    39,
+      48,    67,   204,    69,    70,   100,    46,    47,    74,    96,
+      38,    39,   167,    53,   100,    55,    56,   163,    46,    47,
+     216,   262,    28,    63,    86,    53,    82,    55,    56,    69,
+      70,    -1,   180,    -1,    74,    63,    -1,    -1,    -1,    -1,
+      -1,    69,    70,    -1,    -1,    19,    74,    21,    22,    23,
+      24,    25,     4,     3,    -1,     5,    -1,    -1,    -1,     9,
+      -1,    -1,    -1,    13,     6,    -1,    -1,    19,    -1,    21,
+      22,    23,    24,    25,     6,    49,    26,    19,    -1,    21,
+      22,    23,    24,    25,    -1,    -1,    -1,    19,    -1,    21,
+      22,    23,    24,    25,    19,    -1,    21,    22,    23,    24,
+      25
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -943,17 +947,17 @@ static const yytype_uint8 yystos[] =
        0,    61,    76,    77,    74,     0,    78,    80,    81,    11,
        9,    46,   110,   111,    48,    82,   112,    74,    83,    66,
       86,    38,    39,    47,    52,    53,    55,    56,    63,    69,
-      70,    71,    74,   111,   113,   114,   115,   116,   117,   118,
-     119,   121,   122,   123,   125,   128,    26,    74,    74,    87,
-      88,    68,    97,     3,    18,    20,    27,    28,    29,    30,
-      31,    32,    33,    34,    35,    36,    37,    71,    72,    73,
-      74,    84,    85,   130,   131,   132,   133,   134,    74,    71,
-     130,   112,   130,     3,    13,     3,     5,     9,    11,    26,
-       3,    84,    26,    25,    88,    74,    96,    98,    99,    54,
-      60,   100,   101,   102,   103,   104,   130,   133,   133,     3,
-       5,     9,    19,    21,    22,    23,    24,    25,    57,    17,
-      18,    58,    14,    15,    16,    44,     3,    26,    64,    67,
-      49,    74,   116,   114,   130,   135,   130,    74,   130,     4,
+      70,    74,   111,   113,   114,   115,   116,   117,   118,   119,
+     121,   122,   123,   125,   128,    26,    74,    74,    87,    88,
+      68,    97,     3,    18,    20,    27,    28,    29,    30,    31,
+      32,    33,    34,    35,    36,    37,    71,    72,    73,    74,
+      84,    85,   130,   131,   132,   133,   134,    74,    74,   130,
+     112,   130,     3,     3,     5,     9,    13,    11,    26,     3,
+      84,    26,    25,    88,    74,    96,    98,    99,    54,    60,
+     100,   101,   102,   103,   104,   130,   133,   133,     3,     5,
+       9,    19,    21,    22,    23,    24,    25,    57,    17,    18,
+      58,    14,    15,    16,    44,     3,    26,    64,    67,    49,
+      74,   116,   130,   135,   130,    74,    74,   114,   130,     4,
      129,   130,    11,    84,     3,    18,    40,    41,    42,    43,
       45,    62,    74,    84,    89,    90,    91,    92,    93,    12,
       13,    99,    74,    74,   101,   103,    11,    11,     4,   135,
@@ -1705,869 +1709,869 @@ yyreduce:
   case 2:
 #line 169 "/home/gster/CLionProjects/SPL/SPL.y"
                                    { ::program = new Program((yyvsp[-2].programhead), (yyvsp[-1].routine)); }
-#line 1709 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1713 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 3:
 #line 172 "/home/gster/CLionProjects/SPL/SPL.y"
                                  { (yyval.programhead) = new ProgramHead(*(yyvsp[-1].string)); }
-#line 1715 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1719 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 4:
 #line 175 "/home/gster/CLionProjects/SPL/SPL.y"
                                     { (yyval.routine) = new Routine((yyvsp[-1].routinehead), (yyvsp[0].routinebody)); }
-#line 1721 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1725 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 5:
 #line 178 "/home/gster/CLionProjects/SPL/SPL.y"
                                         { (yyval.routine) = new Routine((yyvsp[-1].routinehead), (yyvsp[0].routinebody)); }
-#line 1727 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1731 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 6:
 #line 182 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinehead) = new RoutineHead((yyvsp[-4].labelpart), (yyvsp[-3].constpart), (yyvsp[-2].typepart), (yyvsp[-1].varpart), (yyvsp[0].routinepart)); }
-#line 1733 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1737 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 7:
 #line 185 "/home/gster/CLionProjects/SPL/SPL.y"
              { (yyval.labelpart) = new LabelPart(); }
-#line 1739 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1743 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 8:
 #line 187 "/home/gster/CLionProjects/SPL/SPL.y"
                                    { (yyval.constpart) = new ConstPart((yyvsp[0].constexprlist)); }
-#line 1745 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1749 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 9:
 #line 188 "/home/gster/CLionProjects/SPL/SPL.y"
                      { (yyval.constpart) = new ConstPart(new ConstExprList()); }
-#line 1751 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1755 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 10:
 #line 192 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.constexprlist) = (yyvsp[-4].constexprlist); (yyval.constexprlist)->pushBack(new ConstValueDecl(*(yyvsp[-3].string), (yyvsp[-1].constvalue))); }
-#line 1757 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1761 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 11:
 #line 194 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.constexprlist) = new ConstExprList(); (yyval.constexprlist)->pushBack(new ConstValueDecl(*(yyvsp[-3].string), (yyvsp[-1].constvalue))); }
-#line 1763 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1767 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 12:
 #line 197 "/home/gster/CLionProjects/SPL/SPL.y"
                       { (yyval.constvalue) = new ConstIntValue(*(yyvsp[0].string)); }
-#line 1769 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1773 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 13:
 #line 198 "/home/gster/CLionProjects/SPL/SPL.y"
                                   { (yyval.constvalue) = new ConstRealValue(*(yyvsp[0].string)); }
-#line 1775 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1779 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 14:
 #line 199 "/home/gster/CLionProjects/SPL/SPL.y"
                                   { (yyval.constvalue) = new ConstCharValue(*(yyvsp[0].string)); }
-#line 1781 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1785 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 15:
 #line 200 "/home/gster/CLionProjects/SPL/SPL.y"
                                   { (yyval.constvalue) = (yyvsp[0].constvalue); }
-#line 1787 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1791 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 16:
 #line 203 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.constvalue) = new ConstIntValue("0"); }
-#line 1793 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1797 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 17:
 #line 204 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.constvalue) = new ConstIntValue("2147483647"); }
-#line 1799 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1803 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 18:
 #line 205 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.constvalue) = new ConstIntValue("1"); }
-#line 1805 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1809 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 19:
 #line 208 "/home/gster/CLionProjects/SPL/SPL.y"
                                  { (yyval.typepart) = (yyvsp[0].typedecllist); }
-#line 1811 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1815 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 20:
 #line 209 "/home/gster/CLionProjects/SPL/SPL.y"
                     { (yyval.typepart) = new TypePart(); }
-#line 1817 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1821 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 21:
 #line 213 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.typedecllist) = (yyvsp[-1].typedecllist); (yyval.typedecllist)->pushBack((yyvsp[0].typedefinition)); }
-#line 1823 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1827 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 22:
 #line 215 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.typedecllist) = new TypeDeclList(); (yyval.typedecllist)->pushBack((yyvsp[0].typedefinition)); }
-#line 1829 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1833 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 23:
 #line 219 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.typedefinition) = new TypeDefinition(*(yyvsp[-3].string), (yyvsp[-1].typedecl)); }
-#line 1835 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1839 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 24:
 #line 222 "/home/gster/CLionProjects/SPL/SPL.y"
                              { (yyval.typedecl) = (yyvsp[0].simpletype); }
-#line 1841 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1845 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 25:
 #line 223 "/home/gster/CLionProjects/SPL/SPL.y"
                                      { (yyval.typedecl) = (yyvsp[0].arraytype); }
-#line 1847 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1851 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 26:
 #line 224 "/home/gster/CLionProjects/SPL/SPL.y"
                                      { (yyval.typedecl) = (yyvsp[0].recordtype); }
-#line 1853 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1857 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 27:
 #line 227 "/home/gster/CLionProjects/SPL/SPL.y"
                             { (yyval.simpletype) = (yyvsp[0].systype); }
-#line 1859 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1863 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 28:
 #line 228 "/home/gster/CLionProjects/SPL/SPL.y"
                                          { (yyval.simpletype) = new CustomType(*(yyvsp[0].string), std::string("Custom")); }
-#line 1865 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1869 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 29:
 #line 229 "/home/gster/CLionProjects/SPL/SPL.y"
                                                    { (yyval.simpletype) = new EnumType((yyvsp[-1].namelist), "Enum"); }
-#line 1871 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1875 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 30:
 #line 230 "/home/gster/CLionProjects/SPL/SPL.y"
                                                                   { (yyval.simpletype) = new RangeType((yyvsp[-2].constvalue), (yyvsp[0].constvalue), "Range"); }
-#line 1877 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1881 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 31:
 #line 231 "/home/gster/CLionProjects/SPL/SPL.y"
                                                                         { (yyval.simpletype) = new RangeType((yyvsp[-2].constvalue)->setNeg(), (yyvsp[0].constvalue), "Range"); }
-#line 1883 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1887 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 32:
 #line 232 "/home/gster/CLionProjects/SPL/SPL.y"
                                                                               { (yyval.simpletype) = new RangeType((yyvsp[-3].constvalue)->setNeg(), (yyvsp[0].constvalue)->setNeg(), "Range"); }
-#line 1889 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1893 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 33:
 #line 233 "/home/gster/CLionProjects/SPL/SPL.y"
                                                     { (yyval.simpletype) = new NamedRangeType(*(yyvsp[-2].string), *(yyvsp[0].string), "NamedRange"); }
-#line 1895 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1899 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 34:
 #line 236 "/home/gster/CLionProjects/SPL/SPL.y"
                      { (yyval.systype) = new SysType("bool"); }
-#line 1901 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1905 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 35:
 #line 237 "/home/gster/CLionProjects/SPL/SPL.y"
                              { (yyval.systype) = new SysType("real"); }
-#line 1907 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1911 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 36:
 #line 238 "/home/gster/CLionProjects/SPL/SPL.y"
                              { (yyval.systype) = new SysType("char"); }
-#line 1913 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1917 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 37:
 #line 239 "/home/gster/CLionProjects/SPL/SPL.y"
                              { (yyval.systype) = new SysType("int"); }
-#line 1919 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1923 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 38:
 #line 243 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.arraytype) = new ArrayType((yyvsp[-3].simpletype), (yyvsp[0].typedecl)); }
-#line 1925 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1929 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 39:
 #line 247 "/home/gster/CLionProjects/SPL/SPL.y"
                                  { (yyval.recordtype) = new RecordType((yyvsp[-1].fielddecllist)); }
-#line 1931 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1935 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 40:
 #line 251 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.fielddecllist) = (yyvsp[-1].fielddecllist); (yyval.fielddecllist)->pushBack((yyvsp[0].fielddecl)); }
-#line 1937 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1941 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 41:
 #line 253 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.fielddecllist) = new FieldDeclList(); (yyval.fielddecllist)->pushBack((yyvsp[0].fielddecl)); }
-#line 1943 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1947 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 42:
 #line 257 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.fielddecl) = new FieldDecl((yyvsp[-3].namelist), (yyvsp[-1].typedecl)); }
-#line 1949 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1953 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 43:
 #line 261 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.namelist) = (yyvsp[-2].namelist); (yyval.namelist)->pushBack(*(yyvsp[0].string)); }
-#line 1955 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1959 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 44:
 #line 263 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.namelist) = new NameList(); (yyval.namelist)->pushBack(*(yyvsp[0].string)); }
-#line 1961 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1965 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 45:
 #line 267 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.varpart) = (yyvsp[0].vardecllist); }
-#line 1967 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1971 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 46:
 #line 269 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.varpart) = new VarDeclList(); }
-#line 1973 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1977 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 47:
 #line 273 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.vardecllist) = (yyvsp[-1].vardecllist); (yyval.vardecllist)->pushBack((yyvsp[0].vardecl)); }
-#line 1979 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1983 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 48:
 #line 275 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.vardecllist) = new VarDeclList(); (yyval.vardecllist)->pushBack((yyvsp[0].vardecl)); }
-#line 1985 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1989 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 49:
 #line 279 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.vardecl) = new VarDecl((yyvsp[-3].namelist), (yyvsp[-1].typedecl)); }
-#line 1991 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 1995 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 50:
 #line 283 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinepart) = (yyvsp[-1].routinepart); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 1997 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2001 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 51:
 #line 285 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinepart) = (yyvsp[-1].routinepart); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 2003 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2007 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 52:
 #line 287 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinepart) = new RoutinePart(); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 2009 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2013 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 53:
 #line 289 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinepart) = new RoutinePart(); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 2015 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2019 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 54:
 #line 291 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinepart) = new RoutinePart(); }
-#line 2021 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2025 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 55:
 #line 295 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.routinedecl) = new Function((yyvsp[-3].functionhead), (yyvsp[-1].routine)); }
-#line 2027 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2031 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 56:
 #line 299 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.functionhead) = new FunctionHead(*(yyvsp[-3].string), (yyvsp[-2].parameters), (yyvsp[0].simpletype)); }
-#line 2033 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2037 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 57:
 #line 303 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.routinedecl) = new Procedure((yyvsp[-3].procedurehead), (yyvsp[-1].routine)); }
-#line 2039 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2043 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 58:
 #line 307 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.procedurehead) = new ProcedureHead(*(yyvsp[-1].string), (yyvsp[0].parameters)); }
-#line 2045 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2049 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 59:
 #line 311 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.parameters) = (yyvsp[-1].paradecllist); }
-#line 2051 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2055 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 60:
 #line 313 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.parameters) = new ParaDeclList(); }
-#line 2057 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2061 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 61:
 #line 317 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.paradecllist) = (yyvsp[-2].paradecllist); (yyval.paradecllist)->pushBack((yyvsp[0].paratypelist)); }
-#line 2063 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2067 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 62:
 #line 319 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.paradecllist) = new ParaDeclList(); (yyval.paradecllist)->pushBack((yyvsp[0].paratypelist)); }
-#line 2069 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2073 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 63:
 #line 323 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.paratypelist) = new ParaTypeList((yyvsp[-2].varparalist), (yyvsp[0].simpletype)); }
-#line 2075 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2079 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 64:
 #line 325 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.paratypelist) = new ParaTypeList((yyvsp[-2].varparalist), (yyvsp[0].simpletype)); }
-#line 2081 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2085 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 65:
 #line 329 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.varparalist) = (yyvsp[0].namelist); (yyval.varparalist)->ref = true; }
-#line 2087 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2091 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 66:
 #line 333 "/home/gster/CLionProjects/SPL/SPL.y"
                 { (yyval.varparalist) = (yyvsp[0].namelist); (yyval.varparalist)->ref = false; }
-#line 2093 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2097 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 67:
 #line 337 "/home/gster/CLionProjects/SPL/SPL.y"
                          { (yyval.routinebody) = (yyvsp[0].compoundstmt); }
-#line 2099 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2103 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 68:
 #line 341 "/home/gster/CLionProjects/SPL/SPL.y"
                           { (yyval.compoundstmt) = (yyvsp[-1].stmtlist); }
-#line 2105 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2109 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 69:
 #line 345 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.stmtlist) = (yyvsp[-2].stmtlist); (yyval.stmtlist)->pushBack((yyvsp[-1].stmt)); }
-#line 2111 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2115 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 70:
 #line 347 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.stmtlist) = new StmtList(); }
-#line 2117 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2121 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 71:
 #line 351 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.stmt) = (yyvsp[0].stmt); (yyval.stmt)->addLabel(*(yyvsp[-2].string)); }
-#line 2123 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2127 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 72:
 #line 353 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 2129 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2133 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 73:
 #line 357 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].assignstmt); }
-#line 2135 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2139 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 74:
 #line 359 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].procstmt); }
-#line 2141 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2145 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 75:
 #line 361 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].compoundstmt); }
-#line 2147 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2151 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 76:
 #line 363 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].ifstmt); }
-#line 2153 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2157 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 77:
 #line 365 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].repeatstmt); }
-#line 2159 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2163 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 78:
 #line 367 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].whilestmt); }
-#line 2165 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2169 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 79:
 #line 369 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].forstmt); }
-#line 2171 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2175 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 80:
 #line 371 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].casestmt); }
-#line 2177 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2181 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 81:
 #line 373 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.stmt) = (yyvsp[0].gotostmt); }
-#line 2183 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2187 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 82:
 #line 377 "/home/gster/CLionProjects/SPL/SPL.y"
                         { (yyval.assignstmt) = new AssignStmt((yyvsp[-2].leftvalue), (yyvsp[0].expression)); }
-#line 2189 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2193 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 83:
 #line 381 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.leftvalue) = new NameLeftValue(*(yyvsp[0].string)); }
-#line 2195 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2199 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 84:
 #line 383 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.leftvalue) = new IndexLeftValue(*(yyvsp[-3].string), (yyvsp[-1].expression)); }
-#line 2201 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2205 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 85:
 #line 385 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.leftvalue) = new MemberLeftValue(*(yyvsp[-2].string), *(yyvsp[0].string)); }
-#line 2207 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2211 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 86:
 #line 389 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.procstmt) = new NameProcStmt(*(yyvsp[0].string)); }
-#line 2213 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2217 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 87:
 #line 391 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.procstmt) = new CallProcStmt(*(yyvsp[-3].string), (yyvsp[-1].argslist)); }
-#line 2219 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2223 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 88:
 #line 393 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.procstmt) = new SysCallProcStmt(*(yyvsp[-2].string), new ExpressionList()); }
-#line 2225 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2229 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 89:
 #line 395 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.procstmt) = new SysCallProcStmt(*(yyvsp[-3].string), (yyvsp[-1].expressionlist)); }
-#line 2231 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2235 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 90:
 #line 397 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.procstmt) = new ReadProcStmt((yyvsp[-1].leftvalue)); }
-#line 2237 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2241 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 91:
 #line 401 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.string) = new std::string("write"); }
-#line 2243 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2247 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 92:
 #line 403 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.string) = new std::string("writeln"); }
-#line 2249 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2253 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 93:
 #line 407 "/home/gster/CLionProjects/SPL/SPL.y"
                 { (yyval.ifstmt) = new IfStmt((yyvsp[-3].expression), (yyvsp[-1].stmt), (yyvsp[0].elseclause)); }
-#line 2255 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2259 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 94:
 #line 411 "/home/gster/CLionProjects/SPL/SPL.y"
                         { (yyval.elseclause) = new ElseClause((yyvsp[0].stmt)); }
-#line 2261 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2265 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 95:
 #line 413 "/home/gster/CLionProjects/SPL/SPL.y"
                         { (yyval.elseclause) = new ElseClause(); }
-#line 2267 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2271 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 96:
 #line 417 "/home/gster/CLionProjects/SPL/SPL.y"
                         { (yyval.repeatstmt) = new RepeatStmt((yyvsp[-2].stmtlist), (yyvsp[0].expression)); }
-#line 2273 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2277 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 97:
 #line 421 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.whilestmt) = new WhileStmt((yyvsp[-2].expression), (yyvsp[0].stmt)); }
-#line 2279 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2283 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 98:
 #line 425 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.forstmt) = new ForStmt(*(yyvsp[-6].string), (yyvsp[-4].expression), (yyvsp[-3].direction), (yyvsp[-2].expression), (yyvsp[0].stmt)); }
-#line 2285 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2289 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 99:
 #line 429 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.direction) = new Direction("to"); }
-#line 2291 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2295 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 100:
 #line 431 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.direction) = new Direction("downto"); }
-#line 2297 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2301 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 101:
 #line 435 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.casestmt) = new CaseStmt((yyvsp[-3].expression), (yyvsp[-1].caseexprlist)); }
-#line 2303 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2307 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 102:
 #line 439 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.caseexprlist) = (yyvsp[-1].caseexprlist); (yyval.caseexprlist)->pushBack((yyvsp[0].caseexpr)); }
-#line 2309 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2313 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 103:
 #line 441 "/home/gster/CLionProjects/SPL/SPL.y"
                            { (yyval.caseexprlist) = new CaseExprList(); (yyval.caseexprlist)->pushBack((yyvsp[0].caseexpr)); }
-#line 2315 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2319 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 104:
 #line 445 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.caseexpr) = new ConstValueCaseExpr((yyvsp[-3].constvalue), (yyvsp[-1].stmt)); }
-#line 2321 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2325 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 105:
 #line 447 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.caseexpr) = new NameCaseExpr(*(yyvsp[-3].string), (yyvsp[-1].stmt)); }
-#line 2327 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2331 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 106:
 #line 451 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.gotostmt) = new GotoStmt(*(yyvsp[0].string)); }
-#line 2333 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2337 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 107:
 #line 455 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.expressionlist) = (yyvsp[-2].expressionlist); (yyval.expressionlist)->pushBack((yyvsp[0].expression)); }
-#line 2339 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2343 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 108:
 #line 457 "/home/gster/CLionProjects/SPL/SPL.y"
                                 { (yyval.expressionlist) = new ExpressionList(); (yyval.expressionlist)->pushBack((yyvsp[0].expression)); }
-#line 2345 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2349 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 109:
 #line 461 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), ">="); }
-#line 2351 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2355 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 110:
 #line 463 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), ">"); }
-#line 2357 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2361 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 111:
 #line 465 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<="); }
-#line 2363 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2367 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 112:
 #line 467 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<"); }
-#line 2369 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2373 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 113:
 #line 469 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "="); }
-#line 2375 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2379 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 114:
 #line 471 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<>"); }
-#line 2381 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2385 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 115:
 #line 473 "/home/gster/CLionProjects/SPL/SPL.y"
                    { (yyval.expression) = (yyvsp[0].expr); }
-#line 2387 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2391 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 116:
 #line 477 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.expr) = new CalcExpr((yyvsp[-2].expr), (yyvsp[0].term), "+"); }
-#line 2393 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2397 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 117:
 #line 479 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.expr) = new CalcExpr((yyvsp[-2].expr), (yyvsp[0].term), "-"); }
-#line 2399 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2403 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 118:
 #line 481 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.expr) = new BinaryExpr((yyvsp[-2].expr), (yyvsp[0].term), "or"); }
-#line 2405 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2409 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 119:
 #line 483 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.expr) = (yyvsp[0].term); }
-#line 2411 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2415 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 120:
 #line 487 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "*"); }
-#line 2417 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2421 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 121:
 #line 489 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "/"); }
-#line 2423 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2427 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 122:
 #line 491 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "mod"); }
-#line 2429 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2433 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 123:
 #line 493 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.term) = new BinaryExpr((yyvsp[-2].term), (yyvsp[0].factor), "and"); }
-#line 2435 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2439 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 124:
 #line 495 "/home/gster/CLionProjects/SPL/SPL.y"
          { (yyval.term) = (yyvsp[0].factor); }
-#line 2441 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2445 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 125:
 #line 499 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new NameFactor(*(yyvsp[0].string)); }
-#line 2447 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2451 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 126:
 #line 501 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new CallFactor(*(yyvsp[-3].string), (yyvsp[-1].argslist)); }
-#line 2453 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2457 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 127:
 #line 503 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new SysFuncFactor(*(yyvsp[0].string)); }
-#line 2459 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2463 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 128:
 #line 505 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new SysFuncCallFactor(*(yyvsp[-3].string), (yyvsp[-1].argslist)); }
-#line 2465 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2469 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 129:
 #line 507 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new ConstFactor((yyvsp[0].constvalue)); }
-#line 2471 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2475 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 130:
 #line 509 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new ParenthesesFactor((yyvsp[-1].expression)); }
-#line 2477 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2481 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 131:
 #line 511 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = (yyvsp[0].factor); (yyval.factor)->setNot(); }
-#line 2483 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2487 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 132:
 #line 513 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = (yyvsp[0].factor); (yyval.factor)->setNeg(); }
-#line 2489 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2493 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 133:
 #line 515 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new IndexFactor(*(yyvsp[-3].string), (yyvsp[-1].expression)); }
-#line 2495 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2499 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 134:
 #line 517 "/home/gster/CLionProjects/SPL/SPL.y"
            { (yyval.factor) = new MemberFactor(*(yyvsp[-2].string), *(yyvsp[0].string)); }
-#line 2501 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2505 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 135:
 #line 521 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.string) = new std::string("abs"); }
-#line 2507 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2511 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 136:
 #line 523 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.string) = new std::string("chr"); }
-#line 2513 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2517 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 137:
 #line 525 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.string) = new std::string("odd"); }
-#line 2519 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2523 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 138:
 #line 527 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.string) = new std::string("ord"); }
-#line 2525 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2529 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 139:
 #line 529 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.string) = new std::string("pred"); }
-#line 2531 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2535 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 140:
 #line 531 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.string) = new std::string("sqr"); }
-#line 2537 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2541 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 141:
 #line 533 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.string) = new std::string("sqrt"); }
-#line 2543 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2547 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 142:
 #line 535 "/home/gster/CLionProjects/SPL/SPL.y"
                  { (yyval.string) = new std::string("succ"); }
-#line 2549 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2553 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 143:
 #line 539 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.argslist) = (yyvsp[-2].argslist); (yyval.argslist)->pushBack((yyvsp[0].expression)); }
-#line 2555 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2559 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 144:
 #line 541 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.argslist) = new ArgsList(); (yyval.argslist)->pushBack((yyvsp[0].expression)); }
-#line 2561 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2565 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
   case 145:
 #line 543 "/home/gster/CLionProjects/SPL/SPL.y"
                   { (yyval.argslist) = new ArgsList(); }
-#line 2567 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2571 "/home/gster/CLionProjects/SPL/parser.cpp"
     break;
 
 
-#line 2571 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 2575 "/home/gster/CLionProjects/SPL/parser.cpp"
 
       default: break;
     }

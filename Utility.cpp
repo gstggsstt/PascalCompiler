@@ -4,14 +4,15 @@
 
 #include <iostream>
 #include "Utility.h"
+#include "ASTNode.h"
 
-void ASTUtilitiy::startBlock(const ASTContext &astContext) {
+void ASTUtility::startBlock(const ASTContext &astContext) {
     llvm::Function *llvmFunction = astContext.currentFunction->llvmFunction;
     auto bb = llvm::BasicBlock::Create(context, "entry", llvmFunction);
     builder.SetInsertPoint(bb);
 }
 
-llvm::Value *ASTUtilitiy::createCast(llvm::Value *value, llvm::Type *type) {
+llvm::Value *ASTUtility::createCast(llvm::Value *value, llvm::Type *type) {
     llvm::Type *valType = value->getType();
     if (valType == type ||
         type->isDoubleTy() && valType->isDoubleTy() ||
@@ -22,13 +23,13 @@ llvm::Value *ASTUtilitiy::createCast(llvm::Value *value, llvm::Type *type) {
     else if (type->isIntegerTy(64) && valType->isDoubleTy())
         return builder.CreateFPToSI(value, type);
     else {
-        std::cerr << "no viable conversion from '" + ASTUtilitiy::getTypeName(valType)
-                     + "' to '" + ASTUtilitiy::getTypeName(type) + "'" << std::endl;
+        std::cerr << "no viable conversion from '" + ASTUtility::getTypeName(valType)
+                     + "' to '" + ASTUtility::getTypeName(type) + "'" << std::endl;
         return nullptr;
     }
 }
 
-std::string ASTUtilitiy::getTypeName(llvm::Type *type) {
+std::string ASTUtility::getTypeName(llvm::Type *type) {
     if(type->isDoubleTy()){
         return "real";
     }else if(type->isIntegerTy(64)){
@@ -41,5 +42,18 @@ std::string ASTUtilitiy::getTypeName(llvm::Type *type) {
         return "bool";
     }else{
         return "unknow";
+    }
+}
+
+llvm::Constant *ASTUtility::getInitial(llvm::Type *type) {
+    if (type->isDoubleTy()) {
+        return llvm::ConstantFP::get(builder.getDoubleTy(), 0);
+    } else if (type->isIntegerTy(64)) {
+        return builder.getInt64(0);
+    } else if (type->isIntegerTy(8)) {
+        return builder.getInt8(0);
+    } else {
+        std::cerr << "no initializer for '" + getTypeName(type) + "'" << std::endl;
+        return nullptr;
     }
 }

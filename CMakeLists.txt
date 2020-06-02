@@ -8,7 +8,8 @@ find_package(BISON)
 find_package(FLEX)
 
 BISON_TARGET(parser SPL.y ${CMAKE_CURRENT_SOURCE_DIR}/parser.cpp)
-FLEX_TARGET(lexer SPL.l ${CMAKE_CURRENT_SOURCE_DIR}/lexer.cpp)
+FLEX_TARGET(lexer SPL.l ${CMAKE_CURRENT_SOURCE_DIR}/lexer.cpp
+        DEFINES_FILE ${CMAKE_CURRENT_SOURCE_DIR}/lexer.hpp)
 
 ADD_FLEX_BISON_DEPENDENCY(lexer parser)
 

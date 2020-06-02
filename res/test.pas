@@ -5,6 +5,7 @@ const
 
 var
   i : integer;
+  temp : real;
 
 function testRecursive(a : integer): integer;
 begin
@@ -115,7 +116,13 @@ begin
   testCase('b');
   testCase('d');
 
-  writeln(testConst(5));
+  testLabel:
+  read(temp);
+  writeln(testConst(temp));
+  if temp>100 then goto testLabel2;
+  goto testLabel;
+  testLabel2:
+  writeln(1);
 end
 .
 

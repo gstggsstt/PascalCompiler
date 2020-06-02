@@ -8,6 +8,7 @@
 #include <llvm/ExecutionEngine/GenericValue.h>
 
 #include "ASTNode.h"
+#include "lexer.hpp"
 #include "parser.hpp"
 #include "SystemCall.h"
 
@@ -18,8 +19,11 @@ Program *program = nullptr;
 llvm::Function *startFunc;
 std::string errorMsg;
 
-int main() {
+int main(int argc, char ** argv) {
 
+    yyin = fopen(argv[1],"r");
+    if(yyin==NULL) return 0;
+    else std::cout << "read from " << argv[1] << std::endl;
     if(yyparse()) return 0;
 
     ASTContext astContext;
@@ -28,6 +32,7 @@ int main() {
     llvm::InitializeNativeTargetAsmParser();
     llvm::ExecutionEngine *ee = llvm::EngineBuilder(std::unique_ptr<llvm::Module>(&module)).create();
 
+    addSystemFuncRead(module, *ee, builder, astContext);
     addSystemFuncWrite(module, *ee, builder,astContext);
     program->codeGen(astContext);
 
