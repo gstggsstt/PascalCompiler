@@ -49,3 +49,51 @@ void addSystemFuncWrite(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBu
     auto* endlFunc = new ASTFunction("writeLn",endlPrint, lnType ,voidArgs);
     astContext.addFunction("writeLn", endlFunc);
 }
+
+int64_t getInt()
+{
+    int64_t a;
+    std::cin >> a;
+    return a;
+}
+
+double_t getDouble()
+{
+    double_t a;
+    std::cin >> a;
+    return a;
+}
+
+int8_t getChar()
+{
+    int8_t a;
+    std::cin >> a;
+    return a;
+}
+
+void addSystemFuncRead(llvm::Module &mdl, llvm::ExecutionEngine &ee, llvm::IRBuilder<> &bdr,ASTContext &astContext) {
+    std::vector<llvm::Type*> intArgs;
+    std::vector<llvm::Type*> doubleArgs;
+    std::vector<llvm::Type*> charArgs;
+    intArgs.push_back(bdr.getVoidTy());
+    doubleArgs.push_back(bdr.getVoidTy());
+    charArgs.push_back(bdr.getVoidTy());
+    llvm::FunctionType *intType = llvm::FunctionType::get(bdr.getInt64Ty(), intArgs, false);
+    llvm::FunctionType *doubleType = llvm::FunctionType::get(bdr.getDoubleTy(), doubleArgs, false);
+    llvm::FunctionType *charType = llvm::FunctionType::get(bdr.getInt8Ty(), charArgs, false);
+    llvm::Function* intRead = llvm::Function::Create(intType, llvm::GlobalValue::ExternalLinkage, "int_read", &mdl);
+    llvm::Function* doubleRead = llvm::Function::Create(doubleType, llvm::GlobalValue::ExternalLinkage, "double_read", &mdl);
+    llvm::Function* charRead = llvm::Function::Create(charType, llvm::GlobalValue::ExternalLinkage, "char_read", &mdl);
+    intRead -> setCallingConv(llvm::CallingConv::C);
+    doubleRead -> setCallingConv(llvm::CallingConv::C);
+    charRead -> setCallingConv(llvm::CallingConv::C);
+    ee.addGlobalMapping((llvm::GlobalValue*)intRead, reinterpret_cast<void*>(&getInt));
+    ee.addGlobalMapping((llvm::GlobalValue*)doubleRead, reinterpret_cast<void*>(&getDouble));
+    ee.addGlobalMapping((llvm::GlobalValue*)charRead, reinterpret_cast<void*>(&getChar));
+    auto* intFunc = new ASTFunction("intRead", intRead, intType, intArgs);
+    astContext.addFunction("intRead",intFunc);
+    auto* doubleFunc = new ASTFunction("doubleRead", intRead, intType, intArgs);
+    astContext.addFunction("doubleRead",doubleFunc);
+    auto* charFunc = new ASTFunction("charRead", intRead, intType, intArgs);
+    astContext.addFunction("charRead",charFunc);
+}
