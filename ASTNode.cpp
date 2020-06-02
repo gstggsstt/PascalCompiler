@@ -717,7 +717,7 @@ llvm::Value *FunctionHead::codeGen(ASTContext &astContext) {
     }
     llvm::ArrayRef<llvm::Type *> argTypeArrayRef(argType);
     llvm::FunctionType *funcType = llvm::FunctionType::get(astContext.getType(st->declTp), argTypeArrayRef, false);
-    llvm::Function *llvmFunc = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, nm + "_sp", module);
+    llvm::Function *llvmFunc = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, nm + "_sp", &module);
     auto *func = new ASTFunction(nm, llvmFunc, astContext.getType(st->declTp), argType);
     astContext.parent->addFunction(nm, func);
     astContext.currentFunction = func;
@@ -1035,7 +1035,7 @@ llvm::Value *ProcedureHead::codeGen(ASTContext &astContext) {
     }
     llvm::ArrayRef<llvm::Type *> argTypeArrayRef(argType);
     llvm::FunctionType *funcType = llvm::FunctionType::get(builder.getVoidTy(), argTypeArrayRef, false);
-    llvm::Function *llvmFunc = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, nm + "_sp", module);
+    llvm::Function *llvmFunc = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, nm + "_sp", &module);
     auto *func = new ASTFunction(nm, llvmFunc, builder.getVoidTy(), argType);
     astContext.parent->addFunction(nm, func);
     astContext.currentFunction = func;

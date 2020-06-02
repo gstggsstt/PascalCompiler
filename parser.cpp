@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
-   Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,14 +40,11 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
-
 /* Identify Bison output.  */
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.5.1"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -65,8 +61,8 @@
 
 
 
-/* First part of user prologue.  */
-#line 1 "/home/gster/CLionProjects/SPL/SPL.y"
+/* Copy the first part of user declarations.  */
+#line 1 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:339  */
 
 	#include "ASTNode.h"
 	#include <string>
@@ -77,26 +73,13 @@
 	extern Program* program;
 	void yyerror(const char *s) { std::cerr << s << std::endl; }
 
-#line 81 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 77 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:339  */
 
-# ifndef YY_CAST
-#  ifdef __cplusplus
-#   define YY_CAST(Type, Val) static_cast<Type> (Val)
-#   define YY_REINTERPRET_CAST(Type, Val) reinterpret_cast<Type> (Val)
-#  else
-#   define YY_CAST(Type, Val) ((Type) (Val))
-#   define YY_REINTERPRET_CAST(Type, Val) ((Type) (Val))
-#  endif
-# endif
 # ifndef YY_NULLPTR
-#  if defined __cplusplus
-#   if 201103L <= __cplusplus
-#    define YY_NULLPTR nullptr
-#   else
-#    define YY_NULLPTR 0
-#   endif
+#  if defined __cplusplus && 201103L <= __cplusplus
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULLPTR ((void*)0)
+#   define YY_NULLPTR 0
 #  endif
 # endif
 
@@ -108,10 +91,10 @@
 # define YYERROR_VERBOSE 0
 #endif
 
-/* Use api.header.include to #include this header
-   instead of duplicating it here.  */
-#ifndef YY_YY_HOME_GSTER_CLIONPROJECTS_SPL_PARSER_HPP_INCLUDED
-# define YY_YY_HOME_GSTER_CLIONPROJECTS_SPL_PARSER_HPP_INCLUDED
+/* In a future release of Bison, this section will be replaced
+   by #include "parser.hpp".  */
+#ifndef YY_YY_HOME_BUTTSHARK_CLIONPROJECTS_PASCALCOMPILER_PARSER_HPP_INCLUDED
+# define YY_YY_HOME_BUTTSHARK_CLIONPROJECTS_PASCALCOMPILER_PARSER_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -202,9 +185,10 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
 union YYSTYPE
 {
-#line 12 "/home/gster/CLionProjects/SPL/SPL.y"
+#line 12 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:355  */
 
 	ASTNode *astnode;
 	ArgsList *argslist;
@@ -292,9 +276,9 @@ union YYSTYPE
 	int token;
 	std::string *string;
 
-#line 296 "/home/gster/CLionProjects/SPL/parser.cpp"
-
+#line 280 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:355  */
 };
+
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -305,83 +289,38 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_HOME_GSTER_CLIONPROJECTS_SPL_PARSER_HPP_INCLUDED  */
+#endif /* !YY_YY_HOME_BUTTSHARK_CLIONPROJECTS_PASCALCOMPILER_PARSER_HPP_INCLUDED  */
 
+/* Copy the second part of user declarations.  */
 
+#line 297 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
 #endif
 
-/* On compilers that do not define __PTRDIFF_MAX__ etc., make sure
-   <limits.h> and (if available) <stdint.h> are included
-   so that the code can choose integer types of a good width.  */
-
-#ifndef __PTRDIFF_MAX__
-# include <limits.h> /* INFRINGES ON USER NAME SPACE */
-# if defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
-#  include <stdint.h> /* INFRINGES ON USER NAME SPACE */
-#  define YY_STDINT_H
-# endif
+#ifdef YYTYPE_UINT8
+typedef YYTYPE_UINT8 yytype_uint8;
+#else
+typedef unsigned char yytype_uint8;
 #endif
 
-/* Narrow types that promote to a signed type and that can represent a
-   signed or unsigned integer of at least N bits.  In tables they can
-   save space and decrease cache pressure.  Promoting to a signed type
-   helps avoid bugs in integer arithmetic.  */
-
-#ifdef __INT_LEAST8_MAX__
-typedef __INT_LEAST8_TYPE__ yytype_int8;
-#elif defined YY_STDINT_H
-typedef int_least8_t yytype_int8;
+#ifdef YYTYPE_INT8
+typedef YYTYPE_INT8 yytype_int8;
 #else
 typedef signed char yytype_int8;
 #endif
 
-#ifdef __INT_LEAST16_MAX__
-typedef __INT_LEAST16_TYPE__ yytype_int16;
-#elif defined YY_STDINT_H
-typedef int_least16_t yytype_int16;
+#ifdef YYTYPE_UINT16
+typedef YYTYPE_UINT16 yytype_uint16;
 #else
-typedef short yytype_int16;
+typedef unsigned short int yytype_uint16;
 #endif
 
-#if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST8_TYPE__ yytype_uint8;
-#elif (!defined __UINT_LEAST8_MAX__ && defined YY_STDINT_H \
-       && UINT_LEAST8_MAX <= INT_MAX)
-typedef uint_least8_t yytype_uint8;
-#elif !defined __UINT_LEAST8_MAX__ && UCHAR_MAX <= INT_MAX
-typedef unsigned char yytype_uint8;
+#ifdef YYTYPE_INT16
+typedef YYTYPE_INT16 yytype_int16;
 #else
-typedef short yytype_uint8;
-#endif
-
-#if defined __UINT_LEAST16_MAX__ && __UINT_LEAST16_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST16_TYPE__ yytype_uint16;
-#elif (!defined __UINT_LEAST16_MAX__ && defined YY_STDINT_H \
-       && UINT_LEAST16_MAX <= INT_MAX)
-typedef uint_least16_t yytype_uint16;
-#elif !defined __UINT_LEAST16_MAX__ && USHRT_MAX <= INT_MAX
-typedef unsigned short yytype_uint16;
-#else
-typedef int yytype_uint16;
-#endif
-
-#ifndef YYPTRDIFF_T
-# if defined __PTRDIFF_TYPE__ && defined __PTRDIFF_MAX__
-#  define YYPTRDIFF_T __PTRDIFF_TYPE__
-#  define YYPTRDIFF_MAXIMUM __PTRDIFF_MAX__
-# elif defined PTRDIFF_MAX
-#  ifndef ptrdiff_t
-#   include <stddef.h> /* INFRINGES ON USER NAME SPACE */
-#  endif
-#  define YYPTRDIFF_T ptrdiff_t
-#  define YYPTRDIFF_MAXIMUM PTRDIFF_MAX
-# else
-#  define YYPTRDIFF_T long
-#  define YYPTRDIFF_MAXIMUM LONG_MAX
-# endif
+typedef short int yytype_int16;
 #endif
 
 #ifndef YYSIZE_T
@@ -389,27 +328,15 @@ typedef int yytype_uint16;
 #  define YYSIZE_T __SIZE_TYPE__
 # elif defined size_t
 #  define YYSIZE_T size_t
-# elif defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
+# elif ! defined YYSIZE_T
 #  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
 #  define YYSIZE_T size_t
 # else
-#  define YYSIZE_T unsigned
+#  define YYSIZE_T unsigned int
 # endif
 #endif
 
-#define YYSIZE_MAXIMUM                                  \
-  YY_CAST (YYPTRDIFF_T,                                 \
-           (YYPTRDIFF_MAXIMUM < YY_CAST (YYSIZE_T, -1)  \
-            ? YYPTRDIFF_MAXIMUM                         \
-            : YY_CAST (YYSIZE_T, -1)))
-
-#define YYSIZEOF(X) YY_CAST (YYPTRDIFF_T, sizeof (X))
-
-/* Stored state numbers (used for stacks). */
-typedef yytype_int16 yy_state_t;
-
-/* State numbers in computations.  */
-typedef int yy_state_fast_t;
+#define YYSIZE_MAXIMUM ((YYSIZE_T) -1)
 
 #ifndef YY_
 # if defined YYENABLE_NLS && YYENABLE_NLS
@@ -423,19 +350,30 @@ typedef int yy_state_fast_t;
 # endif
 #endif
 
-#ifndef YY_ATTRIBUTE_PURE
-# if defined __GNUC__ && 2 < __GNUC__ + (96 <= __GNUC_MINOR__)
-#  define YY_ATTRIBUTE_PURE __attribute__ ((__pure__))
+#ifndef YY_ATTRIBUTE
+# if (defined __GNUC__                                               \
+      && (2 < __GNUC__ || (__GNUC__ == 2 && 96 <= __GNUC_MINOR__)))  \
+     || defined __SUNPRO_C && 0x5110 <= __SUNPRO_C
+#  define YY_ATTRIBUTE(Spec) __attribute__(Spec)
 # else
-#  define YY_ATTRIBUTE_PURE
+#  define YY_ATTRIBUTE(Spec) /* empty */
 # endif
 #endif
 
+#ifndef YY_ATTRIBUTE_PURE
+# define YY_ATTRIBUTE_PURE   YY_ATTRIBUTE ((__pure__))
+#endif
+
 #ifndef YY_ATTRIBUTE_UNUSED
-# if defined __GNUC__ && 2 < __GNUC__ + (7 <= __GNUC_MINOR__)
-#  define YY_ATTRIBUTE_UNUSED __attribute__ ((__unused__))
+# define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
+#endif
+
+#if !defined _Noreturn \
+     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
+# if defined _MSC_VER && 1200 <= _MSC_VER
+#  define _Noreturn __declspec (noreturn)
 # else
-#  define YY_ATTRIBUTE_UNUSED
+#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
 # endif
 #endif
 
@@ -446,13 +384,13 @@ typedef int yy_state_fast_t;
 # define YYUSE(E) /* empty */
 #endif
 
-#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+#if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
-# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
-    _Pragma ("GCC diagnostic push")                                     \
-    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")              \
+# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
+    _Pragma ("GCC diagnostic push") \
+    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")\
     _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
-# define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
+# define YY_IGNORE_MAYBE_UNINITIALIZED_END \
     _Pragma ("GCC diagnostic pop")
 #else
 # define YY_INITIAL_VALUE(Value) Value
@@ -465,20 +403,6 @@ typedef int yy_state_fast_t;
 # define YY_INITIAL_VALUE(Value) /* Nothing. */
 #endif
 
-#if defined __cplusplus && defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__
-# define YY_IGNORE_USELESS_CAST_BEGIN                          \
-    _Pragma ("GCC diagnostic push")                            \
-    _Pragma ("GCC diagnostic ignored \"-Wuseless-cast\"")
-# define YY_IGNORE_USELESS_CAST_END            \
-    _Pragma ("GCC diagnostic pop")
-#endif
-#ifndef YY_IGNORE_USELESS_CAST_BEGIN
-# define YY_IGNORE_USELESS_CAST_BEGIN
-# define YY_IGNORE_USELESS_CAST_END
-#endif
-
-
-#define YY_ASSERT(E) ((void) (0 && (E)))
 
 #if ! defined yyoverflow || YYERROR_VERBOSE
 
@@ -555,17 +479,17 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  yy_state_t yyss_alloc;
+  yytype_int16 yyss_alloc;
   YYSTYPE yyvs_alloc;
 };
 
 /* The size of the maximum gap between one aligned stack and the next.  */
-# define YYSTACK_GAP_MAXIMUM (YYSIZEOF (union yyalloc) - 1)
+# define YYSTACK_GAP_MAXIMUM (sizeof (union yyalloc) - 1)
 
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
 # define YYSTACK_BYTES(N) \
-     ((N) * (YYSIZEOF (yy_state_t) + YYSIZEOF (YYSTYPE)) \
+     ((N) * (sizeof (yytype_int16) + sizeof (YYSTYPE)) \
       + YYSTACK_GAP_MAXIMUM)
 
 # define YYCOPY_NEEDED 1
@@ -578,11 +502,11 @@ union yyalloc
 # define YYSTACK_RELOCATE(Stack_alloc, Stack)                           \
     do                                                                  \
       {                                                                 \
-        YYPTRDIFF_T yynewbytes;                                         \
+        YYSIZE_T yynewbytes;                                            \
         YYCOPY (&yyptr->Stack_alloc, Stack, yysize);                    \
         Stack = &yyptr->Stack_alloc;                                    \
-        yynewbytes = yystacksize * YYSIZEOF (*Stack) + YYSTACK_GAP_MAXIMUM; \
-        yyptr += yynewbytes / YYSIZEOF (*yyptr);                        \
+        yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
+        yyptr += yynewbytes / sizeof (*yyptr);                          \
       }                                                                 \
     while (0)
 
@@ -594,12 +518,12 @@ union yyalloc
 # ifndef YYCOPY
 #  if defined __GNUC__ && 1 < __GNUC__
 #   define YYCOPY(Dst, Src, Count) \
-      __builtin_memcpy (Dst, Src, YY_CAST (YYSIZE_T, (Count)) * sizeof (*(Src)))
+      __builtin_memcpy (Dst, Src, (Count) * sizeof (*(Src)))
 #  else
 #   define YYCOPY(Dst, Src, Count)              \
       do                                        \
         {                                       \
-          YYPTRDIFF_T yyi;                      \
+          YYSIZE_T yyi;                         \
           for (yyi = 0; yyi < (Count); yyi++)   \
             (Dst)[yyi] = (Src)[yyi];            \
         }                                       \
@@ -611,7 +535,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   366
+#define YYLAST   385
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  75
@@ -620,20 +544,19 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  145
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  275
+#define YYNSTATES  276
 
+/* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
+   by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   329
 
-
-/* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex, with out-of-bounds checking.  */
 #define YYTRANSLATE(YYX)                                                \
-  (0 <= (YYX) && (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+  ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex.  */
-static const yytype_int8 yytranslate[] =
+   as returned by yylex, without out-of-bounds checking.  */
+static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -672,7 +595,7 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int16 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
        0,   167,   167,   170,   173,   176,   179,   183,   185,   186,
      189,   191,   195,   196,   197,   198,   201,   202,   203,   206,
@@ -726,7 +649,7 @@ static const char *const yytname[] =
 # ifdef YYPRINT
 /* YYTOKNUM[NUM] -- (External) token number corresponding to the
    (internal) symbol number NUM (which must be that of a token).  */
-static const yytype_int16 yytoknum[] =
+static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
@@ -739,48 +662,48 @@ static const yytype_int16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF (-189)
+#define YYPACT_NINF -194
 
-#define yypact_value_is_default(Yyn) \
-  ((Yyn) == YYPACT_NINF)
+#define yypact_value_is_default(Yystate) \
+  (!!((Yystate) == (-194)))
 
-#define YYTABLE_NINF (-84)
+#define YYTABLE_NINF -84
 
-#define yytable_value_is_error(Yyn) \
+#define yytable_value_is_error(Yytable_value) \
   0
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     -49,   -60,    30,  -189,    38,  -189,    43,    40,    52,  -189,
-    -189,  -189,  -189,  -189,    45,    54,   182,    79,    56,    60,
-      61,  -189,  -189,     6,  -189,    69,    73,     6,  -189,     6,
-     143,   145,   259,  -189,   162,  -189,  -189,   144,  -189,   171,
-    -189,  -189,  -189,  -189,  -189,  -189,    55,   165,   167,    60,
-    -189,   104,    16,     6,     6,     6,  -189,  -189,  -189,  -189,
-    -189,  -189,  -189,  -189,  -189,  -189,  -189,  -189,  -189,  -189,
-     174,  -189,  -189,   140,    11,     4,  -189,   181,   172,  -189,
-      32,   202,   294,     6,   240,     6,     6,   125,  -189,     6,
-       6,   190,    55,    95,  -189,  -189,    53,   104,  -189,   128,
-     133,    16,  -189,   199,  -189,   201,   308,  -189,  -189,     6,
-       6,   139,     6,     6,     6,     6,     6,     6,   -12,     6,
-       6,     6,     6,     6,     6,     6,     6,     6,   228,     6,
-     228,   210,  -189,   323,    99,   315,  -189,   323,   102,   323,
-    -189,   206,   104,    55,  -189,  -189,  -189,  -189,   213,   104,
-     209,   226,   212,  -189,  -189,  -189,  -189,   168,    95,  -189,
-     236,   236,  -189,  -189,  -189,  -189,  -189,   113,   335,  -189,
-      11,    11,    11,    11,    11,    11,   230,   231,   159,  -189,
-       4,     4,     4,  -189,  -189,  -189,  -189,   127,   126,   195,
-     323,  -189,  -189,  -189,     6,  -189,  -189,     6,  -189,   129,
-     237,   153,   -29,  -189,   103,   176,    55,  -189,  -189,   243,
-       7,   246,  -189,   250,    40,   252,  -189,  -189,   228,   228,
-    -189,  -189,  -189,  -189,  -189,     6,   228,  -189,   323,   323,
-    -189,    81,   254,  -189,  -189,    95,  -189,  -189,  -189,  -189,
-     104,   258,    21,  -189,   264,   267,   153,  -189,  -189,  -189,
-     271,   277,   301,  -189,    55,  -189,   232,   279,   258,  -189,
-      19,   153,   153,  -189,  -189,  -189,   228,  -189,    95,  -189,
-    -189,  -189,  -189,  -189,  -189
+     -32,   -19,    52,  -194,    55,  -194,    64,    29,    39,  -194,
+    -194,  -194,  -194,  -194,    23,    27,   223,    81,    41,    43,
+      51,  -194,  -194,   200,  -194,    46,    56,   200,  -194,   200,
+     119,   138,    48,  -194,   146,  -194,  -194,   126,  -194,   182,
+    -194,  -194,  -194,  -194,  -194,  -194,   168,   134,   162,    43,
+    -194,   114,     2,   200,   200,   200,  -194,  -194,  -194,  -194,
+    -194,  -194,  -194,  -194,  -194,  -194,  -194,  -194,  -194,  -194,
+     137,  -194,  -194,   227,     7,     4,  -194,   199,   179,  -194,
+     107,   243,   234,   200,   281,   200,   200,   133,  -194,   200,
+       8,   197,   168,    96,  -194,  -194,    20,   114,  -194,   145,
+     148,     2,  -194,   204,  -194,   213,   141,  -194,  -194,   200,
+     200,   152,   200,   200,   200,   200,   200,   200,   -13,   200,
+     200,   200,   200,   200,   200,   200,   200,   200,   269,   200,
+     269,   221,  -194,   349,    72,   342,  -194,   349,  -194,    74,
+     349,  -194,   236,   114,   168,  -194,  -194,  -194,  -194,   233,
+     114,   244,   250,   266,  -194,  -194,  -194,  -194,   206,    96,
+    -194,   282,   282,  -194,  -194,  -194,  -194,  -194,    90,   356,
+    -194,     7,     7,     7,     7,     7,     7,   274,   275,   120,
+    -194,     4,     4,     4,  -194,  -194,  -194,  -194,   100,   156,
+     240,   349,  -194,  -194,  -194,   200,  -194,  -194,   200,  -194,
+     104,   285,   171,   -25,  -194,   122,   226,   168,  -194,  -194,
+     290,     9,   289,  -194,   292,    29,   293,  -194,  -194,   269,
+     269,  -194,  -194,  -194,  -194,  -194,   200,   269,  -194,   349,
+     349,  -194,    82,   299,  -194,  -194,    96,  -194,  -194,  -194,
+    -194,   114,   297,    19,  -194,   298,   305,   171,  -194,  -194,
+    -194,   310,   312,   335,  -194,   168,  -194,   272,   315,   297,
+    -194,    76,   171,   171,  -194,  -194,  -194,   269,  -194,    96,
+    -194,  -194,  -194,  -194,  -194,  -194
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -791,7 +714,7 @@ static const yytype_uint8 yydefact[] =
        0,     0,     0,     7,     0,     1,     0,     0,     9,     3,
        2,    70,     4,    67,     0,    20,     0,     0,     8,     0,
       46,    91,    92,     0,    68,     0,     0,     0,    70,     0,
-       0,     0,    86,    75,     0,    72,    73,     0,    74,    88,
+       0,     0,    86,    75,     0,    72,    73,     0,    74,     0,
       76,    77,    78,    79,    80,    81,     0,     0,     0,    19,
       22,     0,    54,     0,     0,     0,    16,    17,    18,   135,
      136,   137,   138,   139,   140,   141,   142,    12,    13,    14,
@@ -801,44 +724,44 @@ static const yytype_uint8 yydefact[] =
        0,     6,    52,     0,    53,     0,     0,   132,   131,   145,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,   145,     0,     0,     0,
-       0,     0,    71,   144,     0,     0,    85,    82,     0,   108,
-      11,     0,     0,     0,    34,    36,    37,    35,     0,     0,
-      28,     0,     0,    24,    27,    25,    26,     0,     0,    47,
-       0,     0,    50,    51,     7,     7,   130,     0,     0,   134,
-     114,   109,   110,   111,   112,   113,     0,     0,     0,   103,
-     116,   117,   118,   120,   121,   122,   123,     0,     0,    95,
-      96,    97,    90,    87,     0,    84,    89,     0,    10,     0,
-       0,     0,     0,    41,     0,     0,     0,    23,    43,     0,
-       0,     0,    58,     0,     0,     0,   126,   133,     0,     0,
-     101,   102,   128,   100,    99,     0,     0,    93,   143,   107,
-      29,     0,     0,    39,    40,     0,    33,    30,    49,    60,
-       0,    66,     0,    62,     0,     0,     0,    55,     5,    57,
-       0,     0,     0,    94,     0,    31,     0,     0,    65,    59,
-       0,     0,     0,    56,   105,   104,     0,    32,     0,    42,
-      61,    63,    64,    98,    38
+       0,     0,    71,   144,     0,     0,    85,    82,    88,     0,
+     108,    11,     0,     0,     0,    34,    36,    37,    35,     0,
+       0,    28,     0,     0,    24,    27,    25,    26,     0,     0,
+      47,     0,     0,    50,    51,     7,     7,   130,     0,     0,
+     134,   114,   109,   110,   111,   112,   113,     0,     0,     0,
+     103,   116,   117,   118,   120,   121,   122,   123,     0,     0,
+      95,    96,    97,    90,    87,     0,    84,    89,     0,    10,
+       0,     0,     0,     0,    41,     0,     0,     0,    23,    43,
+       0,     0,     0,    58,     0,     0,     0,   126,   133,     0,
+       0,   101,   102,   128,   100,    99,     0,     0,    93,   143,
+     107,    29,     0,     0,    39,    40,     0,    33,    30,    49,
+      60,     0,    66,     0,    62,     0,     0,     0,    55,     5,
+      57,     0,     0,     0,    94,     0,    31,     0,     0,    65,
+      59,     0,     0,     0,    56,   105,   104,     0,    32,     0,
+      42,    61,    63,    64,    98,    38
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-    -189,  -189,  -189,  -189,   135,   289,  -189,  -189,  -189,   -46,
-    -189,  -189,  -189,   245,  -150,  -188,  -189,  -189,  -189,  -189,
-     105,  -139,  -189,  -189,   204,  -189,   203,  -189,   205,  -189,
-     147,  -189,    51,  -189,  -189,    91,    -5,   300,  -124,   251,
-    -189,  -189,  -189,  -189,  -189,  -189,  -189,  -189,  -189,  -189,
-    -189,  -189,   173,  -189,  -189,   -22,   249,    85,   -33,  -189,
-     -82
+    -194,  -194,  -194,  -194,   164,   328,  -194,  -194,  -194,   -46,
+    -194,  -194,  -194,   284,  -151,  -193,  -194,  -194,  -194,  -194,
+     132,  -140,  -194,  -194,   245,  -194,   246,  -194,   248,  -194,
+     183,  -194,    80,  -194,  -194,   131,    -5,   324,  -124,   301,
+    -194,  -194,  -194,  -194,  -194,  -194,  -194,  -194,  -194,  -194,
+    -194,  -194,   174,  -194,  -194,   -22,   151,    63,   -33,  -194,
+     -92
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
-      -1,     2,     3,     6,   213,   214,     8,    15,    18,    71,
-      72,    20,    49,    50,   152,   153,   154,   155,   156,   202,
-     203,    96,    52,    97,    98,   101,   102,   103,   104,   105,
-     211,   242,   243,   244,   245,    12,    33,    16,    34,    35,
-      36,    37,    38,    39,    40,   227,    41,    42,    43,   225,
-      44,   178,   179,    45,   138,   133,    74,    75,    76,    77,
+      -1,     2,     3,     6,   214,   215,     8,    15,    18,    71,
+      72,    20,    49,    50,   153,   154,   155,   156,   157,   203,
+     204,    96,    52,    97,    98,   101,   102,   103,   104,   105,
+     212,   243,   244,   245,   246,    12,    33,    16,    34,    35,
+      36,    37,    38,    39,    40,   228,    41,    42,    43,   226,
+      44,   179,   180,    45,   139,   133,    74,    75,    76,    77,
      134
 };
 
@@ -847,84 +770,88 @@ static const yytype_int16 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      91,    73,    13,   199,   189,    80,   191,    82,   209,    53,
-     204,   239,     1,   232,     4,    56,    57,    58,   122,   123,
-     124,   107,   108,   233,    54,   259,    55,   167,   119,   120,
-       5,   106,   260,    56,    57,    58,    59,    60,    61,    62,
-      63,    64,    65,    66,   187,    95,   141,   151,   125,     9,
-     131,   112,    10,   113,   114,   115,   116,   117,   263,    67,
-      68,    69,   176,   204,   135,   157,   158,   137,   139,   121,
-      99,   241,   177,   271,   272,   240,   100,    67,    68,    69,
-      70,    95,    56,    57,    58,   257,    11,   240,   168,   183,
-     184,   185,   186,    95,   250,   251,   128,   200,   142,   254,
-      14,   258,   253,   193,    46,   188,   196,   190,    56,    57,
-      58,   194,   151,   143,   197,   157,   235,   216,   274,    17,
-      19,   241,    56,    57,    58,   194,    67,    68,    69,    51,
-      47,   222,   177,   230,    48,   144,   145,   146,   147,   194,
-     148,   157,   273,    78,    79,   112,    83,   113,   114,   115,
-     116,   117,    67,    68,    69,   151,   142,   149,    84,   112,
-     237,   113,   114,   115,   116,   117,    67,    68,    69,   150,
-      89,   143,   228,    88,    90,   229,   223,   109,    95,   110,
-      56,    57,    58,   111,   126,   255,    56,    57,    58,   151,
-      92,   224,    93,   144,   145,   146,   147,   118,   127,   136,
-     151,   140,   160,   252,   180,   181,   182,   161,   267,    13,
-     164,   220,   165,   169,   192,   151,   151,   198,   201,   205,
-      21,    22,   151,   207,    67,    68,    69,   150,    11,    23,
-      67,    68,    69,   176,    24,    25,   206,    26,    27,   210,
-      21,    22,   208,   218,   219,    28,   226,   231,    11,    23,
-     236,    29,    30,    31,   238,    25,    32,    26,    27,   246,
-     256,   247,    85,   249,    86,    28,    21,    22,    87,   129,
-     157,    29,    30,    31,    11,    23,    32,   261,    21,    22,
-     262,    25,   264,    26,    27,   -83,    11,    23,   265,   268,
-     269,    28,     7,    25,    94,    26,    27,    29,    30,    31,
-     215,   159,    32,    28,   162,   248,   163,   234,   212,    29,
-      30,   270,   166,   112,    32,   113,   114,   115,   116,   117,
-     112,   195,   113,   114,   115,   116,   117,   112,    81,   113,
-     114,   115,   116,   117,   112,   132,   113,   114,   115,   116,
-     117,   217,   112,   130,   113,   114,   115,   116,   117,     0,
-     266,   221,     0,     0,   112,     0,   113,   114,   115,   116,
-     117,   170,   171,   172,   173,   174,   175
+      91,    73,    13,   200,   190,    80,   192,    82,   210,   233,
+     205,    53,   138,   240,    56,    57,    58,   168,   122,   123,
+     124,   107,   108,   260,   119,   120,    54,   234,    55,     1,
+     261,   106,   158,   159,   188,    56,    57,    58,    59,    60,
+      61,    62,    63,    64,    65,    66,   142,   152,   125,    95,
+     131,    85,     5,    86,   264,     4,    99,    87,    67,    68,
+      69,   177,   100,   205,   135,   121,     9,   137,   140,   272,
+     273,   242,   178,    10,   -83,    11,   194,   241,   197,    67,
+      68,    69,    70,    95,   195,   258,   198,    14,   169,   184,
+     185,   186,   187,    19,   217,   251,   252,    17,   201,   143,
+     255,   259,   195,   254,   223,   189,    46,   191,   231,    56,
+      57,    58,   195,   152,   144,    47,   158,    48,   275,    51,
+      78,   242,    83,    56,    57,    58,   112,    79,   113,   114,
+     115,   116,   117,   178,   158,   236,   145,   146,   147,   148,
+     109,   149,   110,   274,   241,   167,   111,    56,    57,    58,
+      95,    84,    89,    67,    68,    69,   152,    88,   150,    92,
+     112,   238,   113,   114,   115,   116,   117,    67,    68,    69,
+     151,   128,   221,   229,   143,   112,   230,   113,   114,   115,
+     116,   117,   181,   182,   183,    90,   256,    93,    95,   144,
+     152,    67,    68,    69,   177,    56,    57,    58,    56,    57,
+      58,   152,   126,    53,   253,   127,   224,   136,   141,   268,
+      13,   145,   146,   147,   148,   165,   152,   152,    54,   161,
+      55,   225,   162,   152,   166,   193,   170,    56,    57,    58,
+      59,    60,    61,    62,    63,    64,    65,    66,   202,    67,
+      68,    69,    67,    68,    69,   151,   112,   199,   113,   114,
+     115,   116,   117,   112,   206,   113,   114,   115,   116,   117,
+     207,    21,    22,   171,   172,   173,   174,   175,   176,    11,
+      23,    67,    68,    69,    70,    24,    25,   208,    26,    27,
+     209,    21,    22,   130,   118,   211,    28,   219,   220,    11,
+      23,   227,    29,    30,    31,   232,    25,    32,    26,    27,
+     237,   239,   247,   248,   250,   257,    28,    21,    22,   158,
+     129,   262,    29,    30,    31,    11,    23,    32,   263,    21,
+      22,   265,    25,   266,    26,    27,   270,    11,    23,   269,
+     216,     7,    28,    94,    25,   235,    26,    27,    29,    30,
+      31,   271,   160,    32,    28,   213,   249,   163,   196,   164,
+      29,    30,    81,   222,   112,    32,   113,   114,   115,   116,
+     117,   112,   218,   113,   114,   115,   116,   117,   112,     0,
+     113,   114,   115,   116,   117,   112,     0,   113,   114,   115,
+     116,   117,     0,     0,   267,   132
 };
 
 static const yytype_int16 yycheck[] =
 {
-      46,    23,     7,   142,   128,    27,   130,    29,   158,     3,
-     149,     4,    61,   201,    74,    27,    28,    29,    14,    15,
-      16,    54,    55,    52,    18,     4,    20,   109,    17,    18,
-       0,    53,    11,    27,    28,    29,    30,    31,    32,    33,
-      34,    35,    36,    37,   126,    74,    92,    93,    44,    11,
-      83,    19,     9,    21,    22,    23,    24,    25,   246,    71,
-      72,    73,    74,   202,    86,    12,    13,    89,    90,    58,
-      54,   210,   118,   261,   262,    68,    60,    71,    72,    73,
-      74,    74,    27,    28,    29,   235,    46,    68,   110,   122,
-     123,   124,   125,    74,   218,   219,    64,   143,     3,    18,
-      48,   240,   226,     4,    25,   127,     4,   129,    27,    28,
-      29,    12,   158,    18,    12,    12,    13,     4,   268,    74,
-      66,   260,    27,    28,    29,    12,    71,    72,    73,    68,
-      74,     4,   178,     4,    74,    40,    41,    42,    43,    12,
-      45,    12,   266,    74,    71,    19,     3,    21,    22,    23,
-      24,    25,    71,    72,    73,   201,     3,    62,    13,    19,
-     206,    21,    22,    23,    24,    25,    71,    72,    73,    74,
-      26,    18,   194,    11,     3,   197,    50,     3,    74,     5,
-      27,    28,    29,     9,     3,   231,    27,    28,    29,   235,
-      25,    65,    25,    40,    41,    42,    43,    57,    26,    74,
-     246,    11,    74,   225,   119,   120,   121,    74,   254,   214,
-      11,    52,    11,    74,     4,   261,   262,    11,     5,    10,
-      38,    39,   268,    11,    71,    72,    73,    74,    46,    47,
-      71,    72,    73,    74,    52,    53,    10,    55,    56,     3,
-      38,    39,    74,    13,    13,    63,    51,    10,    46,    47,
-      74,    69,    70,    71,    11,    53,    74,    55,    56,    13,
-       6,    11,     3,    11,     5,    63,    38,    39,     9,    67,
-      12,    69,    70,    71,    46,    47,    74,    13,    38,    39,
-      13,    53,    11,    55,    56,    26,    46,    47,    11,    57,
-      11,    63,     3,    53,    49,    55,    56,    69,    70,    71,
-     165,    97,    74,    63,   101,   214,   101,   202,   161,    69,
-      70,   260,     4,    19,    74,    21,    22,    23,    24,    25,
-      19,     6,    21,    22,    23,    24,    25,    19,    28,    21,
-      22,    23,    24,    25,    19,    84,    21,    22,    23,    24,
-      25,     6,    19,    49,    21,    22,    23,    24,    25,    -1,
-      49,   178,    -1,    -1,    19,    -1,    21,    22,    23,    24,
-      25,   112,   113,   114,   115,   116,   117
+      46,    23,     7,   143,   128,    27,   130,    29,   159,   202,
+     150,     3,     4,     4,    27,    28,    29,   109,    14,    15,
+      16,    54,    55,     4,    17,    18,    18,    52,    20,    61,
+      11,    53,    12,    13,   126,    27,    28,    29,    30,    31,
+      32,    33,    34,    35,    36,    37,    92,    93,    44,    74,
+      83,     3,     0,     5,   247,    74,    54,     9,    71,    72,
+      73,    74,    60,   203,    86,    58,    11,    89,    90,   262,
+     263,   211,   118,     9,    26,    46,     4,    68,     4,    71,
+      72,    73,    74,    74,    12,   236,    12,    48,   110,   122,
+     123,   124,   125,    66,     4,   219,   220,    74,   144,     3,
+      18,   241,    12,   227,     4,   127,    25,   129,     4,    27,
+      28,    29,    12,   159,    18,    74,    12,    74,   269,    68,
+      74,   261,     3,    27,    28,    29,    19,    71,    21,    22,
+      23,    24,    25,   179,    12,    13,    40,    41,    42,    43,
+       3,    45,     5,   267,    68,     4,     9,    27,    28,    29,
+      74,    13,    26,    71,    72,    73,   202,    11,    62,    25,
+      19,   207,    21,    22,    23,    24,    25,    71,    72,    73,
+      74,    64,    52,   195,     3,    19,   198,    21,    22,    23,
+      24,    25,   119,   120,   121,     3,   232,    25,    74,    18,
+     236,    71,    72,    73,    74,    27,    28,    29,    27,    28,
+      29,   247,     3,     3,   226,    26,    50,    74,    11,   255,
+     215,    40,    41,    42,    43,    11,   262,   263,    18,    74,
+      20,    65,    74,   269,    11,     4,    74,    27,    28,    29,
+      30,    31,    32,    33,    34,    35,    36,    37,     5,    71,
+      72,    73,    71,    72,    73,    74,    19,    11,    21,    22,
+      23,    24,    25,    19,    10,    21,    22,    23,    24,    25,
+      10,    38,    39,   112,   113,   114,   115,   116,   117,    46,
+      47,    71,    72,    73,    74,    52,    53,    11,    55,    56,
+      74,    38,    39,    49,    57,     3,    63,    13,    13,    46,
+      47,    51,    69,    70,    71,    10,    53,    74,    55,    56,
+      74,    11,    13,    11,    11,     6,    63,    38,    39,    12,
+      67,    13,    69,    70,    71,    46,    47,    74,    13,    38,
+      39,    11,    53,    11,    55,    56,    11,    46,    47,    57,
+     166,     3,    63,    49,    53,   203,    55,    56,    69,    70,
+      71,   261,    97,    74,    63,   162,   215,   101,     6,   101,
+      69,    70,    28,   179,    19,    74,    21,    22,    23,    24,
+      25,    19,     6,    21,    22,    23,    24,    25,    19,    -1,
+      21,    22,    23,    24,    25,    19,    -1,    21,    22,    23,
+      24,    25,    -1,    -1,    49,    84
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -944,21 +871,21 @@ static const yytype_uint8 yystos[] =
       60,   100,   101,   102,   103,   104,   130,   133,   133,     3,
        5,     9,    19,    21,    22,    23,    24,    25,    57,    17,
       18,    58,    14,    15,    16,    44,     3,    26,    64,    67,
-      49,   133,   114,   130,   135,   130,    74,   130,   129,   130,
-      11,    84,     3,    18,    40,    41,    42,    43,    45,    62,
-      74,    84,    89,    90,    91,    92,    93,    12,    13,    99,
-      74,    74,   101,   103,    11,    11,     4,   135,   130,    74,
-     131,   131,   131,   131,   131,   131,    74,    84,   126,   127,
-     132,   132,   132,   133,   133,   133,   133,   135,   130,   113,
-     130,   113,     4,     4,    12,     6,     4,    12,    11,    96,
-      84,     5,    94,    95,    96,    10,    10,    11,    74,    89,
-       3,   105,   105,    79,    80,    79,     4,     6,    13,    13,
-      52,   127,     4,    50,    65,   124,    51,   120,   130,   130,
-       4,    10,    90,    52,    95,    13,    74,    84,    11,     4,
-      68,    96,   106,   107,   108,   109,    13,    11,   110,    11,
-     113,   113,   130,   113,    18,    84,     6,    89,    96,     4,
-      11,    13,    13,    90,    11,    11,    49,    84,    57,    11,
-     107,    90,    90,   113,    89
+      49,   133,   114,   130,   135,   130,    74,   130,     4,   129,
+     130,    11,    84,     3,    18,    40,    41,    42,    43,    45,
+      62,    74,    84,    89,    90,    91,    92,    93,    12,    13,
+      99,    74,    74,   101,   103,    11,    11,     4,   135,   130,
+      74,   131,   131,   131,   131,   131,   131,    74,    84,   126,
+     127,   132,   132,   132,   133,   133,   133,   133,   135,   130,
+     113,   130,   113,     4,     4,    12,     6,     4,    12,    11,
+      96,    84,     5,    94,    95,    96,    10,    10,    11,    74,
+      89,     3,   105,   105,    79,    80,    79,     4,     6,    13,
+      13,    52,   127,     4,    50,    65,   124,    51,   120,   130,
+     130,     4,    10,    90,    52,    95,    13,    74,    84,    11,
+       4,    68,    96,   106,   107,   108,   109,    13,    11,   110,
+      11,   113,   113,   130,   113,    18,    84,     6,    89,    96,
+       4,    11,    13,    13,    90,    11,    11,    49,    84,    57,
+      11,   107,    90,    90,   113,    89
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -982,7 +909,7 @@ static const yytype_uint8 yyr1[] =
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
-static const yytype_int8 yyr2[] =
+static const yytype_uint8 yyr2[] =
 {
        0,     2,     3,     3,     2,     2,     5,     0,     2,     0,
        5,     4,     1,     1,     1,     1,     1,     1,     1,     2,
@@ -992,7 +919,7 @@ static const yytype_int8 yyr2[] =
        2,     2,     1,     1,     0,     4,     5,     4,     3,     3,
        2,     3,     1,     3,     3,     2,     1,     1,     3,     3,
        0,     3,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     3,     1,     4,     3,     1,     4,     1,     4,
+       1,     1,     3,     1,     4,     3,     1,     4,     3,     4,
        4,     1,     1,     5,     2,     0,     4,     4,     8,     1,
        1,     5,     2,     1,     4,     4,     2,     3,     1,     3,
        3,     3,     3,     3,     3,     1,     3,     3,     3,     1,
@@ -1014,22 +941,22 @@ static const yytype_int8 yyr2[] =
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
-#define YYBACKUP(Token, Value)                                    \
-  do                                                              \
-    if (yychar == YYEMPTY)                                        \
-      {                                                           \
-        yychar = (Token);                                         \
-        yylval = (Value);                                         \
-        YYPOPSTACK (yylen);                                       \
-        yystate = *yyssp;                                         \
-        goto yybackup;                                            \
-      }                                                           \
-    else                                                          \
-      {                                                           \
-        yyerror (YY_("syntax error: cannot back up")); \
-        YYERROR;                                                  \
-      }                                                           \
-  while (0)
+#define YYBACKUP(Token, Value)                                  \
+do                                                              \
+  if (yychar == YYEMPTY)                                        \
+    {                                                           \
+      yychar = (Token);                                         \
+      yylval = (Value);                                         \
+      YYPOPSTACK (yylen);                                       \
+      yystate = *yyssp;                                         \
+      goto yybackup;                                            \
+    }                                                           \
+  else                                                          \
+    {                                                           \
+      yyerror (YY_("syntax error: cannot back up")); \
+      YYERROR;                                                  \
+    }                                                           \
+while (0)
 
 /* Error token number */
 #define YYTERROR        1
@@ -1069,39 +996,37 @@ do {                                                                      \
 } while (0)
 
 
-/*-----------------------------------.
-| Print this symbol's value on YYO.  |
-`-----------------------------------*/
+/*----------------------------------------.
+| Print this symbol's value on YYOUTPUT.  |
+`----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
 {
-  FILE *yyoutput = yyo;
-  YYUSE (yyoutput);
+  FILE *yyo = yyoutput;
+  YYUSE (yyo);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
-    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
+    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
 # endif
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   YYUSE (yytype);
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
 
-/*---------------------------.
-| Print this symbol on YYO.  |
-`---------------------------*/
+/*--------------------------------.
+| Print this symbol on YYOUTPUT.  |
+`--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
 {
-  YYFPRINTF (yyo, "%s %s (",
+  YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-  yy_symbol_value_print (yyo, yytype, yyvaluep);
-  YYFPRINTF (yyo, ")");
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
+  YYFPRINTF (yyoutput, ")");
 }
 
 /*------------------------------------------------------------------.
@@ -1110,7 +1035,7 @@ yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
 `------------------------------------------------------------------*/
 
 static void
-yy_stack_print (yy_state_t *yybottom, yy_state_t *yytop)
+yy_stack_print (yytype_int16 *yybottom, yytype_int16 *yytop)
 {
   YYFPRINTF (stderr, "Stack now");
   for (; yybottom <= yytop; yybottom++)
@@ -1133,20 +1058,20 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, int yyrule)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
 {
-  int yylno = yyrline[yyrule];
+  unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
   int yyi;
-  YYFPRINTF (stderr, "Reducing stack by rule %d (line %d):\n",
+  YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
              yyrule - 1, yylno);
   /* The symbols being reduced.  */
   for (yyi = 0; yyi < yynrhs; yyi++)
     {
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
-                       yystos[+yyssp[yyi + 1 - yynrhs]],
-                       &yyvsp[(yyi + 1) - (yynrhs)]
+                       yystos[yyssp[yyi + 1 - yynrhs]],
+                       &(yyvsp[(yyi + 1) - (yynrhs)])
                                               );
       YYFPRINTF (stderr, "\n");
     }
@@ -1190,13 +1115,13 @@ int yydebug;
 
 # ifndef yystrlen
 #  if defined __GLIBC__ && defined _STRING_H
-#   define yystrlen(S) (YY_CAST (YYPTRDIFF_T, strlen (S)))
+#   define yystrlen strlen
 #  else
 /* Return the length of YYSTR.  */
-static YYPTRDIFF_T
+static YYSIZE_T
 yystrlen (const char *yystr)
 {
-  YYPTRDIFF_T yylen;
+  YYSIZE_T yylen;
   for (yylen = 0; yystr[yylen]; yylen++)
     continue;
   return yylen;
@@ -1232,12 +1157,12 @@ yystpcpy (char *yydest, const char *yysrc)
    backslash-backslash).  YYSTR is taken from yytname.  If YYRES is
    null, do not copy; instead, return the length of what the result
    would have been.  */
-static YYPTRDIFF_T
+static YYSIZE_T
 yytnamerr (char *yyres, const char *yystr)
 {
   if (*yystr == '"')
     {
-      YYPTRDIFF_T yyn = 0;
+      YYSIZE_T yyn = 0;
       char const *yyp = yystr;
 
       for (;;)
@@ -1250,10 +1175,7 @@ yytnamerr (char *yyres, const char *yystr)
           case '\\':
             if (*++yyp != '\\')
               goto do_not_strip_quotes;
-            else
-              goto append;
-
-          append:
+            /* Fall through.  */
           default:
             if (yyres)
               yyres[yyn] = *yyp;
@@ -1268,10 +1190,10 @@ yytnamerr (char *yyres, const char *yystr)
     do_not_strip_quotes: ;
     }
 
-  if (yyres)
-    return yystpcpy (yyres, yystr) - yyres;
-  else
+  if (! yyres)
     return yystrlen (yystr);
+
+  return yystpcpy (yyres, yystr) - yyres;
 }
 # endif
 
@@ -1284,19 +1206,19 @@ yytnamerr (char *yyres, const char *yystr)
    *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
    required number of bytes is too large to store.  */
 static int
-yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
-                yy_state_t *yyssp, int yytoken)
+yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
+                yytype_int16 *yyssp, int yytoken)
 {
+  YYSIZE_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
+  YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
   const char *yyformat = YY_NULLPTR;
-  /* Arguments of yyformat: reported tokens (one for the "unexpected",
-     one per "expected"). */
+  /* Arguments of yyformat. */
   char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-  /* Actual size of YYARG. */
+  /* Number of reported tokens (one for the "unexpected", one per
+     "expected"). */
   int yycount = 0;
-  /* Cumulated lengths of YYARG.  */
-  YYPTRDIFF_T yysize = 0;
 
   /* There are many possibilities here to consider:
      - If this state is a consistent state with a default action, then
@@ -1323,9 +1245,7 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
   */
   if (yytoken != YYEMPTY)
     {
-      int yyn = yypact[+*yyssp];
-      YYPTRDIFF_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
-      yysize = yysize0;
+      int yyn = yypact[*yyssp];
       yyarg[yycount++] = yytname[yytoken];
       if (!yypact_value_is_default (yyn))
         {
@@ -1350,12 +1270,11 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
                   }
                 yyarg[yycount++] = yytname[yyx];
                 {
-                  YYPTRDIFF_T yysize1
-                    = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
-                  if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
-                    yysize = yysize1;
-                  else
+                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
+                  if (! (yysize <= yysize1
+                         && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
                     return 2;
+                  yysize = yysize1;
                 }
               }
         }
@@ -1367,7 +1286,6 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
       case N:                               \
         yyformat = S;                       \
       break
-    default: /* Avoid compiler warnings. */
       YYCASE_(0, YY_("syntax error"));
       YYCASE_(1, YY_("syntax error, unexpected %s"));
       YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
@@ -1378,13 +1296,10 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
     }
 
   {
-    /* Don't count the "%s"s in the final size, but reserve room for
-       the terminator.  */
-    YYPTRDIFF_T yysize1 = yysize + (yystrlen (yyformat) - 2 * yycount) + 1;
-    if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
-      yysize = yysize1;
-    else
+    YYSIZE_T yysize1 = yysize + yystrlen (yyformat);
+    if (! (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
       return 2;
+    yysize = yysize1;
   }
 
   if (*yymsg_alloc < yysize)
@@ -1410,8 +1325,8 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
         }
       else
         {
-          ++yyp;
-          ++yyformat;
+          yyp++;
+          yyformat++;
         }
   }
   return 0;
@@ -1454,7 +1369,7 @@ int yynerrs;
 int
 yyparse (void)
 {
-    yy_state_fast_t yystate;
+    int yystate;
     /* Number of tokens to shift before error messages enabled.  */
     int yyerrstatus;
 
@@ -1466,16 +1381,16 @@ yyparse (void)
        to reallocate them elsewhere.  */
 
     /* The state stack.  */
-    yy_state_t yyssa[YYINITDEPTH];
-    yy_state_t *yyss;
-    yy_state_t *yyssp;
+    yytype_int16 yyssa[YYINITDEPTH];
+    yytype_int16 *yyss;
+    yytype_int16 *yyssp;
 
     /* The semantic value stack.  */
     YYSTYPE yyvsa[YYINITDEPTH];
     YYSTYPE *yyvs;
     YYSTYPE *yyvsp;
 
-    YYPTRDIFF_T yystacksize;
+    YYSIZE_T yystacksize;
 
   int yyn;
   int yyresult;
@@ -1489,7 +1404,7 @@ yyparse (void)
   /* Buffer for error messages, and its allocated size.  */
   char yymsgbuf[128];
   char *yymsg = yymsgbuf;
-  YYPTRDIFF_T yymsg_alloc = sizeof yymsgbuf;
+  YYSIZE_T yymsg_alloc = sizeof yymsgbuf;
 #endif
 
 #define YYPOPSTACK(N)   (yyvsp -= (N), yyssp -= (N))
@@ -1510,54 +1425,46 @@ yyparse (void)
   yychar = YYEMPTY; /* Cause a token to be read.  */
   goto yysetstate;
 
-
 /*------------------------------------------------------------.
-| yynewstate -- push a new state, which is found in yystate.  |
+| yynewstate -- Push a new state, which is found in yystate.  |
 `------------------------------------------------------------*/
-yynewstate:
+ yynewstate:
   /* In all cases, when you get here, the value and location stacks
      have just been pushed.  So pushing a state here evens the stacks.  */
   yyssp++;
 
-
-/*--------------------------------------------------------------------.
-| yysetstate -- set current state (the top of the stack) to yystate.  |
-`--------------------------------------------------------------------*/
-yysetstate:
-  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
-  YY_ASSERT (0 <= yystate && yystate < YYNSTATES);
-  YY_IGNORE_USELESS_CAST_BEGIN
-  *yyssp = YY_CAST (yy_state_t, yystate);
-  YY_IGNORE_USELESS_CAST_END
+ yysetstate:
+  *yyssp = yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
-#if !defined yyoverflow && !defined YYSTACK_RELOCATE
-    goto yyexhaustedlab;
-#else
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYPTRDIFF_T yysize = yyssp - yyss + 1;
+      YYSIZE_T yysize = yyssp - yyss + 1;
 
-# if defined yyoverflow
+#ifdef yyoverflow
       {
         /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
            memory.  */
-        yy_state_t *yyss1 = yyss;
         YYSTYPE *yyvs1 = yyvs;
+        yytype_int16 *yyss1 = yyss;
 
         /* Each stack pointer address is followed by the size of the
            data in use in that stack, in bytes.  This used to be a
            conditional around just the two extra args, but that might
            be undefined if yyoverflow is a macro.  */
         yyoverflow (YY_("memory exhausted"),
-                    &yyss1, yysize * YYSIZEOF (*yyssp),
-                    &yyvs1, yysize * YYSIZEOF (*yyvsp),
+                    &yyss1, yysize * sizeof (*yyssp),
+                    &yyvs1, yysize * sizeof (*yyvsp),
                     &yystacksize);
+
         yyss = yyss1;
         yyvs = yyvs1;
       }
-# else /* defined YYSTACK_RELOCATE */
+#else /* no yyoverflow */
+# ifndef YYSTACK_RELOCATE
+      goto yyexhaustedlab;
+# else
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
         goto yyexhaustedlab;
@@ -1566,43 +1473,42 @@ yysetstate:
         yystacksize = YYMAXDEPTH;
 
       {
-        yy_state_t *yyss1 = yyss;
+        yytype_int16 *yyss1 = yyss;
         union yyalloc *yyptr =
-          YY_CAST (union yyalloc *,
-                   YYSTACK_ALLOC (YY_CAST (YYSIZE_T, YYSTACK_BYTES (yystacksize))));
+          (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
         if (! yyptr)
           goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
-# undef YYSTACK_RELOCATE
+#  undef YYSTACK_RELOCATE
         if (yyss1 != yyssa)
           YYSTACK_FREE (yyss1);
       }
 # endif
+#endif /* no yyoverflow */
 
       yyssp = yyss + yysize - 1;
       yyvsp = yyvs + yysize - 1;
 
-      YY_IGNORE_USELESS_CAST_BEGIN
-      YYDPRINTF ((stderr, "Stack size increased to %ld\n",
-                  YY_CAST (long, yystacksize)));
-      YY_IGNORE_USELESS_CAST_END
+      YYDPRINTF ((stderr, "Stack size increased to %lu\n",
+                  (unsigned long int) yystacksize));
 
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
     }
-#endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
+
+  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
   if (yystate == YYFINAL)
     YYACCEPT;
 
   goto yybackup;
 
-
 /*-----------.
 | yybackup.  |
 `-----------*/
 yybackup:
+
   /* Do appropriate processing given the current state.  Read a
      lookahead token if we need one and don't already have one.  */
 
@@ -1652,13 +1558,15 @@ yybackup:
 
   /* Shift the lookahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
+
+  /* Discard the shifted token.  */
+  yychar = YYEMPTY;
+
   yystate = yyn;
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   *++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 
-  /* Discard the shifted token.  */
-  yychar = YYEMPTY;
   goto yynewstate;
 
 
@@ -1673,7 +1581,7 @@ yydefault:
 
 
 /*-----------------------------.
-| yyreduce -- do a reduction.  |
+| yyreduce -- Do a reduction.  |
 `-----------------------------*/
 yyreduce:
   /* yyn is the number of a rule to reduce with.  */
@@ -1693,873 +1601,872 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2:
-#line 167 "/home/gster/CLionProjects/SPL/SPL.y"
-                                   { ::program = new Program((yyvsp[-2].programhead), (yyvsp[-1].routine)); }
-#line 1700 "/home/gster/CLionProjects/SPL/parser.cpp"
+        case 2:
+#line 167 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { ::program = new Program((yyvsp[-2].programhead), (yyvsp[-1].routine)); }
+#line 1608 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 170 "/home/gster/CLionProjects/SPL/SPL.y"
-                                 { (yyval.programhead) = new ProgramHead(*(yyvsp[-1].string)); }
-#line 1706 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 170 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.programhead) = new ProgramHead(*(yyvsp[-1].string)); }
+#line 1614 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 173 "/home/gster/CLionProjects/SPL/SPL.y"
-                                    { (yyval.routine) = new Routine((yyvsp[-1].routinehead), (yyvsp[0].routinebody)); }
-#line 1712 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 173 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routine) = new Routine((yyvsp[-1].routinehead), (yyvsp[0].routinebody)); }
+#line 1620 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 176 "/home/gster/CLionProjects/SPL/SPL.y"
-                                        { (yyval.routine) = new Routine((yyvsp[-1].routinehead), (yyvsp[0].routinebody)); }
-#line 1718 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 176 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routine) = new Routine((yyvsp[-1].routinehead), (yyvsp[0].routinebody)); }
+#line 1626 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 180 "/home/gster/CLionProjects/SPL/SPL.y"
-                         { (yyval.routinehead) = new RoutineHead((yyvsp[-4].labelpart), (yyvsp[-3].constpart), (yyvsp[-2].typepart), (yyvsp[-1].varpart), (yyvsp[0].routinepart)); }
-#line 1724 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 180 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routinehead) = new RoutineHead((yyvsp[-4].labelpart), (yyvsp[-3].constpart), (yyvsp[-2].typepart), (yyvsp[-1].varpart), (yyvsp[0].routinepart)); }
+#line 1632 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 183 "/home/gster/CLionProjects/SPL/SPL.y"
-             { (yyval.labelpart) = new LabelPart(); }
-#line 1730 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 183 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.labelpart) = new LabelPart(); }
+#line 1638 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 185 "/home/gster/CLionProjects/SPL/SPL.y"
-                                   { (yyval.constpart) = new ConstPart((yyvsp[0].constexprlist)); }
-#line 1736 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 185 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constpart) = new ConstPart((yyvsp[0].constexprlist)); }
+#line 1644 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 186 "/home/gster/CLionProjects/SPL/SPL.y"
-                     { (yyval.constpart) = new ConstPart(new ConstExprList()); }
-#line 1742 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 186 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constpart) = new ConstPart(new ConstExprList()); }
+#line 1650 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 190 "/home/gster/CLionProjects/SPL/SPL.y"
-                                { (yyval.constexprlist) = (yyvsp[-4].constexprlist); (yyval.constexprlist)->pushBack(new ConstValueDecl(*(yyvsp[-3].string), (yyvsp[-1].constvalue))); }
-#line 1748 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 190 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constexprlist) = (yyvsp[-4].constexprlist); (yyval.constexprlist)->pushBack(new ConstValueDecl(*(yyvsp[-3].string), (yyvsp[-1].constvalue))); }
+#line 1656 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 192 "/home/gster/CLionProjects/SPL/SPL.y"
-                                { (yyval.constexprlist) = new ConstExprList(); (yyval.constexprlist)->pushBack(new ConstValueDecl(*(yyvsp[-3].string), (yyvsp[-1].constvalue))); }
-#line 1754 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 192 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constexprlist) = new ConstExprList(); (yyval.constexprlist)->pushBack(new ConstValueDecl(*(yyvsp[-3].string), (yyvsp[-1].constvalue))); }
+#line 1662 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 195 "/home/gster/CLionProjects/SPL/SPL.y"
-                      { (yyval.constvalue) = new ConstIntValue(*(yyvsp[0].string)); }
-#line 1760 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 195 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constvalue) = new ConstIntValue(*(yyvsp[0].string)); }
+#line 1668 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 196 "/home/gster/CLionProjects/SPL/SPL.y"
-                                  { (yyval.constvalue) = new ConstRealValue(*(yyvsp[0].string)); }
-#line 1766 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 196 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constvalue) = new ConstRealValue(*(yyvsp[0].string)); }
+#line 1674 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 197 "/home/gster/CLionProjects/SPL/SPL.y"
-                                  { (yyval.constvalue) = new ConstCharValue(*(yyvsp[0].string)); }
-#line 1772 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 197 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constvalue) = new ConstCharValue(*(yyvsp[0].string)); }
+#line 1680 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 198 "/home/gster/CLionProjects/SPL/SPL.y"
-                                  { (yyval.constvalue) = (yyvsp[0].constvalue); }
-#line 1778 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 198 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constvalue) = (yyvsp[0].constvalue); }
+#line 1686 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 201 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.constvalue) = new ConstIntValue("0"); }
-#line 1784 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 201 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constvalue) = new ConstIntValue("0"); }
+#line 1692 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 202 "/home/gster/CLionProjects/SPL/SPL.y"
-                         { (yyval.constvalue) = new ConstIntValue("2147483647"); }
-#line 1790 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 202 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constvalue) = new ConstIntValue("2147483647"); }
+#line 1698 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 203 "/home/gster/CLionProjects/SPL/SPL.y"
-                         { (yyval.constvalue) = new ConstIntValue("1"); }
-#line 1796 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 203 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.constvalue) = new ConstIntValue("1"); }
+#line 1704 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 206 "/home/gster/CLionProjects/SPL/SPL.y"
-                                 { (yyval.typepart) = (yyvsp[0].typedecllist); }
-#line 1802 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 206 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.typepart) = (yyvsp[0].typedecllist); }
+#line 1710 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 207 "/home/gster/CLionProjects/SPL/SPL.y"
-                    { (yyval.typepart) = new TypePart(); }
-#line 1808 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 207 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.typepart) = new TypePart(); }
+#line 1716 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 211 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.typedecllist) = (yyvsp[-1].typedecllist); (yyval.typedecllist)->pushBack((yyvsp[0].typedefinition)); }
-#line 1814 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 211 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.typedecllist) = (yyvsp[-1].typedecllist); (yyval.typedecllist)->pushBack((yyvsp[0].typedefinition)); }
+#line 1722 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 213 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.typedecllist) = new TypeDeclList(); (yyval.typedecllist)->pushBack((yyvsp[0].typedefinition)); }
-#line 1820 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 213 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.typedecllist) = new TypeDeclList(); (yyval.typedecllist)->pushBack((yyvsp[0].typedefinition)); }
+#line 1728 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 217 "/home/gster/CLionProjects/SPL/SPL.y"
-                                { (yyval.typedefinition) = new TypeDefinition(*(yyvsp[-3].string), (yyvsp[-1].typedecl)); }
-#line 1826 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 217 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.typedefinition) = new TypeDefinition(*(yyvsp[-3].string), (yyvsp[-1].typedecl)); }
+#line 1734 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 220 "/home/gster/CLionProjects/SPL/SPL.y"
-                             { (yyval.typedecl) = (yyvsp[0].simpletype); }
-#line 1832 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 220 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.typedecl) = (yyvsp[0].simpletype); }
+#line 1740 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 221 "/home/gster/CLionProjects/SPL/SPL.y"
-                                     { (yyval.typedecl) = (yyvsp[0].arraytype); }
-#line 1838 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 221 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.typedecl) = (yyvsp[0].arraytype); }
+#line 1746 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 222 "/home/gster/CLionProjects/SPL/SPL.y"
-                                     { (yyval.typedecl) = (yyvsp[0].recordtype); }
-#line 1844 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 222 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.typedecl) = (yyvsp[0].recordtype); }
+#line 1752 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 225 "/home/gster/CLionProjects/SPL/SPL.y"
-                            { (yyval.simpletype) = (yyvsp[0].systype); }
-#line 1850 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 225 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.simpletype) = (yyvsp[0].systype); }
+#line 1758 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 226 "/home/gster/CLionProjects/SPL/SPL.y"
-                                         { (yyval.simpletype) = new CustomType(*(yyvsp[0].string), std::string("Custom")); }
-#line 1856 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 226 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.simpletype) = new CustomType(*(yyvsp[0].string), std::string("Custom")); }
+#line 1764 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 227 "/home/gster/CLionProjects/SPL/SPL.y"
-                                                   { (yyval.simpletype) = new EnumType((yyvsp[-1].namelist), "Enum"); }
-#line 1862 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 227 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.simpletype) = new EnumType((yyvsp[-1].namelist), "Enum"); }
+#line 1770 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 228 "/home/gster/CLionProjects/SPL/SPL.y"
-                                                                  { (yyval.simpletype) = new RangeType((yyvsp[-2].constvalue), (yyvsp[0].constvalue), "Range"); }
-#line 1868 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 228 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.simpletype) = new RangeType((yyvsp[-2].constvalue), (yyvsp[0].constvalue), "Range"); }
+#line 1776 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 229 "/home/gster/CLionProjects/SPL/SPL.y"
-                                                                        { (yyval.simpletype) = new RangeType((yyvsp[-2].constvalue)->setNeg(), (yyvsp[0].constvalue), "Range"); }
-#line 1874 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 229 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.simpletype) = new RangeType((yyvsp[-2].constvalue)->setNeg(), (yyvsp[0].constvalue), "Range"); }
+#line 1782 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 230 "/home/gster/CLionProjects/SPL/SPL.y"
-                                                                              { (yyval.simpletype) = new RangeType((yyvsp[-3].constvalue)->setNeg(), (yyvsp[0].constvalue)->setNeg(), "Range"); }
-#line 1880 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 230 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.simpletype) = new RangeType((yyvsp[-3].constvalue)->setNeg(), (yyvsp[0].constvalue)->setNeg(), "Range"); }
+#line 1788 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 231 "/home/gster/CLionProjects/SPL/SPL.y"
-                                                    { (yyval.simpletype) = new NamedRangeType(*(yyvsp[-2].string), *(yyvsp[0].string), "NamedRange"); }
-#line 1886 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 231 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.simpletype) = new NamedRangeType(*(yyvsp[-2].string), *(yyvsp[0].string), "NamedRange"); }
+#line 1794 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 234 "/home/gster/CLionProjects/SPL/SPL.y"
-                     { (yyval.systype) = new SysType("bool"); }
-#line 1892 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 234 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.systype) = new SysType("bool"); }
+#line 1800 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 235 "/home/gster/CLionProjects/SPL/SPL.y"
-                             { (yyval.systype) = new SysType("real"); }
-#line 1898 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 235 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.systype) = new SysType("real"); }
+#line 1806 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 236 "/home/gster/CLionProjects/SPL/SPL.y"
-                             { (yyval.systype) = new SysType("char"); }
-#line 1904 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 236 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.systype) = new SysType("char"); }
+#line 1812 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 237 "/home/gster/CLionProjects/SPL/SPL.y"
-                             { (yyval.systype) = new SysType("int"); }
-#line 1910 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 237 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.systype) = new SysType("int"); }
+#line 1818 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 241 "/home/gster/CLionProjects/SPL/SPL.y"
-                                { (yyval.arraytype) = new ArrayType((yyvsp[-3].simpletype), (yyvsp[0].typedecl)); }
-#line 1916 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 241 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.arraytype) = new ArrayType((yyvsp[-3].simpletype), (yyvsp[0].typedecl)); }
+#line 1824 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 245 "/home/gster/CLionProjects/SPL/SPL.y"
-                                 { (yyval.recordtype) = new RecordType((yyvsp[-1].fielddecllist)); }
-#line 1922 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 245 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.recordtype) = new RecordType((yyvsp[-1].fielddecllist)); }
+#line 1830 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 249 "/home/gster/CLionProjects/SPL/SPL.y"
-                                { (yyval.fielddecllist) = (yyvsp[-1].fielddecllist); (yyval.fielddecllist)->pushBack((yyvsp[0].fielddecl)); }
-#line 1928 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 249 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.fielddecllist) = (yyvsp[-1].fielddecllist); (yyval.fielddecllist)->pushBack((yyvsp[0].fielddecl)); }
+#line 1836 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 251 "/home/gster/CLionProjects/SPL/SPL.y"
-                                { (yyval.fielddecllist) = new FieldDeclList(); (yyval.fielddecllist)->pushBack((yyvsp[0].fielddecl)); }
-#line 1934 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 251 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.fielddecllist) = new FieldDeclList(); (yyval.fielddecllist)->pushBack((yyvsp[0].fielddecl)); }
+#line 1842 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 255 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.fielddecl) = new FieldDecl((yyvsp[-3].namelist), (yyvsp[-1].typedecl)); }
-#line 1940 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 255 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.fielddecl) = new FieldDecl((yyvsp[-3].namelist), (yyvsp[-1].typedecl)); }
+#line 1848 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 259 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.namelist) = (yyvsp[-2].namelist); (yyval.namelist)->pushBack(*(yyvsp[0].string)); }
-#line 1946 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 259 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.namelist) = (yyvsp[-2].namelist); (yyval.namelist)->pushBack(*(yyvsp[0].string)); }
+#line 1854 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 261 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.namelist) = new NameList(); (yyval.namelist)->pushBack(*(yyvsp[0].string)); }
-#line 1952 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 261 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.namelist) = new NameList(); (yyval.namelist)->pushBack(*(yyvsp[0].string)); }
+#line 1860 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 265 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.varpart) = (yyvsp[0].vardecllist); }
-#line 1958 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 265 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.varpart) = (yyvsp[0].vardecllist); }
+#line 1866 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 267 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.varpart) = new VarDeclList(); }
-#line 1964 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 267 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.varpart) = new VarDeclList(); }
+#line 1872 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 271 "/home/gster/CLionProjects/SPL/SPL.y"
-                          { (yyval.vardecllist) = (yyvsp[-1].vardecllist); (yyval.vardecllist)->pushBack((yyvsp[0].vardecl)); }
-#line 1970 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 271 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.vardecllist) = (yyvsp[-1].vardecllist); (yyval.vardecllist)->pushBack((yyvsp[0].vardecl)); }
+#line 1878 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 273 "/home/gster/CLionProjects/SPL/SPL.y"
-                          { (yyval.vardecllist) = new VarDeclList(); (yyval.vardecllist)->pushBack((yyvsp[0].vardecl)); }
-#line 1976 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 273 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.vardecllist) = new VarDeclList(); (yyval.vardecllist)->pushBack((yyvsp[0].vardecl)); }
+#line 1884 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 277 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.vardecl) = new VarDecl((yyvsp[-3].namelist), (yyvsp[-1].typedecl)); }
-#line 1982 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 277 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.vardecl) = new VarDecl((yyvsp[-3].namelist), (yyvsp[-1].typedecl)); }
+#line 1890 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 281 "/home/gster/CLionProjects/SPL/SPL.y"
-                         { (yyval.routinepart) = (yyvsp[-1].routinepart); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 1988 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 281 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routinepart) = (yyvsp[-1].routinepart); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
+#line 1896 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 283 "/home/gster/CLionProjects/SPL/SPL.y"
-                         { (yyval.routinepart) = (yyvsp[-1].routinepart); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 1994 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 283 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routinepart) = (yyvsp[-1].routinepart); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
+#line 1902 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 285 "/home/gster/CLionProjects/SPL/SPL.y"
-                         { (yyval.routinepart) = new RoutinePart(); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 2000 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 285 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routinepart) = new RoutinePart(); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
+#line 1908 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 287 "/home/gster/CLionProjects/SPL/SPL.y"
-                         { (yyval.routinepart) = new RoutinePart(); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
-#line 2006 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 287 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routinepart) = new RoutinePart(); (yyval.routinepart)->pushBack((yyvsp[0].routinedecl)); }
+#line 1914 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 289 "/home/gster/CLionProjects/SPL/SPL.y"
-                         { (yyval.routinepart) = new RoutinePart(); }
-#line 2012 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 289 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routinepart) = new RoutinePart(); }
+#line 1920 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 293 "/home/gster/CLionProjects/SPL/SPL.y"
-                          { (yyval.routinedecl) = new Function((yyvsp[-3].functionhead), (yyvsp[-1].routine)); }
-#line 2018 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 293 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routinedecl) = new Function((yyvsp[-3].functionhead), (yyvsp[-1].routine)); }
+#line 1926 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 297 "/home/gster/CLionProjects/SPL/SPL.y"
-                          { (yyval.functionhead) = new FunctionHead(*(yyvsp[-3].string), (yyvsp[-2].parameters), (yyvsp[0].simpletype)); }
-#line 2024 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 297 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.functionhead) = new FunctionHead(*(yyvsp[-3].string), (yyvsp[-2].parameters), (yyvsp[0].simpletype)); }
+#line 1932 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 301 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.routinedecl) = new Procedure((yyvsp[-3].procedurehead), (yyvsp[-1].routine)); }
-#line 2030 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 301 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routinedecl) = new Procedure((yyvsp[-3].procedurehead), (yyvsp[-1].routine)); }
+#line 1938 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 305 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.procedurehead) = new ProcedureHead(*(yyvsp[-1].string), (yyvsp[0].parameters)); }
-#line 2036 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 305 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.procedurehead) = new ProcedureHead(*(yyvsp[-1].string), (yyvsp[0].parameters)); }
+#line 1944 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 309 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.parameters) = (yyvsp[-1].paradecllist); }
-#line 2042 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 309 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.parameters) = (yyvsp[-1].paradecllist); }
+#line 1950 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 311 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.parameters) = new ParaDeclList(); }
-#line 2048 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 311 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.parameters) = new ParaDeclList(); }
+#line 1956 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 315 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.paradecllist) = (yyvsp[-2].paradecllist); (yyval.paradecllist)->pushBack((yyvsp[0].paratypelist)); }
-#line 2054 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 315 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.paradecllist) = (yyvsp[-2].paradecllist); (yyval.paradecllist)->pushBack((yyvsp[0].paratypelist)); }
+#line 1962 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 317 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.paradecllist) = new ParaDeclList(); (yyval.paradecllist)->pushBack((yyvsp[0].paratypelist)); }
-#line 2060 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 317 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.paradecllist) = new ParaDeclList(); (yyval.paradecllist)->pushBack((yyvsp[0].paratypelist)); }
+#line 1968 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 321 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.paratypelist) = new ParaTypeList((yyvsp[-2].varparalist), (yyvsp[0].simpletype)); }
-#line 2066 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 321 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.paratypelist) = new ParaTypeList((yyvsp[-2].varparalist), (yyvsp[0].simpletype)); }
+#line 1974 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 323 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.paratypelist) = new ParaTypeList((yyvsp[-2].varparalist), (yyvsp[0].simpletype)); }
-#line 2072 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 323 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.paratypelist) = new ParaTypeList((yyvsp[-2].varparalist), (yyvsp[0].simpletype)); }
+#line 1980 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 327 "/home/gster/CLionProjects/SPL/SPL.y"
-                          { (yyval.varparalist) = (yyvsp[0].namelist); (yyval.varparalist)->ref = true; }
-#line 2078 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 327 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.varparalist) = (yyvsp[0].namelist); (yyval.varparalist)->ref = true; }
+#line 1986 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 331 "/home/gster/CLionProjects/SPL/SPL.y"
-                { (yyval.varparalist) = (yyvsp[0].namelist); (yyval.varparalist)->ref = false; }
-#line 2084 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 331 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.varparalist) = (yyvsp[0].namelist); (yyval.varparalist)->ref = false; }
+#line 1992 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 335 "/home/gster/CLionProjects/SPL/SPL.y"
-                         { (yyval.routinebody) = (yyvsp[0].compoundstmt); }
-#line 2090 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 335 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.routinebody) = (yyvsp[0].compoundstmt); }
+#line 1998 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 339 "/home/gster/CLionProjects/SPL/SPL.y"
-                          { (yyval.compoundstmt) = (yyvsp[-1].stmtlist); }
-#line 2096 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 339 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.compoundstmt) = (yyvsp[-1].stmtlist); }
+#line 2004 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 343 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.stmtlist) = (yyvsp[-2].stmtlist); (yyval.stmtlist)->pushBack((yyvsp[-1].stmt)); }
-#line 2102 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 343 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmtlist) = (yyvsp[-2].stmtlist); (yyval.stmtlist)->pushBack((yyvsp[-1].stmt)); }
+#line 2010 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 345 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.stmtlist) = new StmtList(); }
-#line 2108 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 345 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmtlist) = new StmtList(); }
+#line 2016 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 349 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.stmt) = (yyvsp[0].stmt); (yyval.stmt)->addLabel(*(yyvsp[-2].string)); }
-#line 2114 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 349 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].stmt); (yyval.stmt)->addLabel(*(yyvsp[-2].string)); }
+#line 2022 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 351 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 2120 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 351 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].stmt); }
+#line 2028 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 355 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.stmt) = (yyvsp[0].assignstmt); }
-#line 2126 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 355 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].assignstmt); }
+#line 2034 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 357 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.stmt) = (yyvsp[0].procstmt); }
-#line 2132 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 357 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].procstmt); }
+#line 2040 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 359 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.stmt) = (yyvsp[0].compoundstmt); }
-#line 2138 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 359 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].compoundstmt); }
+#line 2046 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 361 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.stmt) = (yyvsp[0].ifstmt); }
-#line 2144 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 361 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].ifstmt); }
+#line 2052 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 363 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.stmt) = (yyvsp[0].repeatstmt); }
-#line 2150 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 363 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].repeatstmt); }
+#line 2058 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 365 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.stmt) = (yyvsp[0].whilestmt); }
-#line 2156 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 365 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].whilestmt); }
+#line 2064 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 367 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.stmt) = (yyvsp[0].forstmt); }
-#line 2162 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 367 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].forstmt); }
+#line 2070 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 369 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.stmt) = (yyvsp[0].casestmt); }
-#line 2168 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 369 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].casestmt); }
+#line 2076 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 371 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.stmt) = (yyvsp[0].gotostmt); }
-#line 2174 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 371 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.stmt) = (yyvsp[0].gotostmt); }
+#line 2082 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 375 "/home/gster/CLionProjects/SPL/SPL.y"
-                        { (yyval.assignstmt) = new AssignStmt((yyvsp[-2].leftvalue), (yyvsp[0].expression)); }
-#line 2180 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 375 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.assignstmt) = new AssignStmt((yyvsp[-2].leftvalue), (yyvsp[0].expression)); }
+#line 2088 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 379 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.leftvalue) = new NameLeftValue(*(yyvsp[0].string)); }
-#line 2186 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 379 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.leftvalue) = new NameLeftValue(*(yyvsp[0].string)); }
+#line 2094 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 381 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.leftvalue) = new IndexLeftValue(*(yyvsp[-3].string), (yyvsp[-1].expression)); }
-#line 2192 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 381 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.leftvalue) = new IndexLeftValue(*(yyvsp[-3].string), (yyvsp[-1].expression)); }
+#line 2100 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 383 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.leftvalue) = new MemberLeftValue(*(yyvsp[-2].string), *(yyvsp[0].string)); }
-#line 2198 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 383 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.leftvalue) = new MemberLeftValue(*(yyvsp[-2].string), *(yyvsp[0].string)); }
+#line 2106 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 387 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.procstmt) = new NameProcStmt(*(yyvsp[0].string)); }
-#line 2204 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 387 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.procstmt) = new NameProcStmt(*(yyvsp[0].string)); }
+#line 2112 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 389 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.procstmt) = new CallProcStmt(*(yyvsp[-3].string), (yyvsp[-1].argslist)); }
-#line 2210 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 389 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.procstmt) = new CallProcStmt(*(yyvsp[-3].string), (yyvsp[-1].argslist)); }
+#line 2118 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 391 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.procstmt) = new SysProcStmt((yyvsp[0].sysproc)); }
-#line 2216 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 391 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.procstmt) = new SysProcStmt((yyvsp[-2].sysproc)); }
+#line 2124 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 393 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.procstmt) = new SysCallProcStmt((yyvsp[-3].sysproc), (yyvsp[-1].expressionlist)); }
-#line 2222 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 393 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.procstmt) = new SysCallProcStmt((yyvsp[-3].sysproc), (yyvsp[-1].expressionlist)); }
+#line 2130 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 90:
-#line 395 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.procstmt) = new ReadProcStmt((yyvsp[-1].factor)); }
-#line 2228 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 395 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.procstmt) = new ReadProcStmt((yyvsp[-1].factor)); }
+#line 2136 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 399 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.sysproc) = new SysProc("write"); }
-#line 2234 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 399 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.sysproc) = new SysProc("write"); }
+#line 2142 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 401 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.sysproc) = new SysProc("writeln"); }
-#line 2240 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 401 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.sysproc) = new SysProc("writeln"); }
+#line 2148 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 93:
-#line 405 "/home/gster/CLionProjects/SPL/SPL.y"
-                { (yyval.ifstmt) = new IfStmt((yyvsp[-3].expression), (yyvsp[-1].stmt), (yyvsp[0].elseclause)); }
-#line 2246 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 405 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.ifstmt) = new IfStmt((yyvsp[-3].expression), (yyvsp[-1].stmt), (yyvsp[0].elseclause)); }
+#line 2154 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 94:
-#line 409 "/home/gster/CLionProjects/SPL/SPL.y"
-                        { (yyval.elseclause) = new ElseClause((yyvsp[0].stmt)); }
-#line 2252 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 409 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.elseclause) = new ElseClause((yyvsp[0].stmt)); }
+#line 2160 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 95:
-#line 411 "/home/gster/CLionProjects/SPL/SPL.y"
-                        { (yyval.elseclause) = new ElseClause(); }
-#line 2258 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 411 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.elseclause) = new ElseClause(); }
+#line 2166 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 96:
-#line 415 "/home/gster/CLionProjects/SPL/SPL.y"
-                        { (yyval.repeatstmt) = new RepeatStmt((yyvsp[-2].stmtlist), (yyvsp[0].expression)); }
-#line 2264 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 415 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.repeatstmt) = new RepeatStmt((yyvsp[-2].stmtlist), (yyvsp[0].expression)); }
+#line 2172 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 97:
-#line 419 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.whilestmt) = new WhileStmt((yyvsp[-2].expression), (yyvsp[0].stmt)); }
-#line 2270 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 419 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.whilestmt) = new WhileStmt((yyvsp[-2].expression), (yyvsp[0].stmt)); }
+#line 2178 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 98:
-#line 423 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.forstmt) = new ForStmt(*(yyvsp[-6].string), (yyvsp[-4].expression), (yyvsp[-3].direction), (yyvsp[-2].expression), (yyvsp[0].stmt)); }
-#line 2276 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 423 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.forstmt) = new ForStmt(*(yyvsp[-6].string), (yyvsp[-4].expression), (yyvsp[-3].direction), (yyvsp[-2].expression), (yyvsp[0].stmt)); }
+#line 2184 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 99:
-#line 427 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.direction) = new Direction("to"); }
-#line 2282 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 427 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.direction) = new Direction("to"); }
+#line 2190 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 100:
-#line 429 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.direction) = new Direction("downto"); }
-#line 2288 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 429 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.direction) = new Direction("downto"); }
+#line 2196 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 101:
-#line 433 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.casestmt) = new CaseStmt((yyvsp[-3].expression), (yyvsp[-1].caseexprlist)); }
-#line 2294 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 433 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.casestmt) = new CaseStmt((yyvsp[-3].expression), (yyvsp[-1].caseexprlist)); }
+#line 2202 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 102:
-#line 437 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.caseexprlist) = (yyvsp[-1].caseexprlist); (yyval.caseexprlist)->pushBack((yyvsp[0].caseexpr)); }
-#line 2300 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 437 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.caseexprlist) = (yyvsp[-1].caseexprlist); (yyval.caseexprlist)->pushBack((yyvsp[0].caseexpr)); }
+#line 2208 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 103:
-#line 439 "/home/gster/CLionProjects/SPL/SPL.y"
-                           { (yyval.caseexprlist) = new CaseExprList(); (yyval.caseexprlist)->pushBack((yyvsp[0].caseexpr)); }
-#line 2306 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 439 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.caseexprlist) = new CaseExprList(); (yyval.caseexprlist)->pushBack((yyvsp[0].caseexpr)); }
+#line 2214 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 104:
-#line 443 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.caseexpr) = new ConstValueCaseExpr((yyvsp[-3].constvalue), (yyvsp[-1].stmt)); }
-#line 2312 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 443 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.caseexpr) = new ConstValueCaseExpr((yyvsp[-3].constvalue), (yyvsp[-1].stmt)); }
+#line 2220 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 105:
-#line 445 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.caseexpr) = new NameCaseExpr(*(yyvsp[-3].string), (yyvsp[-1].stmt)); }
-#line 2318 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 445 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.caseexpr) = new NameCaseExpr(*(yyvsp[-3].string), (yyvsp[-1].stmt)); }
+#line 2226 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 106:
-#line 449 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.gotostmt) = new GotoStmt(*(yyvsp[0].string)); }
-#line 2324 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 449 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.gotostmt) = new GotoStmt(*(yyvsp[0].string)); }
+#line 2232 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 107:
-#line 453 "/home/gster/CLionProjects/SPL/SPL.y"
-                                { (yyval.expressionlist) = (yyvsp[-2].expressionlist); (yyval.expressionlist)->pushBack((yyvsp[0].expression)); }
-#line 2330 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 453 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expressionlist) = (yyvsp[-2].expressionlist); (yyval.expressionlist)->pushBack((yyvsp[0].expression)); }
+#line 2238 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 108:
-#line 455 "/home/gster/CLionProjects/SPL/SPL.y"
-                                { (yyval.expressionlist) = new ExpressionList(); (yyval.expressionlist)->pushBack((yyvsp[0].expression)); }
-#line 2336 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 455 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expressionlist) = new ExpressionList(); (yyval.expressionlist)->pushBack((yyvsp[0].expression)); }
+#line 2244 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 109:
-#line 459 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), ">="); }
-#line 2342 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 459 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), ">="); }
+#line 2250 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 110:
-#line 461 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), ">"); }
-#line 2348 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 461 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), ">"); }
+#line 2256 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 111:
-#line 463 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<="); }
-#line 2354 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 463 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<="); }
+#line 2262 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 112:
-#line 465 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<"); }
-#line 2360 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 465 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<"); }
+#line 2268 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 113:
-#line 467 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "="); }
-#line 2366 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 467 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "="); }
+#line 2274 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 114:
-#line 469 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<>"); }
-#line 2372 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 469 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expression) = new CalcExpr((yyvsp[-2].expression), (yyvsp[0].expr), "<>"); }
+#line 2280 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 115:
-#line 471 "/home/gster/CLionProjects/SPL/SPL.y"
-                   { (yyval.expression) = (yyvsp[0].expr); }
-#line 2378 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 471 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expression) = (yyvsp[0].expr); }
+#line 2286 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 116:
-#line 475 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.expr) = new CalcExpr((yyvsp[-2].expr), (yyvsp[0].term), "+"); }
-#line 2384 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 475 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expr) = new CalcExpr((yyvsp[-2].expr), (yyvsp[0].term), "+"); }
+#line 2292 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 117:
-#line 477 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.expr) = new CalcExpr((yyvsp[-2].expr), (yyvsp[0].term), "-"); }
-#line 2390 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 477 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expr) = new CalcExpr((yyvsp[-2].expr), (yyvsp[0].term), "-"); }
+#line 2298 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 118:
-#line 479 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.expr) = new BinaryExpr((yyvsp[-2].expr), (yyvsp[0].term), "or"); }
-#line 2396 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 479 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expr) = new BinaryExpr((yyvsp[-2].expr), (yyvsp[0].term), "or"); }
+#line 2304 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 119:
-#line 481 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.expr) = (yyvsp[0].term); }
-#line 2402 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 481 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.expr) = (yyvsp[0].term); }
+#line 2310 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 120:
-#line 485 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "*"); }
-#line 2408 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 485 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "*"); }
+#line 2316 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 121:
-#line 487 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "/"); }
-#line 2414 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 487 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "/"); }
+#line 2322 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 122:
-#line 489 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "mod"); }
-#line 2420 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 489 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.term) = new CalcExpr((yyvsp[-2].term), (yyvsp[0].factor), "mod"); }
+#line 2328 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 123:
-#line 491 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.term) = new BinaryExpr((yyvsp[-2].term), (yyvsp[0].factor), "and"); }
-#line 2426 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 491 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.term) = new BinaryExpr((yyvsp[-2].term), (yyvsp[0].factor), "and"); }
+#line 2334 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 124:
-#line 493 "/home/gster/CLionProjects/SPL/SPL.y"
-         { (yyval.term) = (yyvsp[0].factor); }
-#line 2432 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 493 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.term) = (yyvsp[0].factor); }
+#line 2340 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 125:
-#line 497 "/home/gster/CLionProjects/SPL/SPL.y"
-           { (yyval.factor) = new NameFactor(*(yyvsp[0].string)); }
-#line 2438 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 497 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.factor) = new NameFactor(*(yyvsp[0].string)); }
+#line 2346 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 126:
-#line 499 "/home/gster/CLionProjects/SPL/SPL.y"
-           { (yyval.factor) = new CallFactor(*(yyvsp[-3].string), (yyvsp[-1].argslist)); }
-#line 2444 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 499 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.factor) = new CallFactor(*(yyvsp[-3].string), (yyvsp[-1].argslist)); }
+#line 2352 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 127:
-#line 501 "/home/gster/CLionProjects/SPL/SPL.y"
-           { (yyval.factor) = new SysFuncFactor((yyvsp[0].sysfunc)); }
-#line 2450 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 501 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.factor) = new SysFuncFactor((yyvsp[0].sysfunc)); }
+#line 2358 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 128:
-#line 503 "/home/gster/CLionProjects/SPL/SPL.y"
-           { (yyval.factor) = new SysFuncCallFactor((yyvsp[-3].sysfunc), (yyvsp[-1].argslist)); }
-#line 2456 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 503 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.factor) = new SysFuncCallFactor((yyvsp[-3].sysfunc), (yyvsp[-1].argslist)); }
+#line 2364 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 129:
-#line 505 "/home/gster/CLionProjects/SPL/SPL.y"
-           { (yyval.factor) = new ConstFactor((yyvsp[0].constvalue)); }
-#line 2462 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 505 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.factor) = new ConstFactor((yyvsp[0].constvalue)); }
+#line 2370 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 130:
-#line 507 "/home/gster/CLionProjects/SPL/SPL.y"
-           { (yyval.factor) = new ParenthesesFactor((yyvsp[-1].expression)); }
-#line 2468 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 507 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.factor) = new ParenthesesFactor((yyvsp[-1].expression)); }
+#line 2376 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 131:
-#line 509 "/home/gster/CLionProjects/SPL/SPL.y"
-           { (yyval.factor) = (yyvsp[0].factor); (yyval.factor)->setNot(); }
-#line 2474 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 509 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.factor) = (yyvsp[0].factor); (yyval.factor)->setNot(); }
+#line 2382 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 132:
-#line 511 "/home/gster/CLionProjects/SPL/SPL.y"
-           { (yyval.factor) = (yyvsp[0].factor); (yyval.factor)->setNeg(); }
-#line 2480 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 511 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.factor) = (yyvsp[0].factor); (yyval.factor)->setNeg(); }
+#line 2388 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 133:
-#line 513 "/home/gster/CLionProjects/SPL/SPL.y"
-           { (yyval.factor) = new IndexFactor(*(yyvsp[-3].string), (yyvsp[-1].expression)); }
-#line 2486 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 513 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.factor) = new IndexFactor(*(yyvsp[-3].string), (yyvsp[-1].expression)); }
+#line 2394 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 134:
-#line 515 "/home/gster/CLionProjects/SPL/SPL.y"
-           { (yyval.factor) = new MemberFactor(*(yyvsp[-2].string), *(yyvsp[0].string)); }
-#line 2492 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 515 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.factor) = new MemberFactor(*(yyvsp[-2].string), *(yyvsp[0].string)); }
+#line 2400 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 135:
-#line 519 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.sysfunc) = new SysFunc("abs"); }
-#line 2498 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 519 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.sysfunc) = new SysFunc("abs"); }
+#line 2406 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 136:
-#line 521 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.sysfunc) = new SysFunc("chr"); }
-#line 2504 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 521 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.sysfunc) = new SysFunc("chr"); }
+#line 2412 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 137:
-#line 523 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.sysfunc) = new SysFunc("odd"); }
-#line 2510 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 523 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.sysfunc) = new SysFunc("odd"); }
+#line 2418 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 138:
-#line 525 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.sysfunc) = new SysFunc("ord"); }
-#line 2516 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 525 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.sysfunc) = new SysFunc("ord"); }
+#line 2424 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 139:
-#line 527 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.sysfunc) = new SysFunc("pred"); }
-#line 2522 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 527 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.sysfunc) = new SysFunc("pred"); }
+#line 2430 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 140:
-#line 529 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.sysfunc) = new SysFunc("sqr"); }
-#line 2528 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 529 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.sysfunc) = new SysFunc("sqr"); }
+#line 2436 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 141:
-#line 531 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.sysfunc) = new SysFunc("sqrt"); }
-#line 2534 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 531 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.sysfunc) = new SysFunc("sqrt"); }
+#line 2442 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 142:
-#line 533 "/home/gster/CLionProjects/SPL/SPL.y"
-                 { (yyval.sysfunc) = new SysFunc("succ"); }
-#line 2540 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 533 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.sysfunc) = new SysFunc("succ"); }
+#line 2448 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 143:
-#line 537 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.argslist) = (yyvsp[-2].argslist); (yyval.argslist)->pushBack((yyvsp[0].expression)); }
-#line 2546 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 537 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.argslist) = (yyvsp[-2].argslist); (yyval.argslist)->pushBack((yyvsp[0].expression)); }
+#line 2454 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 144:
-#line 539 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.argslist) = new ArgsList(); (yyval.argslist)->pushBack((yyvsp[0].expression)); }
-#line 2552 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 539 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.argslist) = new ArgsList(); (yyval.argslist)->pushBack((yyvsp[0].expression)); }
+#line 2460 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 145:
-#line 541 "/home/gster/CLionProjects/SPL/SPL.y"
-                  { (yyval.argslist) = new ArgsList(); }
-#line 2558 "/home/gster/CLionProjects/SPL/parser.cpp"
+#line 541 "/home/buttshark/CLionProjects/PascalCompiler/SPL.y" /* yacc.c:1646  */
+    { (yyval.argslist) = new ArgsList(); }
+#line 2466 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 2562 "/home/gster/CLionProjects/SPL/parser.cpp"
-
+#line 2470 "/home/buttshark/CLionProjects/PascalCompiler/parser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2584,13 +2491,14 @@ yyreduce:
   /* Now 'shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
      number reduced by.  */
-  {
-    const int yylhs = yyr1[yyn] - YYNTOKENS;
-    const int yyi = yypgoto[yylhs] + *yyssp;
-    yystate = (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyssp
-               ? yytable[yyi]
-               : yydefgoto[yylhs]);
-  }
+
+  yyn = yyr1[yyn];
+
+  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
+  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp)
+    yystate = yytable[yystate];
+  else
+    yystate = yydefgoto[yyn - YYNTOKENS];
 
   goto yynewstate;
 
@@ -2622,7 +2530,7 @@ yyerrlab:
           {
             if (yymsg != yymsgbuf)
               YYSTACK_FREE (yymsg);
-            yymsg = YY_CAST (char *, YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
+            yymsg = (char *) YYSTACK_ALLOC (yymsg_alloc);
             if (!yymsg)
               {
                 yymsg = yymsgbuf;
@@ -2673,10 +2581,12 @@ yyerrlab:
 | yyerrorlab -- error raised explicitly by YYERROR.  |
 `---------------------------------------------------*/
 yyerrorlab:
-  /* Pacify compilers when the user code never invokes YYERROR and the
-     label yyerrorlab therefore never appears in user code.  */
-  if (0)
-    YYERROR;
+
+  /* Pacify compilers like GCC when the user code never invokes
+     YYERROR and the label yyerrorlab therefore never appears in user
+     code.  */
+  if (/*CONSTCOND*/ 0)
+     goto yyerrorlab;
 
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYERROR.  */
@@ -2738,14 +2648,12 @@ yyacceptlab:
   yyresult = 0;
   goto yyreturn;
 
-
 /*-----------------------------------.
 | yyabortlab -- YYABORT comes here.  |
 `-----------------------------------*/
 yyabortlab:
   yyresult = 1;
   goto yyreturn;
-
 
 #if !defined yyoverflow || YYERROR_VERBOSE
 /*-------------------------------------------------.
@@ -2757,10 +2665,6 @@ yyexhaustedlab:
   /* Fall through.  */
 #endif
 
-
-/*-----------------------------------------------------.
-| yyreturn -- parsing is finished, return the result.  |
-`-----------------------------------------------------*/
 yyreturn:
   if (yychar != YYEMPTY)
     {
@@ -2777,7 +2681,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  yystos[+*yyssp], yyvsp);
+                  yystos[*yyssp], yyvsp);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
